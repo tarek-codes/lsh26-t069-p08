@@ -298,25 +298,33 @@ export default function MarksEntryPage() {
                       return (
                         <div
                           key={sub.code}
-                          className={`p-3 rounded-lg border flex flex-wrap items-center justify-between gap-3 text-xs ${
+                          className={`p-3.5 rounded-xl border-2 transition-all flex flex-wrap items-center justify-between gap-3 text-xs ${
                             isAbsent
                               ? "bg-slate-100 border-slate-300"
                               : !subEval.isPassed
-                              ? "bg-red-50/70 border-red-200"
+                              ? "bg-red-50/80 border-red-300"
                               : isOptional
-                              ? "bg-purple-50/60 border-purple-200"
+                              ? "bg-gradient-to-r from-purple-50 via-fuchsia-50/60 to-purple-50/40 border-purple-400 shadow-xs ring-1 ring-purple-300/60"
                               : "bg-slate-50 border-slate-200"
                           }`}
                         >
                           {/* Subject Code & Name */}
-                          <div className="w-36 space-y-0.5">
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-mono font-bold text-slate-900">{sub.code}</span>
-                              <span className="text-slate-700 font-medium truncate">{sub.name}</span>
+                          <div className="w-44 space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono font-bold text-slate-900 text-sm">{sub.code}</span>
+                              <span className="text-slate-800 font-semibold truncate">{sub.name}</span>
                             </div>
-                            <span className="text-[10px] text-slate-500 font-mono">
-                              {sub.compulsory ? "Compulsory" : "Optional 4th"}
-                            </span>
+                            <div className="flex items-center gap-1.5">
+                              {isOptional ? (
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-600 text-white font-mono shadow-xs animate-pulse">
+                                  ★ 4th OPTIONAL
+                                </span>
+                              ) : (
+                                <span className="text-[10px] text-slate-500 font-mono font-medium">
+                                  Compulsory
+                                </span>
+                              )}
+                            </div>
                           </div>
 
                           {/* Marks Input Fields */}
