@@ -29,7 +29,7 @@ describe("Batch Class Calculation Engine", () => {
       const res = calculateStudentGPA(student);
       expect(res.traceSteps.length).toBeGreaterThanOrEqual(5);
       expect(res.traceNarrative).toBeTruthy();
-      expect(res.subjectEvaluations.length).toBe(7); // 6 compulsory + 1 optional
+      expect(res.subjectEvaluations.length).toBe(9); // All 9 subjects evaluated
     }
   });
 

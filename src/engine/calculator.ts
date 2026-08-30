@@ -4,6 +4,8 @@ import {
   StudentCalculationResult,
   SubjectEvaluation,
   SubjectCode,
+  OptionalSubjectCode,
+  COMPULSORY_SUBJECTS,
   CORE_COMPULSORY_SUBJECTS,
   getCompulsorySubjectsForStudent,
   ClassCalculationSummary,
@@ -27,9 +29,9 @@ export function calculateStudentGPA(
   const failingCompulsorySubjects: SubjectCode[] = [];
 
   const optionalCode = student.optional;
-  const compulsorySubjects = getCompulsorySubjectsForStudent(optionalCode);
+  const compulsorySubjects = COMPULSORY_SUBJECTS; // BAN, ENG, MAT, REL, PHY, CHE
 
-  // 1. Evaluate Compulsory Subjects (6 Core + 2 Other Electives = 8 Compulsory Subjects)
+  // 1. Evaluate 6 Compulsory Subjects
   let compulsoryGPsSumDecimal = new Decimal(0);
 
   for (const code of compulsorySubjects) {
@@ -44,16 +46,35 @@ export function calculateStudentGPA(
     }
   }
 
-  // 2. Evaluate Optional Fourth Subject
-  const optionalRawMark = student.marks[optionalCode] ?? 0;
-  const optionalEvaluation = evaluateSubjectMark(
-    optionalCode,
-    optionalRawMark,
-    false
-  );
-  subjectEvaluations.push(optionalEvaluation);
+  // 2. Evaluate Elective / Optional Subjects (BIO, HMT, AGR)
+  const electiveCodes: OptionalSubjectCode[] = ["BIO", "HMT", "AGR"];
+  let optionalEvaluation: SubjectEvaluation | null = null;
 
-  // 3. Calculate Optional Bonus (R-20)
+  for (const code of electiveCodes) {
+    const isChosenOptional = code === optionalCode;
+    const rawMark = student.marks[code] ?? 0;
+    const evaluation = evaluateSubjectMark(code, rawMark, false);
+    
+    // Add to evaluations list if not already present
+    if (!subjectEvaluations.some((s) => s.code === code)) {
+      subjectEvaluations.push(evaluation);
+    }
+
+    if (isChosenOptional) {
+      optionalEvaluation = evaluation;
+    }
+  }
+
+  // If optional was somehow not in electives, evaluate it directly
+  if (!optionalEvaluation) {
+    const rawMark = student.marks[optionalCode] ?? 0;
+    optionalEvaluation = evaluateSubjectMark(optionalCode, rawMark, false);
+    if (!subjectEvaluations.some((s) => s.code === optionalCode)) {
+      subjectEvaluations.push(optionalEvaluation);
+    }
+  }
+
+  // 3. Calculate Optional Bonus (R-20) from the chosen optional 4th subject
   const { bonus: optionalBonusGP } = calculateOptionalBonus(
     optionalEvaluation.gradePoint
   );
