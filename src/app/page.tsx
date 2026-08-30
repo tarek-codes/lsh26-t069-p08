@@ -11,175 +11,230 @@ import {
   UploadCloud,
   Printer,
   FileSpreadsheet,
-  Flame,
+  BarChart3,
+  CheckCircle2,
+  Lock,
+  Layers,
+  FileText,
+  HelpCircle,
 } from "lucide-react";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between selection:bg-blue-600 selection:text-white font-sans">
-      {/* Navigation Header */}
-      <header className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between font-sans antialiased selection:bg-blue-600 selection:text-white">
+      {/* Top Navigation Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-500 transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center text-white font-bold shadow-xs group-hover:bg-blue-600 transition-colors">
               <GraduationCap className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-bold text-lg tracking-tight text-white flex items-center">
-                School<span className="text-blue-500">Engine</span>
+              <span className="font-bold text-base tracking-tight text-slate-900 flex items-center">
+                School<span className="text-blue-600">Engine</span>
               </span>
-              <p className="text-[10px] text-slate-400 font-mono">Secondary Result &amp; GPA System</p>
+              <p className="text-[10px] text-slate-500 font-mono leading-none">
+                Secondary Result &amp; GPA System
+              </p>
             </div>
           </Link>
 
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 cursor-pointer"
             >
-              <ShieldCheck className="w-3.5 h-3.5" />
+              <ShieldCheck className="w-4 h-4 text-slate-300" />
               <span>Admin Sign In</span>
-              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-6 max-w-7xl mx-auto w-full text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-xs font-semibold">
-          <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
-          <span>Compliant with Rules R-10 through R-30 • Problem P08</span>
-        </div>
-
-        <div className="space-y-4 max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight sm:leading-none">
-            School Result Processing and GPA Engine
-          </h1>
-          <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Engineered to permanently eliminate spreadsheet errors in secondary school exam tabulation with arbitrary-precision calculation, explainable per-student audit traces, and three-tier pre-publication verification.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-          <Link
-            href="/login"
-            className="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-xl shadow-md transition-colors flex items-center gap-2 group cursor-pointer"
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>Enter Admin Portal</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Feature Grid Section */}
-      <section id="features" className="py-16 px-6 max-w-7xl mx-auto w-full space-y-12">
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Complete Suite for Examination Controllers
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
-            From raw marks ingestion to printable academic transcripts with full explainability
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Feature 1 */}
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-950 border border-blue-800/40 flex items-center justify-center text-blue-400">
-              <Calculator className="w-5 h-5" />
+      <main className="flex-1">
+        <section className="pt-16 pb-16 px-6 border-b border-slate-200 bg-white">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-blue-600" />
+              <span>Standard Curriculum Compliance • Problem P08</span>
             </div>
-            <h3 className="font-bold text-base text-white">Dual-Component Grading Engine</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Enforces Theory (&ge; 25/75) and Practical (&ge; 8/25) pass thresholds independently. Automatically calculates max(0, GP - 2.0) optional 4th subject bonus points.
+
+            <div className="space-y-4">
+              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-950 leading-tight">
+                School Result Processing and GPA Engine
+              </h1>
+              <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Deterministic examination result tabulation, dual-component practical validation, and three-tier pre-publication verification for secondary schools.
+              </p>
+            </div>
+
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 cursor-pointer"
+              >
+                <span>Enter Admin Portal</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Rule Principles & Architectural Integrity */}
+        <section className="py-12 px-6 border-b border-slate-200 bg-slate-50">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+                <div className="text-xs font-bold font-mono text-blue-600 uppercase tracking-wider">
+                  Rule R-11
+                </div>
+                <div className="font-bold text-sm text-slate-900">Dual-Component Pass</div>
+                <p className="text-xs text-slate-500">
+                  Theory (&ge;25/75) and Practical (&ge;8/25) verified independently.
+                </p>
+              </div>
+
+              <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+                <div className="text-xs font-bold font-mono text-blue-600 uppercase tracking-wider">
+                  Rule R-20
+                </div>
+                <div className="font-bold text-sm text-slate-900">4th Subject Bonus</div>
+                <p className="text-xs text-slate-500">
+                  Adds max(0, GP - 2.0) bonus points over strict 6.0 divisor.
+                </p>
+              </div>
+
+              <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+                <div className="text-xs font-bold font-mono text-blue-600 uppercase tracking-wider">
+                  Rule R-13
+                </div>
+                <div className="font-bold text-sm text-slate-900">Compulsory Failure Override</div>
+                <p className="text-xs text-slate-500">
+                  Any compulsory fail forces final GPA to 0.00 (F) with audit log.
+                </p>
+              </div>
+
+              <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+                <div className="text-xs font-bold font-mono text-blue-600 uppercase tracking-wider">
+                  Rule R-29
+                </div>
+                <div className="font-bold text-sm text-slate-900">Checking Lists</div>
+                <p className="text-xs text-slate-500">
+                  Optional Low, Practical Fail, and Absentee verification lists.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Feature Modules Grid */}
+        <section className="py-16 px-6 max-w-7xl mx-auto space-y-10">
+          <div className="space-y-2">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+              Administrative &amp; Examination Capabilities
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500">
+              End-to-end verification workflows from data ingestion to signed transcripts.
             </p>
           </div>
 
-          {/* Feature 2 */}
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-purple-950 border border-purple-800/40 flex items-center justify-center text-purple-400">
-              <ClipboardList className="w-5 h-5" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1 */}
+            <div className="p-6 bg-white border border-slate-200 rounded-xl space-y-3 hover:border-slate-300 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
+                <Calculator className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-sm text-slate-900">Deterministic GPA Engine</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Calculates grade points and letter grades using arbitrary-precision arithmetic without floating-point rounding drift.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-white">Rule R-29 Checking Lists</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Automated pre-publication verification grouping students into Optional (&le; 2.0), Practical Fail (&lt; 8), and Absentee lists with official sign-off audit trails.
-            </p>
-          </div>
 
-          {/* Feature 3 */}
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-800/40 flex items-center justify-center text-emerald-400">
-              <UploadCloud className="w-5 h-5" />
+            {/* Card 2 */}
+            <div className="p-6 bg-white border border-slate-200 rounded-xl space-y-3 hover:border-slate-300 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
+                <ClipboardList className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-sm text-slate-900">Pre-Publication Checking Lists</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Automated filtering for edge-case review: Optional Low (GP &le; 2.0), Practical Fail (&lt; 8), and Absent lists with audit sign-off.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-white">Marks Ingestion &amp; Rejection Reporter</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Upload CSV, TSV, or JSON marks sheets. Flags rejected rows with exact rule violation codes and suggested fixes before one-click committing valid data.
-            </p>
-          </div>
 
-          {/* Feature 4 */}
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-red-950 border border-red-800/40 flex items-center justify-center text-red-400">
-              <Flame className="w-5 h-5" />
+            {/* Card 3 */}
+            <div className="p-6 bg-white border border-slate-200 rounded-xl space-y-3 hover:border-slate-300 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
+                <UploadCloud className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-sm text-slate-900">Marks Ingestion &amp; Rejection Diagnostics</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Upload or paste CSV, TSV, or JSON marks sheets. Reports invalid rows with exact rule violation codes and suggested fixes.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-white">Subject Failure Analytics</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Class-wide failure analytics identifying the single worst-performing subject, root causes (Theory vs Practical vs Absent), and grade distributions.
-            </p>
-          </div>
 
-          {/* Feature 5 */}
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-amber-950 border border-amber-800/40 flex items-center justify-center text-amber-400">
-              <FileSpreadsheet className="w-5 h-5" />
+            {/* Card 4 */}
+            <div className="p-6 bg-white border border-slate-200 rounded-xl space-y-3 hover:border-slate-300 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
+                <BarChart3 className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-sm text-slate-900">Class Summary &amp; Failure Analytics</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Cohort pass rates, grade distribution charts, and identification of the worst-performing subject with component failure breakdown.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-white">Live Real-Time Score Editor</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Fast full-width editor with embedded student dropdown and keyboard-friendly stepper. Real-time GP recalculation and optional subject highlighting.
-            </p>
-          </div>
 
-          {/* Feature 6 */}
-          <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-cyan-950 border border-cyan-800/40 flex items-center justify-center text-cyan-400">
-              <Printer className="w-5 h-5" />
+            {/* Card 5 */}
+            <div className="p-6 bg-white border border-slate-200 rounded-xl space-y-3 hover:border-slate-300 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
+                <FileSpreadsheet className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-sm text-slate-900">Live Real-Time Score Editor</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Single full-width table editor with integrated student selection and immediate calculation updates.
+              </p>
             </div>
-            <h3 className="font-bold text-base text-white">Official Transcripts &amp; Audit Trace</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Print-ready academic report cards featuring step-by-step arithmetic explanations, component marks, and fail overrides.
+
+            {/* Card 6 */}
+            <div className="p-6 bg-white border border-slate-200 rounded-xl space-y-3 hover:border-slate-300 transition-colors">
+              <div className="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
+                <Printer className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-sm text-slate-900">Transcripts &amp; Calculation Audit Trace</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Official printable academic transcripts with full arithmetic calculation breakdown steps for every enrolled student.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Footer Section */}
+        <section className="py-12 px-6 border-t border-slate-200 bg-white">
+          <div className="max-w-4xl mx-auto p-8 rounded-xl bg-slate-900 text-white text-center space-y-4">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
+              Ready to Tabulate Class Examination Results?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+              Access the administrative portal with pre-configured demo credentials.
             </p>
+            <div className="pt-2">
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-lg shadow-sm transition-colors cursor-pointer"
+              >
+                <span>Enter Admin Portal</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* CTA Footer Banner */}
-      <section className="py-12 px-6 max-w-5xl mx-auto w-full">
-        <div className="p-8 sm:p-12 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Ready to Process Secondary School Examination Results?
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto">
-            Experience the automated, zero-drift calculation engine with live audit trails.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Link
-              href="/login"
-              className="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center gap-2"
-            >
-              <ShieldCheck className="w-4 h-4" />
-              <span>Admin Sign In</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Global Footer */}
-      <footer className="px-6 py-6 border-t border-slate-900 bg-slate-950 text-slate-500 text-xs">
+      {/* Footer */}
+      <footer className="px-6 py-5 border-t border-slate-200 bg-slate-100 text-slate-500 text-xs">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 font-mono">
           <div>SchoolEngine • Deterministic GPA Engine (Problem P08)</div>
-          <div>All National Secondary Grading Rules Implemented</div>
+          <div>National Curriculum Grading Rules R-10 to R-30</div>
         </div>
       </footer>
     </div>
