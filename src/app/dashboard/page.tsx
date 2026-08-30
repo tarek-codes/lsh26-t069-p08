@@ -100,9 +100,9 @@ export default function DashboardOverviewPage() {
 
   const donutData = [
     { name: "Passed Students", value: passedCount, color: "#2563eb" },
-    { name: "Fails in Compulsory", value: failedCount, color: "#dc2626" },
-    { name: "Failed in Practical (<8)", value: practicalFailCount, color: "#d97706" },
-    { name: "Total Absent (AB)", value: absentCount, color: "#64748b" },
+    { name: "Failed in Compulsory", value: failedCount, color: "#dc2626" },
+    { name: "Failed in Practical", value: practicalFailCount, color: "#d97706" },
+    { name: "Total Exam Absents", value: absentCount, color: "#64748b" },
   ];
 
   const gradeRanges = [
@@ -335,10 +335,10 @@ export default function DashboardOverviewPage() {
 
               {/* 4 Status Rows with Comfortable Spacing */}
               <div className="space-y-1.5 flex-1 text-xs">
-                <StatusRow color="bg-blue-600" label="passed students" value={passedCount} />
-                <StatusRow color="bg-red-600" label="fails in compulsary" value={failedCount} />
+                <StatusRow color="bg-blue-600" label="Passed Students" value={passedCount} />
+                <StatusRow color="bg-red-600" label="Failed in Compulsory" value={failedCount} />
                 <StatusRow color="bg-amber-500" label="Failed in Practical" value={practicalFailCount} />
-                <StatusRow color="bg-slate-500" label="total absent" value={absentCount} />
+                <StatusRow color="bg-slate-500" label="Total Exam Absents" value={absentCount} />
               </div>
             </div>
           </div>

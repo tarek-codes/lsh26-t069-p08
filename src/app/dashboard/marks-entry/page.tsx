@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -20,6 +20,7 @@ export default function MarksEntryPage() {
   const [selectedStudentId, setSelectedStudentId] = useState<string>("S001");
   const [currentMarks, setCurrentMarks] = useState<Record<string, RawMark>>({});
   const [savedStatus, setSavedStatus] = useState<string>("Synced");
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Load students for active class
   useEffect(() => {
@@ -82,46 +83,59 @@ export default function MarksEntryPage() {
     []
   );
 
-  const updateMarksAndSync = (newMarks: Record<string, RawMark>) => {
+  const updateMarksAndSync = useCallback((newMarks: Record<string, RawMark>) => {
     setCurrentMarks(newMarks);
-    if (selectedStudentId) {
-      persistToServer(selectedStudentId, newMarks);
-    }
-  };
+    // Debounce server persist by 500ms — avoids saving partial keystrokes
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(() => {
+      if (selectedStudentId) {
+        persistToServer(selectedStudentId, newMarks);
+      }
+    }, 500);
+  }, [selectedStudentId, persistToServer]);
 
   const handleTheoryChange = (code: string, value: string) => {
-    const num = value === "" ? 0 : Math.min(75, Math.max(0, parseInt(value) || 0));
+    // Allow empty string while typing; only clamp on valid numbers
+    if (value === "") {
+      const current = currentMarks[code];
+      const prevPractical =
+        typeof current === "object" && current !== null ? current.practical : 0;
+      const updated = { ...currentMarks, [code]: { theory: 0, practical: prevPractical } };
+      updateMarksAndSync(updated);
+      return;
+    }
+    const num = Math.min(75, Math.max(0, parseInt(value, 10) || 0));
     const current = currentMarks[code];
     const prevPractical =
       typeof current === "object" && current !== null ? current.practical : 0;
-
-    const updated = {
-      ...currentMarks,
-      [code]: { theory: num, practical: prevPractical },
-    };
+    const updated = { ...currentMarks, [code]: { theory: num, practical: prevPractical } };
     updateMarksAndSync(updated);
   };
 
   const handlePracticalChange = (code: string, value: string) => {
-    const num = value === "" ? 0 : Math.min(25, Math.max(0, parseInt(value) || 0));
+    if (value === "") {
+      const current = currentMarks[code];
+      const prevTheory =
+        typeof current === "object" && current !== null ? current.theory : 0;
+      const updated = { ...currentMarks, [code]: { theory: prevTheory, practical: 0 } };
+      updateMarksAndSync(updated);
+      return;
+    }
+    const num = Math.min(25, Math.max(0, parseInt(value, 10) || 0));
     const current = currentMarks[code];
     const prevTheory =
       typeof current === "object" && current !== null ? current.theory : 0;
-
-    const updated = {
-      ...currentMarks,
-      [code]: { theory: prevTheory, practical: num },
-    };
+    const updated = { ...currentMarks, [code]: { theory: prevTheory, practical: num } };
     updateMarksAndSync(updated);
   };
 
   const handleNonPracticalChange = (code: string, value: string) => {
-    const num = value === "" ? 0 : Math.min(100, Math.max(0, parseInt(value) || 0));
-    const updated = {
-      ...currentMarks,
-      [code]: num,
-    };
-    updateMarksAndSync(updated);
+    if (value === "") {
+      updateMarksAndSync({ ...currentMarks, [code]: 0 });
+      return;
+    }
+    const num = Math.min(100, Math.max(0, parseInt(value, 10) || 0));
+    updateMarksAndSync({ ...currentMarks, [code]: num });
   };
 
   const toggleAbsent = (code: string) => {
