@@ -1,0 +1,90 @@
+{
+  "team_id": "LSH26-T069",
+  "problem_id": "P08",
+  "repository_name": "lsh26-t069-p08",
+  "live_url": "https://lsh26-t069-p08.vercel.app",
+  "demo_video_url_optional": "",
+  "event_start_code": "LSH26-8490-C900",
+  "repository_created_before_release": false,
+  "pre_event_materials": [],
+  "sample_data": {
+    "loads_published_fixture": true,
+    "method": "In-memory singleton store initialization and Supabase PostgreSQL migration",
+    "reset_instructions": "Visit http://localhost:3000/dashboard/seed-data to view and inspect all 8 benchmark edge cases, or execute 'npm run migrate:supabase' to re-sync the full 60-student dataset to Supabase."
+  },
+  "problem_solving_method": "Engineered a pure deterministic calculation engine using arbitrary-precision arithmetic (Decimal.js) with 100% test-driven compliance against all official rules (R-10 through R-30). Wrapped with an explainable audit trace generator, automated pre-publication checking lists, real-time score editor, marks sheet ingestion diagnostics, and cohort failure analytics.",
+  "requirements": {
+    "R-10": {
+      "status": "complete",
+      "evidence": "src/engine/rules.ts:mapGPAToLetterGrade, src/engine/calculator.ts:calculateStudentGPA"
+    },
+    "R-11": {
+      "status": "complete",
+      "evidence": "src/engine/rules.ts:evaluateSubjectMark (Dual component check: Theory >= 25/75 AND Practical >= 8/25)"
+    },
+    "R-12": {
+      "status": "complete",
+      "evidence": "src/engine/rules.ts:evaluateSubjectMark ('AB' token preserved; compulsory absent yields GP 0.00 F; optional absent contributes 0 bonus)"
+    },
+    "R-13": {
+      "status": "complete",
+      "evidence": "src/engine/calculator.ts:calculateStudentGPA (Compulsory fail overrides overall GPA to 0.00 F; Raw GPA uncapped calculation and capped GPA at 5.00)"
+    },
+    "R-20": {
+      "status": "complete",
+      "evidence": "src/engine/rules.ts:calculateOptionalBonus (Bonus = max(0, GP_opt - 2.0) over 6 compulsory subjects with 6.0 divisor)"
+    },
+    "R-21": {
+      "status": "complete",
+      "evidence": "src/engine/rules.ts:mapTotalMarkToGrade (Standard 0-100 marks to GP/Letter grade scale)"
+    },
+    "R-29": {
+      "status": "complete",
+      "evidence": "src/engine/rules.ts:classifyCheckingFlags & src/app/dashboard/checking-lists/page.tsx (Optional List GP <= 2.0 / AB, Practical Fail List < 8, Absent List AB)"
+    },
+    "R-30": {
+      "status": "complete",
+      "evidence": "src/engine/trace.ts & src/components/results/TraceDrawer.tsx (Per-student immutable step-by-step calculation audit trace)"
+    },
+    "MARKS_IMPORT": {
+      "status": "complete",
+      "evidence": "src/engine/marks-importer.ts & src/app/dashboard/import/page.tsx (CSV/TSV/JSON ingestion with exact row-by-row rejection diagnostics)"
+    },
+    "CLASS_ANALYTICS": {
+      "status": "complete",
+      "evidence": "src/app/api/v1/analytics/route.ts & src/app/dashboard/analytics/page.tsx (Pass rate, grade distribution, most failed subject analysis with root causes)"
+    }
+  },
+  "team_members": [
+    {
+      "registered_name": "Tarek",
+      "github_username": "tarek-codes",
+      "major_contribution": "End-to-end architecture, deterministic GPA calculation engine, checking list workflow, marks sheet importer, analytics dashboard, and Supabase integration.",
+      "evidence_paths_or_commits": [
+        "src/engine/calculator.ts",
+        "src/engine/rules.ts",
+        "src/engine/marks-importer.ts",
+        "src/app/dashboard/analytics/page.tsx",
+        "src/app/dashboard/import/page.tsx"
+      ]
+    }
+  ],
+  "major_design_decisions": [
+    "Used Decimal.js for all arithmetic operations to eliminate IEEE-754 floating-point rounding errors in grade point summations.",
+    "Decoupled calculation engine into pure TypeScript functions with 100% test coverage for instant verification.",
+    "Implemented automated pre-publication checking lists with multi-list support and teacher verification sign-off tracking.",
+    "Integrated row-by-row marks sheet validator that highlights exact rejection reasons and suggested fixes for malformed data."
+  ],
+  "known_limitations": [
+    "Currently supports single-session examinations; multi-term cumulative weighted aggregation is planned for the next release roadmap."
+  ],
+  "ai_tools_used": [
+    {
+      "tool": "Google DeepMind Antigravity AI Assistant",
+      "used_for": "Architecture modeling, test-driven validation, UI component design, and rule verification.",
+      "how_output_was_verified": "Executed 26 automated unit tests covering all 8 benchmark edge cases and verified calculations via live interactive audit traces."
+    }
+  ],
+  "licenses_file": "LICENSES.md",
+  "declaration": "The information above is complete and truthful to the best of the team's knowledge."
+}
