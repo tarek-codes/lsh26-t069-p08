@@ -77,7 +77,7 @@ export const SUBJECT_DEFINITIONS: Record<SubjectCode, SubjectMetadata> = {
     code: "BIO",
     name: "Biology",
     isPractical: true,
-    isCompulsory: true,
+    isCompulsory: false,
     theoryMax: 75,
     practicalMax: 25,
     theoryPass: 25,
@@ -113,37 +113,37 @@ export const SUBJECT_DEFINITIONS: Record<SubjectCode, SubjectMetadata> = {
     code: "REL",
     name: "Religion",
     isPractical: false,
-    isCompulsory: false,
+    isCompulsory: true,
     totalMax: 100,
     totalPass: 33,
   },
 };
 
-export type OptionalSubjectCode = "HMT" | "AGR" | "REL";
+export type OptionalSubjectCode = "BIO" | "HMT" | "AGR";
 
 export const COMPULSORY_SUBJECTS: SubjectCode[] = [
   "BAN",
   "ENG",
   "MAT",
+  "REL",
   "PHY",
   "CHE",
-  "BIO",
 ];
 
 export const CORE_COMPULSORY_SUBJECTS = COMPULSORY_SUBJECTS;
 
-export const ELECTIVE_SUBJECTS: OptionalSubjectCode[] = ["HMT", "AGR", "REL"];
+export const ELECTIVE_SUBJECTS: OptionalSubjectCode[] = ["BIO", "HMT", "AGR"];
 
 export const ALL_SUBJECTS: SubjectCode[] = [
   "BAN",
   "ENG",
   "MAT",
+  "REL",
   "PHY",
   "CHE",
   "BIO",
   "HMT",
   "AGR",
-  "REL",
 ];
 
 export function getCompulsorySubjectsForStudent(_optionalSubject?: OptionalSubjectCode): SubjectCode[] {

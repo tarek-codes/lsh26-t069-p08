@@ -184,84 +184,94 @@ export default function MarksEntryPage() {
         onClassChange={setActiveClassId}
       />
 
-      <main className="p-6 space-y-6 max-w-7xl mx-auto w-full">
-        {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column: Student Selector List */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-4 space-y-3">
-            <h3 className="font-bold text-xs uppercase tracking-wider text-slate-700 border-b border-slate-100 pb-2">
-              Select Student ({students.length})
-            </h3>
+      <main className="p-6 space-y-6 max-w-5xl mx-auto w-full">
+        {selectedStudent ? (
+          <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-6">
+            {/* Student Info Bar & Real-Time Sync Indicator with Integrated Student Dropdown */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
+                {/* Integrated Student Dropdown */}
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                    Select Student ({students.length})
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={selectedStudentId || ""}
+                      onChange={(e) => setSelectedStudentId(e.target.value)}
+                      className="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[260px]"
+                    >
+                      {students.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          Roll {s.roll} • {s.name} ({s.id}) — 4th: {s.optional}
+                        </option>
+                      ))}
+                    </select>
 
-            <div className="space-y-1 max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
-              {students.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => setSelectedStudentId(s.id)}
-                  className={`w-full text-left p-2.5 rounded-lg text-xs font-medium transition-all flex items-center justify-between ${
-                    selectedStudentId === s.id
-                      ? "bg-blue-600 text-white shadow-xs font-bold"
-                      : "text-slate-700 hover:bg-slate-100"
-                  }`}
-                >
-                  <div className="truncate">
-                    <span className="font-mono text-[10px] opacity-75 mr-1.5">
-                      Roll {s.roll} •
-                    </span>
-                    <span>{s.name}</span>
-                  </div>
-                  <span
-                    className={`font-mono text-[10px] px-1.5 py-0.2 rounded font-bold ${
-                      selectedStudentId === s.id
-                        ? "bg-blue-700 text-white"
-                        : "bg-purple-100 text-purple-800"
-                    }`}
-                  >
-                    {s.optional}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Center & Right Column: Mark Editing Form & Real-Time Live Preview */}
-          <div className="lg:col-span-2 space-y-6">
-            {selectedStudent ? (
-              <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-6">
-                {/* Student Info Bar & Real-Time Sync Indicator */}
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-bold text-base text-slate-900">
-                        {selectedStudent.name}
-                      </h3>
-                      <span className="font-mono text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold border border-slate-200">
-                        {selectedStudent.id}
-                      </span>
+                    {/* Stepper Buttons for quick navigation */}
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => {
+                          const idx = students.findIndex((s) => s.id === selectedStudentId);
+                          if (idx > 0) setSelectedStudentId(students[idx - 1].id);
+                        }}
+                        disabled={students.findIndex((s) => s.id === selectedStudentId) === 0}
+                        className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed rounded text-xs font-bold text-slate-700 transition-colors"
+                        title="Previous Student"
+                      >
+                        ← Prev
+                      </button>
+                      <button
+                        onClick={() => {
+                          const idx = students.findIndex((s) => s.id === selectedStudentId);
+                          if (idx >= 0 && idx < students.length - 1) setSelectedStudentId(students[idx + 1].id);
+                        }}
+                        disabled={students.findIndex((s) => s.id === selectedStudentId) === students.length - 1}
+                        className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed rounded text-xs font-bold text-slate-700 transition-colors"
+                        title="Next Student"
+                      >
+                        Next →
+                      </button>
                     </div>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      {selectedStudent.class} • Roll {selectedStudent.roll} • Optional 4th Subject:{" "}
-                      <span className="font-bold text-purple-700">{selectedStudent.optional}</span>
-                    </p>
-                  </div>
-
-                  {/* Real-time Status Badge */}
-                  <div className="flex items-center gap-1.5 text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>{savedStatus}</span>
                   </div>
                 </div>
+              </div>
 
-                {/* Mark Input Table with Real-Time Grade for Each Subject */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                      Subject Marks Entry
-                    </h4>
-                    <span className="text-[11px] text-slate-400 font-mono">
-                      Grades recalculate instantly
+              {/* Student Details Summary & Real-time Status Badge */}
+              <div className="flex items-center gap-4">
+                <div className="text-right">
+                  <div className="flex items-center gap-2 justify-end">
+                    <span className="font-bold text-sm text-slate-900">{selectedStudent.name}</span>
+                    <span className="font-mono text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold border border-slate-200">
+                      {selectedStudent.id}
                     </span>
                   </div>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    {selectedStudent.class} • Roll {selectedStudent.roll} • 4th Optional:{" "}
+                    <span className="font-bold text-purple-700 bg-purple-100 px-1.5 py-0.2 rounded border border-purple-200">
+                      {selectedStudent.optional}
+                    </span>
+                  </p>
+                </div>
+
+                {/* Real-time Status Badge */}
+                <div className="flex items-center gap-1.5 text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>{savedStatus}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Mark Input Table with Real-Time Grade for Each Subject */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  Subject Marks Entry
+                </h4>
+                <span className="text-[11px] text-slate-400 font-mono">
+                  Grades recalculate instantly
+                </span>
+              </div>
 
                   <div className="space-y-2.5">
                     {subjectsConfig.map((sub) => {
@@ -445,11 +455,9 @@ export default function MarksEntryPage() {
               </div>
             ) : (
               <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-400">
-                Select a student from the left panel to begin editing marks.
+                No students found for this class.
               </div>
             )}
-          </div>
-        </div>
       </main>
     </Shell>
   );
