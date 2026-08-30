@@ -158,25 +158,22 @@ export default function MarksEntryPage() {
     }
   }, [selectedStudent, currentMarks]);
 
-  const subjectsConfig = [
-    { code: "BAN", name: "Bangla", isPractical: false, compulsory: true },
-    { code: "ENG", name: "English", isPractical: false, compulsory: true },
-    { code: "MAT", name: "Mathematics", isPractical: false, compulsory: true },
-    { code: "REL", name: "Religion", isPractical: false, compulsory: true },
-    { code: "PHY", name: "Physics", isPractical: true, compulsory: true },
-    { code: "CHE", name: "Chemistry", isPractical: true, compulsory: true },
-    {
-      code: selectedStudent?.optional || "BIO",
-      name:
-        selectedStudent?.optional === "AGR"
-          ? "Agriculture"
-          : selectedStudent?.optional === "HMT"
-          ? "Higher Mathematics"
-          : "Biology",
-      isPractical: true,
-      compulsory: false,
-    },
+  const allSubjectDefinitions = [
+    { code: "BAN", name: "Bangla", isPractical: false },
+    { code: "ENG", name: "English", isPractical: false },
+    { code: "MAT", name: "Mathematics", isPractical: false },
+    { code: "REL", name: "Religion", isPractical: false },
+    { code: "PHY", name: "Physics", isPractical: true },
+    { code: "CHE", name: "Chemistry", isPractical: true },
+    { code: "BIO", name: "Biology", isPractical: true },
+    { code: "HMT", name: "Higher Mathematics", isPractical: true },
+    { code: "AGR", name: "Agriculture", isPractical: true },
   ];
+
+  const subjectsConfig = allSubjectDefinitions.map((sub) => ({
+    ...sub,
+    compulsory: sub.code !== selectedStudent?.optional,
+  }));
 
   return (
     <Shell>

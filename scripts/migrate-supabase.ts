@@ -102,7 +102,9 @@ async function migrateData() {
     }
   }
 
-  const { error: marksErr } = await supabase.from("marks").upsert(markRows);
+  const { error: marksErr } = await supabase
+    .from("marks")
+    .upsert(markRows, { onConflict: "student_id,subject_code" });
   if (marksErr) {
     console.error("❌ Error migrating marks:", marksErr.message);
     return;

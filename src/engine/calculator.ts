@@ -4,7 +4,8 @@ import {
   StudentCalculationResult,
   SubjectEvaluation,
   SubjectCode,
-  COMPULSORY_SUBJECTS,
+  CORE_COMPULSORY_SUBJECTS,
+  getCompulsorySubjectsForStudent,
   ClassCalculationSummary,
   LetterGrade,
 } from "./types";
@@ -25,10 +26,13 @@ export function calculateStudentGPA(
   const subjectEvaluations: SubjectEvaluation[] = [];
   const failingCompulsorySubjects: SubjectCode[] = [];
 
-  // 1. Evaluate 6 Compulsory Subjects
+  const optionalCode = student.optional;
+  const compulsorySubjects = getCompulsorySubjectsForStudent(optionalCode);
+
+  // 1. Evaluate Compulsory Subjects (6 Core + 2 Other Electives = 8 Compulsory Subjects)
   let compulsoryGPsSumDecimal = new Decimal(0);
 
-  for (const code of COMPULSORY_SUBJECTS) {
+  for (const code of compulsorySubjects) {
     const rawMark = student.marks[code] ?? 0;
     const evaluation = evaluateSubjectMark(code, rawMark, true);
     subjectEvaluations.push(evaluation);
@@ -41,7 +45,6 @@ export function calculateStudentGPA(
   }
 
   // 2. Evaluate Optional Fourth Subject
-  const optionalCode = student.optional;
   const optionalRawMark = student.marks[optionalCode] ?? 0;
   const optionalEvaluation = evaluateSubjectMark(
     optionalCode,
@@ -56,12 +59,13 @@ export function calculateStudentGPA(
   );
 
   const compulsoryGPsSum = compulsoryGPsSumDecimal.toNumber();
+  const compulsoryCount = compulsorySubjects.length; // 8
 
   // 4. Calculate Raw Uncapped GPA (R-13)
-  // Raw GPA = (Sum of 6 Compulsory GPs + Optional Bonus) / 6.0
+  // Raw GPA = (Sum of Compulsory GPs + Optional Bonus) / compulsoryCount (8.0)
   const rawGPADecimal = compulsoryGPsSumDecimal
     .plus(optionalBonusGP)
-    .dividedBy(6.0);
+    .dividedBy(compulsoryCount);
 
   const rawGPA = rawGPADecimal.toNumber();
 
@@ -89,7 +93,7 @@ export function calculateStudentGPA(
   // 7. Classify Pre-Publication Checking List Flags (R-29)
   const baseGPAWithoutBonusDecimal = Decimal.min(
     5.0,
-    compulsoryGPsSumDecimal.dividedBy(6.0)
+    compulsoryGPsSumDecimal.dividedBy(compulsoryCount)
   ).toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
   const baseGPAWithoutBonus = baseGPAWithoutBonusDecimal.toNumber();
   const baseLetterGradeWithoutBonus = mapGPAToLetterGrade(baseGPAWithoutBonus);

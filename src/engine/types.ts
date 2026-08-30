@@ -9,8 +9,6 @@ export type SubjectCode =
   | "AGR"
   | "REL";
 
-export type OptionalSubjectCode = "HMT" | "AGR" | "BIO";
-
 export type LetterGrade = "A+" | "A" | "A-" | "B" | "C" | "D" | "F";
 
 export interface SubjectMetadata {
@@ -103,7 +101,7 @@ export const SUBJECT_DEFINITIONS: Record<SubjectCode, SubjectMetadata> = {
     code: "AGR",
     name: "Agriculture",
     isPractical: true,
-    isCompulsory: false,
+    isCompulsory: true,
     theoryMax: 75,
     practicalMax: 25,
     theoryPass: 25,
@@ -121,14 +119,36 @@ export const SUBJECT_DEFINITIONS: Record<SubjectCode, SubjectMetadata> = {
   },
 };
 
-export const COMPULSORY_SUBJECTS: SubjectCode[] = [
+export type OptionalSubjectCode = "HMT" | "BIO";
+
+export const CORE_COMPULSORY_SUBJECTS: SubjectCode[] = [
   "BAN",
   "ENG",
   "MAT",
   "PHY",
   "CHE",
+  "AGR",
   "REL",
 ];
+
+export const ELECTIVE_SUBJECTS: OptionalSubjectCode[] = ["BIO", "HMT"];
+
+export const ALL_SUBJECTS: SubjectCode[] = [
+  "BAN",
+  "ENG",
+  "MAT",
+  "REL",
+  "PHY",
+  "CHE",
+  "AGR",
+  "BIO",
+  "HMT",
+];
+
+export function getCompulsorySubjectsForStudent(optionalSubject: OptionalSubjectCode): SubjectCode[] {
+  const otherElective: SubjectCode = optionalSubject === "BIO" ? "HMT" : "BIO";
+  return [...CORE_COMPULSORY_SUBJECTS, otherElective];
+}
 
 export type RawMark =
   | number

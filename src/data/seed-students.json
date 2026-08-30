@@ -10,6 +10,7 @@
       "BAN": 85,
       "ENG": 88,
       "MAT": 30,
+      "REL": 90,
       "PHY": {
         "theory": 70,
         "practical": 20
@@ -18,7 +19,14 @@
         "theory": 65,
         "practical": 20
       },
-      "REL": 90,
+      "AGR": {
+        "theory": 60,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 60,
+        "practical": 20
+      },
       "HMT": {
         "theory": 70,
         "practical": 22
@@ -31,11 +39,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 2,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 85,
       "ENG": 80,
       "MAT": 82,
+      "REL": 78,
       "PHY": {
         "theory": 65,
         "practical": 6
@@ -44,10 +53,17 @@
         "theory": 60,
         "practical": 20
       },
-      "REL": 78,
       "AGR": {
-        "theory": 26,
-        "practical": 14
+        "theory": 55,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 60,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 55,
+        "practical": 20
       }
     }
   },
@@ -62,6 +78,7 @@
       "BAN": 88,
       "ENG": 85,
       "MAT": 80,
+      "REL": 82,
       "PHY": {
         "theory": 60,
         "practical": 20
@@ -70,8 +87,15 @@
         "theory": 24,
         "practical": 20
       },
-      "REL": 82,
+      "AGR": {
+        "theory": 60,
+        "practical": 20
+      },
       "BIO": {
+        "theory": 60,
+        "practical": 20
+      },
+      "HMT": {
         "theory": 60,
         "practical": 20
       }
@@ -83,11 +107,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 4,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 85,
       "ENG": 85,
       "MAT": 85,
+      "REL": 85,
       "PHY": {
         "theory": 60,
         "practical": 20
@@ -96,10 +121,17 @@
         "theory": 60,
         "practical": 20
       },
-      "REL": 85,
       "AGR": {
+        "theory": 65,
+        "practical": 20
+      },
+      "BIO": {
         "theory": 26,
         "practical": 14
+      },
+      "HMT": {
+        "theory": 65,
+        "practical": 20
       }
     }
   },
@@ -114,6 +146,7 @@
       "BAN": 75,
       "ENG": 75,
       "MAT": 75,
+      "REL": 75,
       "PHY": {
         "theory": 55,
         "practical": 20
@@ -122,7 +155,14 @@
         "theory": 55,
         "practical": 20
       },
-      "REL": 75,
+      "AGR": {
+        "theory": 55,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 65,
         "practical": 20
@@ -135,11 +175,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 6,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 92,
       "ENG": 90,
       "MAT": 95,
+      "REL": 90,
       "PHY": {
         "theory": 70,
         "practical": 25
@@ -148,10 +189,17 @@
         "theory": 70,
         "practical": 25
       },
-      "REL": 90,
       "AGR": {
         "theory": 70,
-        "practical": 25
+        "practical": 22
+      },
+      "BIO": {
+        "theory": 70,
+        "practical": 22
+      },
+      "HMT": {
+        "theory": 70,
+        "practical": 22
       }
     }
   },
@@ -166,6 +214,7 @@
       "BAN": "AB",
       "ENG": 90,
       "MAT": 88,
+      "REL": 85,
       "PHY": {
         "theory": 65,
         "practical": 20
@@ -174,10 +223,17 @@
         "theory": 60,
         "practical": 20
       },
-      "REL": 85,
+      "AGR": {
+        "theory": 60,
+        "practical": 20
+      },
       "BIO": {
         "theory": 60,
-        "practical": 18
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 60,
+        "practical": 20
       }
     }
   },
@@ -192,6 +248,7 @@
       "BAN": 80,
       "ENG": 80,
       "MAT": 70,
+      "REL": 80,
       "PHY": {
         "theory": 60,
         "practical": 20
@@ -200,7 +257,14 @@
         "theory": 55,
         "practical": 20
       },
-      "REL": 80,
+      "AGR": {
+        "theory": 60,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 60,
+        "practical": 20
+      },
       "HMT": "AB"
     }
   },
@@ -215,6 +279,7 @@
       "BAN": 75,
       "ENG": 81,
       "MAT": 86,
+      "REL": 84,
       "PHY": {
         "theory": 59,
         "practical": 19
@@ -223,10 +288,17 @@
         "theory": 53,
         "practical": 24
       },
-      "REL": 84,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 61,
         "practical": 16
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -241,6 +313,7 @@
       "BAN": 77,
       "ENG": 87,
       "MAT": 90,
+      "REL": 79,
       "PHY": {
         "theory": 62,
         "practical": 17
@@ -249,7 +322,14 @@
         "theory": 54,
         "practical": 16
       },
-      "REL": 79,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 56,
         "practical": 23
@@ -262,11 +342,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 11,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 86,
       "ENG": 87,
       "MAT": 86,
+      "REL": 83,
       "PHY": {
         "theory": 56,
         "practical": 20
@@ -275,10 +356,17 @@
         "theory": 52,
         "practical": 23
       },
-      "REL": 83,
       "AGR": {
         "theory": 57,
         "practical": 18
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -293,6 +381,7 @@
       "BAN": 79,
       "ENG": 70,
       "MAT": 70,
+      "REL": 90,
       "PHY": {
         "theory": 70,
         "practical": 25
@@ -301,10 +390,17 @@
         "theory": 64,
         "practical": 20
       },
-      "REL": 90,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 63,
         "practical": 17
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -319,6 +415,7 @@
       "BAN": 58,
       "ENG": 51,
       "MAT": 50,
+      "REL": 54,
       "PHY": {
         "theory": 46,
         "practical": 12
@@ -327,7 +424,14 @@
         "theory": 29,
         "practical": 13
       },
-      "REL": 54,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 39,
         "practical": 11
@@ -340,11 +444,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 14,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 54,
       "ENG": 46,
       "MAT": 65,
+      "REL": 68,
       "PHY": {
         "theory": 44,
         "practical": 9
@@ -353,10 +458,17 @@
         "theory": 50,
         "practical": 12
       },
-      "REL": 68,
       "AGR": {
         "theory": 33,
         "practical": 14
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -371,6 +483,7 @@
       "BAN": 72,
       "ENG": 49,
       "MAT": 58,
+      "REL": 71,
       "PHY": {
         "theory": 40,
         "practical": 13
@@ -379,10 +492,17 @@
         "theory": 45,
         "practical": 10
       },
-      "REL": 71,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 50,
         "practical": 9
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -397,6 +517,7 @@
       "BAN": 50,
       "ENG": 48,
       "MAT": 57,
+      "REL": 52,
       "PHY": {
         "theory": 39,
         "practical": 11
@@ -405,7 +526,14 @@
         "theory": 39,
         "practical": 13
       },
-      "REL": 52,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 52,
         "practical": 12
@@ -418,11 +546,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 17,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 67,
       "ENG": 51,
       "MAT": 57,
+      "REL": 62,
       "PHY": {
         "theory": 53,
         "practical": 13
@@ -431,10 +560,17 @@
         "theory": 38,
         "practical": 17
       },
-      "REL": 62,
       "AGR": {
         "theory": 50,
         "practical": 12
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -449,6 +585,7 @@
       "BAN": 68,
       "ENG": 65,
       "MAT": 59,
+      "REL": 58,
       "PHY": {
         "theory": 44,
         "practical": 17
@@ -457,10 +594,17 @@
         "theory": 40,
         "practical": 11
       },
-      "REL": 58,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 38,
         "practical": 13
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -475,6 +619,7 @@
       "BAN": 63,
       "ENG": 60,
       "MAT": 43,
+      "REL": 60,
       "PHY": {
         "theory": 42,
         "practical": 13
@@ -483,7 +628,14 @@
         "theory": 28,
         "practical": 15
       },
-      "REL": 60,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 39,
         "practical": 17
@@ -496,11 +648,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 20,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 52,
       "ENG": 55,
       "MAT": 49,
+      "REL": 74,
       "PHY": {
         "theory": 40,
         "practical": 11
@@ -509,10 +662,17 @@
         "theory": 36,
         "practical": 15
       },
-      "REL": 74,
       "AGR": {
         "theory": 30,
         "practical": 14
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -527,6 +687,7 @@
       "BAN": 49,
       "ENG": 41,
       "MAT": 34,
+      "REL": 36,
       "PHY": {
         "theory": 31,
         "practical": 8
@@ -535,10 +696,17 @@
         "theory": 36,
         "practical": 10
       },
-      "REL": 36,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 34,
         "practical": 10
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -553,6 +721,7 @@
       "BAN": 38,
       "ENG": 39,
       "MAT": 37,
+      "REL": 39,
       "PHY": {
         "theory": 34,
         "practical": 9
@@ -561,7 +730,14 @@
         "theory": 28,
         "practical": 13
       },
-      "REL": 39,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 34,
         "practical": 11
@@ -574,11 +750,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 23,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 48,
       "ENG": 35,
       "MAT": 37,
+      "REL": 50,
       "PHY": {
         "theory": 28,
         "practical": 10
@@ -587,10 +764,17 @@
         "theory": 27,
         "practical": 13
       },
-      "REL": 50,
       "AGR": {
         "theory": 33,
         "practical": 11
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -605,6 +789,7 @@
       "BAN": 42,
       "ENG": 38,
       "MAT": 36,
+      "REL": 42,
       "PHY": {
         "theory": 31,
         "practical": 10
@@ -613,10 +798,17 @@
         "theory": 31,
         "practical": 9
       },
-      "REL": 42,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 26,
         "practical": 13
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -631,6 +823,7 @@
       "BAN": 41,
       "ENG": 33,
       "MAT": 37,
+      "REL": 55,
       "PHY": {
         "theory": 33,
         "practical": 9
@@ -639,7 +832,14 @@
         "theory": 37,
         "practical": 13
       },
-      "REL": 55,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 36,
         "practical": 9
@@ -652,11 +852,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 26,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 43,
       "ENG": 36,
       "MAT": 44,
+      "REL": 49,
       "PHY": {
         "theory": 37,
         "practical": 14
@@ -665,10 +866,17 @@
         "theory": 29,
         "practical": 11
       },
-      "REL": 49,
       "AGR": {
         "theory": 37,
         "practical": 8
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -683,6 +891,7 @@
       "BAN": 89,
       "ENG": 90,
       "MAT": 92,
+      "REL": 76,
       "PHY": {
         "theory": 57,
         "practical": 19
@@ -691,10 +900,17 @@
         "theory": 50,
         "practical": 19
       },
-      "REL": 76,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 60,
         "practical": 15
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -709,6 +925,7 @@
       "BAN": 91,
       "ENG": 75,
       "MAT": 74,
+      "REL": 85,
       "PHY": {
         "theory": 60,
         "practical": 23
@@ -717,7 +934,14 @@
         "theory": 57,
         "practical": 24
       },
-      "REL": 85,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 62,
         "practical": 22
@@ -730,11 +954,12 @@
     "class": "Class 9",
     "classId": "c1010000-0000-0000-0000-000000000001",
     "roll": 29,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 71,
       "ENG": 56,
       "MAT": 53,
+      "REL": 65,
       "PHY": {
         "theory": 32,
         "practical": 16
@@ -743,10 +968,17 @@
         "theory": 31,
         "practical": 14
       },
-      "REL": 65,
       "AGR": {
         "theory": 37,
         "practical": 13
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -761,6 +993,7 @@
       "BAN": 37,
       "ENG": 46,
       "MAT": 39,
+      "REL": 49,
       "PHY": {
         "theory": 35,
         "practical": 11
@@ -769,10 +1002,17 @@
         "theory": 25,
         "practical": 11
       },
-      "REL": 49,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 27,
         "practical": 13
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -787,6 +1027,7 @@
       "BAN": 54,
       "ENG": 46,
       "MAT": 53,
+      "REL": 66,
       "PHY": {
         "theory": 49,
         "practical": 18
@@ -795,7 +1036,14 @@
         "theory": 40,
         "practical": 9
       },
-      "REL": 66,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 37,
         "practical": 13
@@ -808,11 +1056,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 2,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 58,
       "ENG": 54,
       "MAT": 62,
+      "REL": 69,
       "PHY": {
         "theory": 52,
         "practical": 18
@@ -821,10 +1070,17 @@
         "theory": 40,
         "practical": 9
       },
-      "REL": 69,
       "AGR": {
         "theory": 35,
         "practical": 15
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -839,6 +1095,7 @@
       "BAN": 50,
       "ENG": 56,
       "MAT": 57,
+      "REL": 61,
       "PHY": {
         "theory": 52,
         "practical": 12
@@ -847,10 +1104,17 @@
         "theory": 48,
         "practical": 17
       },
-      "REL": 61,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 42,
         "practical": 17
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -865,6 +1129,7 @@
       "BAN": 33,
       "ENG": 33,
       "MAT": 39,
+      "REL": 47,
       "PHY": {
         "theory": 33,
         "practical": 10
@@ -873,7 +1138,14 @@
         "theory": 32,
         "practical": 11
       },
-      "REL": 47,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 33,
         "practical": 8
@@ -886,11 +1158,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 5,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 48,
       "ENG": 45,
       "MAT": 45,
+      "REL": 55,
       "PHY": {
         "theory": 31,
         "practical": 8
@@ -899,10 +1172,17 @@
         "theory": 31,
         "practical": 13
       },
-      "REL": 55,
       "AGR": {
         "theory": 30,
         "practical": 10
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -917,6 +1197,7 @@
       "BAN": 52,
       "ENG": 45,
       "MAT": 37,
+      "REL": 54,
       "PHY": {
         "theory": 29,
         "practical": 8
@@ -925,10 +1206,17 @@
         "theory": 38,
         "practical": 11
       },
-      "REL": 54,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 36,
         "practical": 13
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -943,6 +1231,7 @@
       "BAN": 78,
       "ENG": 79,
       "MAT": 71,
+      "REL": 89,
       "PHY": {
         "theory": 59,
         "practical": 17
@@ -951,7 +1240,14 @@
         "theory": 58,
         "practical": 22
       },
-      "REL": 89,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 58,
         "practical": 19
@@ -964,11 +1260,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 8,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 68,
       "ENG": 59,
       "MAT": 53,
+      "REL": 67,
       "PHY": {
         "theory": 50,
         "practical": 17
@@ -977,10 +1274,17 @@
         "theory": 34,
         "practical": 10
       },
-      "REL": 67,
       "AGR": {
         "theory": 34,
         "practical": 13
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -995,6 +1299,7 @@
       "BAN": 37,
       "ENG": 42,
       "MAT": 34,
+      "REL": 43,
       "PHY": {
         "theory": 34,
         "practical": 10
@@ -1003,10 +1308,17 @@
         "theory": 26,
         "practical": 11
       },
-      "REL": 43,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 31,
         "practical": 14
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1021,6 +1333,7 @@
       "BAN": 33,
       "ENG": 34,
       "MAT": 36,
+      "REL": 51,
       "PHY": {
         "theory": 36,
         "practical": 13
@@ -1029,7 +1342,14 @@
         "theory": 32,
         "practical": 8
       },
-      "REL": 51,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 30,
         "practical": 8
@@ -1042,11 +1362,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 11,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 36,
       "ENG": 39,
       "MAT": 33,
+      "REL": 49,
       "PHY": {
         "theory": 29,
         "practical": 12
@@ -1055,10 +1376,17 @@
         "theory": 27,
         "practical": 8
       },
-      "REL": 49,
       "AGR": {
         "theory": 35,
         "practical": 8
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1073,6 +1401,7 @@
       "BAN": 50,
       "ENG": 41,
       "MAT": 39,
+      "REL": 41,
       "PHY": {
         "theory": 37,
         "practical": 14
@@ -1081,10 +1410,17 @@
         "theory": 29,
         "practical": 12
       },
-      "REL": 41,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 33,
         "practical": 12
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1099,6 +1435,7 @@
       "BAN": 37,
       "ENG": 39,
       "MAT": 40,
+      "REL": 45,
       "PHY": {
         "theory": 34,
         "practical": 9
@@ -1107,7 +1444,14 @@
         "theory": 34,
         "practical": 10
       },
-      "REL": 45,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 32,
         "practical": 10
@@ -1120,11 +1464,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 14,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 47,
       "ENG": 45,
       "MAT": 44,
+      "REL": 44,
       "PHY": {
         "theory": 31,
         "practical": 11
@@ -1133,10 +1478,17 @@
         "theory": 29,
         "practical": 8
       },
-      "REL": 44,
       "AGR": {
         "theory": 35,
         "practical": 14
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1151,6 +1503,7 @@
       "BAN": 49,
       "ENG": 43,
       "MAT": 39,
+      "REL": 50,
       "PHY": {
         "theory": 25,
         "practical": 14
@@ -1159,10 +1512,17 @@
         "theory": 32,
         "practical": 9
       },
-      "REL": 50,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 30,
         "practical": 11
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1177,6 +1537,7 @@
       "BAN": 35,
       "ENG": 35,
       "MAT": 37,
+      "REL": 42,
       "PHY": {
         "theory": 39,
         "practical": 13
@@ -1185,7 +1546,14 @@
         "theory": 34,
         "practical": 12
       },
-      "REL": 42,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 31,
         "practical": 11
@@ -1198,11 +1566,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 17,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 45,
       "ENG": 36,
       "MAT": 42,
+      "REL": 42,
       "PHY": {
         "theory": 35,
         "practical": 9
@@ -1211,10 +1580,17 @@
         "theory": 27,
         "practical": 12
       },
-      "REL": 42,
       "AGR": {
         "theory": 36,
         "practical": 14
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1229,6 +1605,7 @@
       "BAN": 50,
       "ENG": 38,
       "MAT": 37,
+      "REL": 52,
       "PHY": {
         "theory": 29,
         "practical": 11
@@ -1237,10 +1614,17 @@
         "theory": 35,
         "practical": 12
       },
-      "REL": 52,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 30,
         "practical": 8
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1255,6 +1639,7 @@
       "BAN": 37,
       "ENG": 38,
       "MAT": 41,
+      "REL": 48,
       "PHY": {
         "theory": 37,
         "practical": 12
@@ -1263,7 +1648,14 @@
         "theory": 35,
         "practical": 9
       },
-      "REL": 48,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 36,
         "practical": 8
@@ -1276,11 +1668,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 20,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 40,
       "ENG": 38,
       "MAT": 44,
+      "REL": 50,
       "PHY": {
         "theory": 34,
         "practical": 9
@@ -1289,10 +1682,17 @@
         "theory": 29,
         "practical": 13
       },
-      "REL": 50,
       "AGR": {
         "theory": 30,
         "practical": 11
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1307,6 +1707,7 @@
       "BAN": 35,
       "ENG": 34,
       "MAT": 35,
+      "REL": 35,
       "PHY": {
         "theory": 38,
         "practical": 13
@@ -1315,10 +1716,17 @@
         "theory": 29,
         "practical": 8
       },
-      "REL": 35,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 28,
         "practical": 9
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1333,6 +1741,7 @@
       "BAN": 45,
       "ENG": 47,
       "MAT": 38,
+      "REL": 39,
       "PHY": {
         "theory": 32,
         "practical": 13
@@ -1341,7 +1750,14 @@
         "theory": 25,
         "practical": 13
       },
-      "REL": 39,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 36,
         "practical": 11
@@ -1354,11 +1770,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 23,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 36,
       "ENG": 33,
       "MAT": 39,
+      "REL": 54,
       "PHY": {
         "theory": 33,
         "practical": 11
@@ -1367,10 +1784,17 @@
         "theory": 27,
         "practical": 13
       },
-      "REL": 54,
       "AGR": {
         "theory": 35,
         "practical": 13
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1385,6 +1809,7 @@
       "BAN": 43,
       "ENG": 37,
       "MAT": 35,
+      "REL": 53,
       "PHY": {
         "theory": 26,
         "practical": 14
@@ -1393,10 +1818,17 @@
         "theory": 27,
         "practical": 13
       },
-      "REL": 53,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 34,
         "practical": 13
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1411,6 +1843,7 @@
       "BAN": 35,
       "ENG": 44,
       "MAT": 36,
+      "REL": 54,
       "PHY": {
         "theory": 40,
         "practical": 9
@@ -1419,7 +1852,14 @@
         "theory": 38,
         "practical": 8
       },
-      "REL": 54,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 37,
         "practical": 12
@@ -1432,11 +1872,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 26,
-    "optional": "AGR",
+    "optional": "HMT",
     "marks": {
       "BAN": 48,
       "ENG": 48,
       "MAT": 36,
+      "REL": 53,
       "PHY": {
         "theory": 31,
         "practical": 9
@@ -1445,10 +1886,17 @@
         "theory": 26,
         "practical": 10
       },
-      "REL": 53,
       "AGR": {
         "theory": 35,
         "practical": 8
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1463,6 +1911,7 @@
       "BAN": 36,
       "ENG": 47,
       "MAT": 36,
+      "REL": 45,
       "PHY": {
         "theory": 30,
         "practical": 13
@@ -1471,10 +1920,17 @@
         "theory": 29,
         "practical": 9
       },
-      "REL": 45,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 26,
         "practical": 10
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1489,6 +1945,7 @@
       "BAN": 52,
       "ENG": 40,
       "MAT": 35,
+      "REL": 41,
       "PHY": {
         "theory": 35,
         "practical": 13
@@ -1497,7 +1954,14 @@
         "theory": 32,
         "practical": 12
       },
-      "REL": 41,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
       "HMT": {
         "theory": 33,
         "practical": 10
@@ -1510,11 +1974,12 @@
     "class": "Class 10",
     "classId": "c1010000-0000-0000-0000-000000000002",
     "roll": 29,
-    "optional": "AGR",
+    "optional": "BIO",
     "marks": {
       "BAN": 50,
       "ENG": 42,
       "MAT": 38,
+      "REL": 49,
       "PHY": {
         "theory": 38,
         "practical": 10
@@ -1523,10 +1988,17 @@
         "theory": 38,
         "practical": 9
       },
-      "REL": 49,
       "AGR": {
         "theory": 25,
         "practical": 13
+      },
+      "BIO": {
+        "theory": 55,
+        "practical": 20
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   },
@@ -1541,6 +2013,7 @@
       "BAN": 37,
       "ENG": 46,
       "MAT": 37,
+      "REL": 41,
       "PHY": {
         "theory": 26,
         "practical": 10
@@ -1549,10 +2022,17 @@
         "theory": 35,
         "practical": 13
       },
-      "REL": 41,
+      "AGR": {
+        "theory": 56,
+        "practical": 20
+      },
       "BIO": {
         "theory": 38,
         "practical": 9
+      },
+      "HMT": {
+        "theory": 58,
+        "practical": 20
       }
     }
   }
