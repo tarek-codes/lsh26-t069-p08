@@ -1,0 +1,1559 @@
+[
+  {
+    "id": "S001",
+    "name": "Kamal Hossain",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 1,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 85,
+      "ENG": 88,
+      "MAT": 30,
+      "PHY": {
+        "theory": 70,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 65,
+        "practical": 20
+      },
+      "REL": 90,
+      "HMT": {
+        "theory": 70,
+        "practical": 22
+      }
+    }
+  },
+  {
+    "id": "S002",
+    "name": "Lamia Islam",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 2,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 85,
+      "ENG": 80,
+      "MAT": 82,
+      "PHY": {
+        "theory": 65,
+        "practical": 6
+      },
+      "CHE": {
+        "theory": 60,
+        "practical": 20
+      },
+      "REL": 78,
+      "AGR": {
+        "theory": 26,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S003",
+    "name": "Urmi Akter",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 3,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 88,
+      "ENG": 85,
+      "MAT": 80,
+      "PHY": {
+        "theory": 60,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 24,
+        "practical": 20
+      },
+      "REL": 82,
+      "BIO": {
+        "theory": 60,
+        "practical": 20
+      }
+    }
+  },
+  {
+    "id": "S004",
+    "name": "Imran Sultan",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 4,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 85,
+      "ENG": 85,
+      "MAT": 85,
+      "PHY": {
+        "theory": 60,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 60,
+        "practical": 20
+      },
+      "REL": 85,
+      "AGR": {
+        "theory": 26,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S005",
+    "name": "Rafi Rahman",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 5,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 75,
+      "ENG": 75,
+      "MAT": 75,
+      "PHY": {
+        "theory": 55,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 55,
+        "practical": 20
+      },
+      "REL": 75,
+      "HMT": {
+        "theory": 65,
+        "practical": 20
+      }
+    }
+  },
+  {
+    "id": "S006",
+    "name": "Tasnim Jahan",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 6,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 92,
+      "ENG": 90,
+      "MAT": 95,
+      "PHY": {
+        "theory": 70,
+        "practical": 25
+      },
+      "CHE": {
+        "theory": 70,
+        "practical": 25
+      },
+      "REL": 90,
+      "AGR": {
+        "theory": 70,
+        "practical": 25
+      }
+    }
+  },
+  {
+    "id": "S007",
+    "name": "Lamia Begum",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 7,
+    "optional": "BIO",
+    "marks": {
+      "BAN": "AB",
+      "ENG": 90,
+      "MAT": 88,
+      "PHY": {
+        "theory": 65,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 60,
+        "practical": 20
+      },
+      "REL": 85,
+      "BIO": {
+        "theory": 60,
+        "practical": 18
+      }
+    }
+  },
+  {
+    "id": "S008",
+    "name": "Nusrat Khatun",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 8,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 80,
+      "ENG": 80,
+      "MAT": 70,
+      "PHY": {
+        "theory": 60,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 55,
+        "practical": 20
+      },
+      "REL": 80,
+      "HMT": "AB"
+    }
+  },
+  {
+    "id": "S009",
+    "name": "Sohel Rana",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 9,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 75,
+      "ENG": 81,
+      "MAT": 86,
+      "PHY": {
+        "theory": 59,
+        "practical": 19
+      },
+      "CHE": {
+        "theory": 53,
+        "practical": 24
+      },
+      "REL": 84,
+      "BIO": {
+        "theory": 61,
+        "practical": 16
+      }
+    }
+  },
+  {
+    "id": "S010",
+    "name": "Habiba Sultana",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 10,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 77,
+      "ENG": 87,
+      "MAT": 90,
+      "PHY": {
+        "theory": 62,
+        "practical": 17
+      },
+      "CHE": {
+        "theory": 54,
+        "practical": 16
+      },
+      "REL": 79,
+      "HMT": {
+        "theory": 56,
+        "practical": 23
+      }
+    }
+  },
+  {
+    "id": "S011",
+    "name": "Mahfuz Ahmed",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 11,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 86,
+      "ENG": 87,
+      "MAT": 86,
+      "PHY": {
+        "theory": 56,
+        "practical": 20
+      },
+      "CHE": {
+        "theory": 52,
+        "practical": 23
+      },
+      "REL": 83,
+      "AGR": {
+        "theory": 57,
+        "practical": 18
+      }
+    }
+  },
+  {
+    "id": "S012",
+    "name": "Rima Akter",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 12,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 79,
+      "ENG": 70,
+      "MAT": 70,
+      "PHY": {
+        "theory": 70,
+        "practical": 25
+      },
+      "CHE": {
+        "theory": 64,
+        "practical": 20
+      },
+      "REL": 90,
+      "BIO": {
+        "theory": 63,
+        "practical": 17
+      }
+    }
+  },
+  {
+    "id": "S013",
+    "name": "Arif Hasan",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 13,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 58,
+      "ENG": 51,
+      "MAT": 50,
+      "PHY": {
+        "theory": 46,
+        "practical": 12
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 13
+      },
+      "REL": 54,
+      "HMT": {
+        "theory": 39,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S014",
+    "name": "Sadia Islam",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 14,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 54,
+      "ENG": 46,
+      "MAT": 65,
+      "PHY": {
+        "theory": 44,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 50,
+        "practical": 12
+      },
+      "REL": 68,
+      "AGR": {
+        "theory": 33,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S015",
+    "name": "Rashedul Karim",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 15,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 72,
+      "ENG": 49,
+      "MAT": 58,
+      "PHY": {
+        "theory": 40,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 45,
+        "practical": 10
+      },
+      "REL": 71,
+      "BIO": {
+        "theory": 50,
+        "practical": 9
+      }
+    }
+  },
+  {
+    "id": "S016",
+    "name": "Fahim Rahman",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 16,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 50,
+      "ENG": 48,
+      "MAT": 57,
+      "PHY": {
+        "theory": 39,
+        "practical": 11
+      },
+      "CHE": {
+        "theory": 39,
+        "practical": 13
+      },
+      "REL": 52,
+      "HMT": {
+        "theory": 52,
+        "practical": 12
+      }
+    }
+  },
+  {
+    "id": "S017",
+    "name": "Mita Begum",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 17,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 67,
+      "ENG": 51,
+      "MAT": 57,
+      "PHY": {
+        "theory": 53,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 38,
+        "practical": 17
+      },
+      "REL": 62,
+      "AGR": {
+        "theory": 50,
+        "practical": 12
+      }
+    }
+  },
+  {
+    "id": "S018",
+    "name": "Sabbir Hossain",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 18,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 68,
+      "ENG": 65,
+      "MAT": 59,
+      "PHY": {
+        "theory": 44,
+        "practical": 17
+      },
+      "CHE": {
+        "theory": 40,
+        "practical": 11
+      },
+      "REL": 58,
+      "BIO": {
+        "theory": 38,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S019",
+    "name": "Jannatul Ferdous",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 19,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 63,
+      "ENG": 60,
+      "MAT": 43,
+      "PHY": {
+        "theory": 42,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 28,
+        "practical": 15
+      },
+      "REL": 60,
+      "HMT": {
+        "theory": 39,
+        "practical": 17
+      }
+    }
+  },
+  {
+    "id": "S020",
+    "name": "Nazmul Haque",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 20,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 52,
+      "ENG": 55,
+      "MAT": 49,
+      "PHY": {
+        "theory": 40,
+        "practical": 11
+      },
+      "CHE": {
+        "theory": 36,
+        "practical": 15
+      },
+      "REL": 74,
+      "AGR": {
+        "theory": 30,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S021",
+    "name": "Parul Akhtar",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 21,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 49,
+      "ENG": 41,
+      "MAT": 34,
+      "PHY": {
+        "theory": 31,
+        "practical": 8
+      },
+      "CHE": {
+        "theory": 36,
+        "practical": 10
+      },
+      "REL": 36,
+      "BIO": {
+        "theory": 34,
+        "practical": 10
+      }
+    }
+  },
+  {
+    "id": "S022",
+    "name": "Rifat Alam",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 22,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 38,
+      "ENG": 39,
+      "MAT": 37,
+      "PHY": {
+        "theory": 34,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 28,
+        "practical": 13
+      },
+      "REL": 39,
+      "HMT": {
+        "theory": 34,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S023",
+    "name": "Sabina Yasmin",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 23,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 48,
+      "ENG": 35,
+      "MAT": 37,
+      "PHY": {
+        "theory": 28,
+        "practical": 10
+      },
+      "CHE": {
+        "theory": 27,
+        "practical": 13
+      },
+      "REL": 50,
+      "AGR": {
+        "theory": 33,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S024",
+    "name": "Tanvir Hasan",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 24,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 42,
+      "ENG": 38,
+      "MAT": 36,
+      "PHY": {
+        "theory": 31,
+        "practical": 10
+      },
+      "CHE": {
+        "theory": 31,
+        "practical": 9
+      },
+      "REL": 42,
+      "BIO": {
+        "theory": 26,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S025",
+    "name": "Ayesha Siddika",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 25,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 41,
+      "ENG": 33,
+      "MAT": 37,
+      "PHY": {
+        "theory": 33,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 37,
+        "practical": 13
+      },
+      "REL": 55,
+      "HMT": {
+        "theory": 36,
+        "practical": 9
+      }
+    }
+  },
+  {
+    "id": "S026",
+    "name": "Kamrul Islam",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 26,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 43,
+      "ENG": 36,
+      "MAT": 44,
+      "PHY": {
+        "theory": 37,
+        "practical": 14
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 11
+      },
+      "REL": 49,
+      "AGR": {
+        "theory": 37,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S027",
+    "name": "Nasima Akter",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 27,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 89,
+      "ENG": 90,
+      "MAT": 92,
+      "PHY": {
+        "theory": 57,
+        "practical": 19
+      },
+      "CHE": {
+        "theory": 50,
+        "practical": 19
+      },
+      "REL": 76,
+      "BIO": {
+        "theory": 60,
+        "practical": 15
+      }
+    }
+  },
+  {
+    "id": "S028",
+    "name": "Delwar Hossain",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 28,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 91,
+      "ENG": 75,
+      "MAT": 74,
+      "PHY": {
+        "theory": 60,
+        "practical": 23
+      },
+      "CHE": {
+        "theory": 57,
+        "practical": 24
+      },
+      "REL": 85,
+      "HMT": {
+        "theory": 62,
+        "practical": 22
+      }
+    }
+  },
+  {
+    "id": "S029",
+    "name": "Shamim Ara",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 29,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 71,
+      "ENG": 56,
+      "MAT": 53,
+      "PHY": {
+        "theory": 32,
+        "practical": 16
+      },
+      "CHE": {
+        "theory": 31,
+        "practical": 14
+      },
+      "REL": 65,
+      "AGR": {
+        "theory": 37,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S030",
+    "name": "Monir Hossain",
+    "class": "Class 9",
+    "classId": "c1010000-0000-0000-0000-000000000001",
+    "roll": 30,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 37,
+      "ENG": 46,
+      "MAT": 39,
+      "PHY": {
+        "theory": 35,
+        "practical": 11
+      },
+      "CHE": {
+        "theory": 25,
+        "practical": 11
+      },
+      "REL": 49,
+      "BIO": {
+        "theory": 27,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S031",
+    "name": "Farjana Akter",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 1,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 54,
+      "ENG": 46,
+      "MAT": 53,
+      "PHY": {
+        "theory": 49,
+        "practical": 18
+      },
+      "CHE": {
+        "theory": 40,
+        "practical": 9
+      },
+      "REL": 66,
+      "HMT": {
+        "theory": 37,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S032",
+    "name": "Sumon Mia",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 2,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 58,
+      "ENG": 54,
+      "MAT": 62,
+      "PHY": {
+        "theory": 52,
+        "practical": 18
+      },
+      "CHE": {
+        "theory": 40,
+        "practical": 9
+      },
+      "REL": 69,
+      "AGR": {
+        "theory": 35,
+        "practical": 15
+      }
+    }
+  },
+  {
+    "id": "S033",
+    "name": "Rina Begum",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 3,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 50,
+      "ENG": 56,
+      "MAT": 57,
+      "PHY": {
+        "theory": 52,
+        "practical": 12
+      },
+      "CHE": {
+        "theory": 48,
+        "practical": 17
+      },
+      "REL": 61,
+      "BIO": {
+        "theory": 42,
+        "practical": 17
+      }
+    }
+  },
+  {
+    "id": "S034",
+    "name": "Jakir Hossain",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 4,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 33,
+      "ENG": 33,
+      "MAT": 39,
+      "PHY": {
+        "theory": 33,
+        "practical": 10
+      },
+      "CHE": {
+        "theory": 32,
+        "practical": 11
+      },
+      "REL": 47,
+      "HMT": {
+        "theory": 33,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S035",
+    "name": "Taslima Nasrin",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 5,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 48,
+      "ENG": 45,
+      "MAT": 45,
+      "PHY": {
+        "theory": 31,
+        "practical": 8
+      },
+      "CHE": {
+        "theory": 31,
+        "practical": 13
+      },
+      "REL": 55,
+      "AGR": {
+        "theory": 30,
+        "practical": 10
+      }
+    }
+  },
+  {
+    "id": "S036",
+    "name": "Rakib Hasan",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 6,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 52,
+      "ENG": 45,
+      "MAT": 37,
+      "PHY": {
+        "theory": 29,
+        "practical": 8
+      },
+      "CHE": {
+        "theory": 38,
+        "practical": 11
+      },
+      "REL": 54,
+      "BIO": {
+        "theory": 36,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S037",
+    "name": "Shirin Akhtar",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 7,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 78,
+      "ENG": 79,
+      "MAT": 71,
+      "PHY": {
+        "theory": 59,
+        "practical": 17
+      },
+      "CHE": {
+        "theory": 58,
+        "practical": 22
+      },
+      "REL": 89,
+      "HMT": {
+        "theory": 58,
+        "practical": 19
+      }
+    }
+  },
+  {
+    "id": "S038",
+    "name": "Belal Ahmed",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 8,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 68,
+      "ENG": 59,
+      "MAT": 53,
+      "PHY": {
+        "theory": 50,
+        "practical": 17
+      },
+      "CHE": {
+        "theory": 34,
+        "practical": 10
+      },
+      "REL": 67,
+      "AGR": {
+        "theory": 34,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S039",
+    "name": "Moushumi Islam",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 9,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 37,
+      "ENG": 42,
+      "MAT": 34,
+      "PHY": {
+        "theory": 34,
+        "practical": 10
+      },
+      "CHE": {
+        "theory": 26,
+        "practical": 11
+      },
+      "REL": 43,
+      "BIO": {
+        "theory": 31,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S040",
+    "name": "Zahid Hasan",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 10,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 33,
+      "ENG": 34,
+      "MAT": 36,
+      "PHY": {
+        "theory": 36,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 32,
+        "practical": 8
+      },
+      "REL": 51,
+      "HMT": {
+        "theory": 30,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S041",
+    "name": "Sharmin Sultana",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 11,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 36,
+      "ENG": 39,
+      "MAT": 33,
+      "PHY": {
+        "theory": 29,
+        "practical": 12
+      },
+      "CHE": {
+        "theory": 27,
+        "practical": 8
+      },
+      "REL": 49,
+      "AGR": {
+        "theory": 35,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S042",
+    "name": "Abul Kalam",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 12,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 50,
+      "ENG": 41,
+      "MAT": 39,
+      "PHY": {
+        "theory": 37,
+        "practical": 14
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 12
+      },
+      "REL": 41,
+      "BIO": {
+        "theory": 33,
+        "practical": 12
+      }
+    }
+  },
+  {
+    "id": "S043",
+    "name": "Nargis Akter",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 13,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 37,
+      "ENG": 39,
+      "MAT": 40,
+      "PHY": {
+        "theory": 34,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 34,
+        "practical": 10
+      },
+      "REL": 45,
+      "HMT": {
+        "theory": 32,
+        "practical": 10
+      }
+    }
+  },
+  {
+    "id": "S044",
+    "name": "Mizanur Rahman",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 14,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 47,
+      "ENG": 45,
+      "MAT": 44,
+      "PHY": {
+        "theory": 31,
+        "practical": 11
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 8
+      },
+      "REL": 44,
+      "AGR": {
+        "theory": 35,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S045",
+    "name": "Halima Khatun",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 15,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 49,
+      "ENG": 43,
+      "MAT": 39,
+      "PHY": {
+        "theory": 25,
+        "practical": 14
+      },
+      "CHE": {
+        "theory": 32,
+        "practical": 9
+      },
+      "REL": 50,
+      "BIO": {
+        "theory": 30,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S046",
+    "name": "Shafiq Ahmed",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 16,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 35,
+      "ENG": 35,
+      "MAT": 37,
+      "PHY": {
+        "theory": 39,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 34,
+        "practical": 12
+      },
+      "REL": 42,
+      "HMT": {
+        "theory": 31,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S047",
+    "name": "Poly Akter",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 17,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 45,
+      "ENG": 36,
+      "MAT": 42,
+      "PHY": {
+        "theory": 35,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 27,
+        "practical": 12
+      },
+      "REL": 42,
+      "AGR": {
+        "theory": 36,
+        "practical": 14
+      }
+    }
+  },
+  {
+    "id": "S048",
+    "name": "Asad Uzzaman",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 18,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 50,
+      "ENG": 38,
+      "MAT": 37,
+      "PHY": {
+        "theory": 29,
+        "practical": 11
+      },
+      "CHE": {
+        "theory": 35,
+        "practical": 12
+      },
+      "REL": 52,
+      "BIO": {
+        "theory": 30,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S049",
+    "name": "Jhorna Begum",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 19,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 37,
+      "ENG": 38,
+      "MAT": 41,
+      "PHY": {
+        "theory": 37,
+        "practical": 12
+      },
+      "CHE": {
+        "theory": 35,
+        "practical": 9
+      },
+      "REL": 48,
+      "HMT": {
+        "theory": 36,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S050",
+    "name": "Manik Mia",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 20,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 40,
+      "ENG": 38,
+      "MAT": 44,
+      "PHY": {
+        "theory": 34,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 13
+      },
+      "REL": 50,
+      "AGR": {
+        "theory": 30,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S051",
+    "name": "Selina Akhtar",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 21,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 35,
+      "ENG": 34,
+      "MAT": 35,
+      "PHY": {
+        "theory": 38,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 8
+      },
+      "REL": 35,
+      "BIO": {
+        "theory": 28,
+        "practical": 9
+      }
+    }
+  },
+  {
+    "id": "S052",
+    "name": "Rubel Hossain",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 22,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 45,
+      "ENG": 47,
+      "MAT": 38,
+      "PHY": {
+        "theory": 32,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 25,
+        "practical": 13
+      },
+      "REL": 39,
+      "HMT": {
+        "theory": 36,
+        "practical": 11
+      }
+    }
+  },
+  {
+    "id": "S053",
+    "name": "Fatema Tuz",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 23,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 36,
+      "ENG": 33,
+      "MAT": 39,
+      "PHY": {
+        "theory": 33,
+        "practical": 11
+      },
+      "CHE": {
+        "theory": 27,
+        "practical": 13
+      },
+      "REL": 54,
+      "AGR": {
+        "theory": 35,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S054",
+    "name": "Alamgir Kabir",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 24,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 43,
+      "ENG": 37,
+      "MAT": 35,
+      "PHY": {
+        "theory": 26,
+        "practical": 14
+      },
+      "CHE": {
+        "theory": 27,
+        "practical": 13
+      },
+      "REL": 53,
+      "BIO": {
+        "theory": 34,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S055",
+    "name": "Rawshan Ara",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 25,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 35,
+      "ENG": 44,
+      "MAT": 36,
+      "PHY": {
+        "theory": 40,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 38,
+        "practical": 8
+      },
+      "REL": 54,
+      "HMT": {
+        "theory": 37,
+        "practical": 12
+      }
+    }
+  },
+  {
+    "id": "S056",
+    "name": "Shahidul Islam",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 26,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 48,
+      "ENG": 48,
+      "MAT": 36,
+      "PHY": {
+        "theory": 31,
+        "practical": 9
+      },
+      "CHE": {
+        "theory": 26,
+        "practical": 10
+      },
+      "REL": 53,
+      "AGR": {
+        "theory": 35,
+        "practical": 8
+      }
+    }
+  },
+  {
+    "id": "S057",
+    "name": "Lipi Akter",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 27,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 36,
+      "ENG": 47,
+      "MAT": 36,
+      "PHY": {
+        "theory": 30,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 29,
+        "practical": 9
+      },
+      "REL": 45,
+      "BIO": {
+        "theory": 26,
+        "practical": 10
+      }
+    }
+  },
+  {
+    "id": "S058",
+    "name": "Nurul Amin",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 28,
+    "optional": "HMT",
+    "marks": {
+      "BAN": 52,
+      "ENG": 40,
+      "MAT": 35,
+      "PHY": {
+        "theory": 35,
+        "practical": 13
+      },
+      "CHE": {
+        "theory": 32,
+        "practical": 12
+      },
+      "REL": 41,
+      "HMT": {
+        "theory": 33,
+        "practical": 10
+      }
+    }
+  },
+  {
+    "id": "S059",
+    "name": "Beauty Begum",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 29,
+    "optional": "AGR",
+    "marks": {
+      "BAN": 50,
+      "ENG": 42,
+      "MAT": 38,
+      "PHY": {
+        "theory": 38,
+        "practical": 10
+      },
+      "CHE": {
+        "theory": 38,
+        "practical": 9
+      },
+      "REL": 49,
+      "AGR": {
+        "theory": 25,
+        "practical": 13
+      }
+    }
+  },
+  {
+    "id": "S060",
+    "name": "Kamal Uddin",
+    "class": "Class 10",
+    "classId": "c1010000-0000-0000-0000-000000000002",
+    "roll": 30,
+    "optional": "BIO",
+    "marks": {
+      "BAN": 37,
+      "ENG": 46,
+      "MAT": 37,
+      "PHY": {
+        "theory": 26,
+        "practical": 10
+      },
+      "CHE": {
+        "theory": 35,
+        "practical": 13
+      },
+      "REL": 41,
+      "BIO": {
+        "theory": 38,
+        "practical": 9
+      }
+    }
+  }
+]
