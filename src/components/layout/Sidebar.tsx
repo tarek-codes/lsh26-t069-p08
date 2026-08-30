@@ -8,6 +8,8 @@ import {
   TableProperties,
   ClipboardList,
   FileSpreadsheet,
+  UploadCloud,
+  BarChart3,
   Printer,
   GraduationCap,
 } from "lucide-react";
@@ -75,6 +77,18 @@ export function Sidebar() {
       href: "/dashboard/marks-entry",
       icon: FileSpreadsheet,
       active: pathname === "/dashboard/marks-entry",
+    },
+    {
+      name: "Import Marks",
+      href: "/dashboard/import",
+      icon: UploadCloud,
+      active: pathname.startsWith("/dashboard/import"),
+    },
+    {
+      name: "Class Summary",
+      href: "/dashboard/analytics",
+      icon: BarChart3,
+      active: pathname.startsWith("/dashboard/analytics"),
     },
     {
       name: "Transcripts",

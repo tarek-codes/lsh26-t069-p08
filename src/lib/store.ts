@@ -180,6 +180,34 @@ class SchoolDataStore {
     return student;
   }
 
+  public bulkImportStudents(
+    students: StudentInput[],
+    targetClassId: string
+  ): { importedCount: number; runEntity: CalculationRunEntity | undefined } {
+    const cls = this.classes.get(targetClassId);
+    if (!cls) return { importedCount: 0, runEntity: undefined };
+
+    let count = 0;
+    for (const s of students) {
+      const existing = this.students.get(s.id);
+      const entity: StudentEntity = {
+        ...s,
+        class: cls.name,
+        classId: targetClassId,
+        createdAt: existing?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      this.students.set(s.id, entity);
+      count++;
+    }
+
+    cls.studentCount = this.getStudents({ classId: targetClassId }).length;
+    this.classes.set(targetClassId, cls);
+
+    const runEntity = this.runCalculation(targetClassId);
+    return { importedCount: count, runEntity };
+  }
+
   // --- Calculations ---
   public runCalculation(
     classId: string,
