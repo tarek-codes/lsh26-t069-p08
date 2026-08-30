@@ -157,28 +157,29 @@ export function Sidebar() {
               </Link>
             );
           })}
+
+          {/* Dedicated Red Sign Out Button */}
+          <div className="pt-2 border-t border-slate-100 mt-2">
+            <Link
+              href="/login"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-red-600 bg-red-50/70 hover:bg-red-600 hover:text-white border border-red-200/80 transition-all duration-150 shadow-xs group"
+            >
+              <LogOut className="w-4 h-4 text-red-500 group-hover:text-white transition-colors" />
+              <span>Sign Out</span>
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* User Info & Logout Footer */}
-      <div className="p-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2.5 truncate">
-          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-xs">
-            SA
-          </div>
-          <div className="truncate">
-            <div className="font-semibold text-xs text-slate-900 leading-tight">System Admin</div>
-            <div className="text-[10px] text-slate-500 truncate">Exam Controller</div>
-          </div>
+      {/* User Info Footer */}
+      <div className="p-3.5 border-t border-slate-100 bg-slate-50/50 flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-xs">
+          SA
         </div>
-
-        <Link
-          href="/login"
-          title="Sign Out"
-          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 group"
-        >
-          <LogOut className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-        </Link>
+        <div className="truncate">
+          <div className="font-semibold text-xs text-slate-900 leading-tight">System Admin</div>
+          <div className="text-[10px] text-slate-500 truncate">Exam Controller Portal</div>
+        </div>
       </div>
     </aside>
   );

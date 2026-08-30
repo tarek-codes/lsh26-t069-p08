@@ -72,9 +72,8 @@ export default function LandingPage() {
 
         <div className="space-y-4 max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight sm:leading-none">
-            Deterministic School GPA &amp; <br />
             <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
-              Pre-Publication Audit Platform
+              School Result Processing and GPA Engine
             </span>
           </h1>
           <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
