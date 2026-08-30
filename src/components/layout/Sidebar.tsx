@@ -12,6 +12,7 @@ import {
   BarChart3,
   Printer,
   GraduationCap,
+  LogOut,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -159,17 +160,25 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* User Info Footer */}
-      <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
+      {/* User Info & Logout Footer */}
+      <div className="p-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5 truncate">
+          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-xs">
             SA
           </div>
           <div className="truncate">
-            <div className="font-semibold text-xs text-slate-900">System Admin</div>
-            <div className="text-[10px] text-slate-500 truncate">Exam Controller Portal</div>
+            <div className="font-semibold text-xs text-slate-900 leading-tight">System Admin</div>
+            <div className="text-[10px] text-slate-500 truncate">Exam Controller</div>
           </div>
         </div>
+
+        <Link
+          href="/login"
+          title="Sign Out"
+          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 group"
+        >
+          <LogOut className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+        </Link>
       </div>
     </aside>
   );
