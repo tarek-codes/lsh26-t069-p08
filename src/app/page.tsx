@@ -153,7 +153,7 @@ export default function LandingPage() {
             {/* Main Headline */}
             <div className="space-y-4">
               <h1
-                style={{ color: "var(--fg)" }}
+                style={{ color: "var(--accent)" }}
                 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1]"
               >
                 School Result Processing

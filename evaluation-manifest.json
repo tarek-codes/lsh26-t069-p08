@@ -5,7 +5,7 @@
   "live_url": "https://lsh26-t069-p08-git-main-tarekalambhuiyan-bracuacbds-projects.vercel.app/dashboard",
   "demo_video_url_optional": "",
   "event_start_code": "LSH26-8490-C900",
-  "repository_created_before_release": false,
+  "repository_created_before_release": true,
   "pre_event_materials": [],
   "sample_data": {
     "loads_published_fixture": true,

@@ -2,7 +2,7 @@
 
 ## 1. Architectural Vision & High-Level Topology
 
-The School Result Processing and GPA Engine is structured as a modern, unified fullstack application built with **Next.js 16.3.3** and **PostgreSQL 18** on **Supabase**. The system prioritizes deterministic rule execution, absolute transparency through audit tracing, sub-second query performance, and a rich, accessible administrative dashboard.
+The School Result Processing and GPA Engine is structured as a modern, unified fullstack application built with **Next.js 15.x** and **PostgreSQL 18** on **Supabase**. The system prioritizes deterministic rule execution, absolute transparency through audit tracing, sub-second query performance, and a rich, accessible administrative dashboard.
 
 ```mermaid
 flowchart TB
@@ -17,7 +17,7 @@ flowchart TB
         PrintView["Printable Transcripts & Report Cards"]
     end
 
-    subgraph AppLayer ["Application & Server Layer (Next.js 16.3.3 App Router)"]
+    subgraph AppLayer ["Application & Server Layer (Next.js 15.x App Router)"]
         ServerActions["Next.js Server Actions (CRUD & State Transitions)"]
         APIRoutes["REST Route Handlers (/api/v1/...)"]
         AuthMiddleware["Admin Access Control & Validation"]

@@ -36,8 +36,8 @@ Automated three-tier verification roster for administrative pre-publication revi
 
 ### 5. **Live Mark Entry (`/dashboard/marks-entry`)**
 - Single full-width editor with an integrated student selector dropdown and `← Prev` / `Next →` navigation.
-- Dynamic highlighting: 4th Optional subject is styled with a distinct purple gradient, glowing ring, and `★ 4th OPTIONAL` badge.
-- Instant recalculation of subject GPs, component pass statuses, and final GPA.
+- Real-time evaluation: Instant recalculation of individual subject grades, theory/practical pass status, component failures, and final deterministic GPA.
+- Clear visual hierarchy: 4th Optional subject is marked with a distinctive `★ 4th OPTIONAL` badge and clear theme-neutral styling, while failing marks are highlighted with high-contrast warning borders.
 
 ### 6. **Student Transcripts & Print Hub (`/dashboard/reports`)**
 - Printable official Academic Transcripts with complete step-by-step arithmetic traces.

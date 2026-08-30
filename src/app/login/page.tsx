@@ -86,7 +86,7 @@ export default function LoginPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center p-6 pattern-grid-light">
+      <main className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md space-y-4">
           {/* Card Container */}
           <div

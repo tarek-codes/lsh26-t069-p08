@@ -4,17 +4,17 @@
 
 | Layer / Concern | Technology Selection | Version / Standard | Justification |
 | :--- | :--- | :--- | :--- |
-| **Framework** | **Next.js** | **`16.3.3`** | Fullstack framework with React 19, App Router, Server Actions, and native Route Handlers for high performance and clean architecture. |
+| **Framework** | **Next.js** | **`15.x` (App Router)** | Fullstack framework with React 19, App Router, Server Actions, and native Route Handlers for high performance and clean architecture. |
 | **Frontend UI** | **React** | **`19.x`** | Component-driven declarative UI with React Server Components (RSC) and fast client interactions. |
 | **Database** | **PostgreSQL** | **`18` (via Supabase)** | Enterprise-grade relational database providing ACID compliance, check constraints, foreign keys, and sub-millisecond query performance. |
-| **Database Client** | **Supabase JS / `@supabase/ssr`** | **`2.x`** | Type-safe database queries, real-time subscriptions, and connection pooling. |
+| **Database Client** | **Supabase JS** | **`2.x`** | Type-safe database queries, real-time subscriptions, and connection pooling. |
 | **Language** | **TypeScript** | **`5.x`** | End-to-end type safety, strict null checking, and zero-runtime-overhead interfaces for the core GPA Engine. |
-| **Styling & Design System** | **Tailwind CSS / CSS Variables** | **`v4.x`** | Modern, responsive styling with custom CSS tokens, dark/light theme support, and zero runtime overhead. |
-| **Icons** | **Lucide React** | **`0.4x`** | Clean, accessible vector icons for admin metrics, checking list badges, and status indicators. |
+| **Styling & Design System** | **Tailwind CSS / CSS Custom Properties** | **`v3.4.x`** | Modern, responsive styling with custom CSS tokens, dark/light theme support, and zero runtime overhead. |
+| **Icons** | **Lucide React** | **`0.47x`** | Clean, accessible vector icons for admin metrics, checking list badges, and status indicators. |
 | **Schema Validation** | **Zod** | **`3.x`** | Runtime data validation on mark entries, API payloads, and query parameters. |
 | **Calculation Engine** | **Pure TypeScript + Decimal.js** | **`10.x`** | High-precision arithmetic preventing IEEE-754 floating point drift during GPA division and rounding. |
-| **Unit & Integration Testing** | **Vitest** | **`2.x`** | Blazing-fast test runner for 100% unit test coverage of all grading rules (`R-10`, `R-11`, `R-12`, `R-13`, `R-20`, `R-21`, `R-29`). |
-| **Package Manager** | **pnpm / npm** | **Node.js `20+ LTS`** | Fast, deterministic dependency management. |
+| **Unit & Integration Testing** | **Vitest** | **`3.x`** | Blazing-fast test runner for 100% unit test coverage of all grading rules (`R-10`, `R-11`, `R-12`, `R-13`, `R-20`, `R-21`, `R-29`). |
+| **Package Manager** | **npm** | **Node.js `20+ LTS`** | Fast, deterministic dependency management. |
 
 ---
 

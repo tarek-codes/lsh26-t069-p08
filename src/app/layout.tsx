@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <body className="antialiased bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900 font-sans min-h-screen">
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased font-sans min-h-screen">
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
