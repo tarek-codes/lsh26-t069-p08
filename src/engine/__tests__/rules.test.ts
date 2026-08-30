@@ -172,8 +172,8 @@ describe("Rule R-10: Final GPA to Final Letter Grade Mapping", () => {
 });
 
 describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
-  // Compulsory: BAN, ENG, MAT, PHY, CHE, REL
-  // Optional: BIO, HMT, AGR
+  // Compulsory: BAN, ENG, MAT, PHY, CHE, BIO
+  // Optional: HMT, AGR, REL
 
   it("EDGE-01: Compulsory Failure with High Average", () => {
     const student: StudentInput = {
@@ -187,10 +187,10 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
         MAT: 30, // Fails compulsory MAT (< 33)
         PHY: { theory: 70, practical: 20 },
         CHE: { theory: 65, practical: 20 },
-        AGR: { theory: 60, practical: 20 },
         BIO: { theory: 60, practical: 20 },
-        REL: 90,
         HMT: { theory: 70, practical: 22 },
+        AGR: { theory: 60, practical: 20 },
+        REL: 90,
       },
     };
 
@@ -207,17 +207,17 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
       id: "EDGE-02",
       name: "Tanvir Ahmed",
       class: "Class 9",
-      optional: "BIO",
+      optional: "AGR",
       marks: {
         BAN: 85,
         ENG: 85,
         MAT: 85,
-        PHY: { theory: 65, practical: 7 }, // Practical fail!
+        PHY: { theory: 65, practical: 7 }, // Practical fail in compulsory PHY!
         CHE: { theory: 60, practical: 20 },
-        AGR: { theory: 60, practical: 20 },
+        BIO: { theory: 60, practical: 20 },
+        AGR: { theory: 26, practical: 14 },
         HMT: { theory: 60, practical: 20 },
         REL: 80,
-        BIO: { theory: 60, practical: 20 },
       },
     };
 
@@ -240,11 +240,11 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
         ENG: 85,
         MAT: 85,
         PHY: { theory: 60, practical: 20 },
-        CHE: { theory: 22, practical: 24 }, // Theory fail! Total 46
-        AGR: { theory: 60, practical: 20 },
+        CHE: { theory: 22, practical: 24 }, // Theory fail in compulsory CHE! Total 46
         BIO: { theory: 60, practical: 20 },
-        REL: 80,
         HMT: { theory: 60, practical: 20 },
+        AGR: { theory: 60, practical: 20 },
+        REL: 80,
       },
     };
 
@@ -256,23 +256,23 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
   });
 
   it("EDGE-04: Optional GP <= 2.0 produces zero bonus", () => {
-    // Optional BIO: Total 40 -> GP 2.0. All 8 compulsory 5.0 (Sum = 40.0)
-    // Bonus = max(0, 2.0 - 2.0) = 0.0 -> GPA = 40.0 / 8 = 5.00
+    // Optional AGR: Total 40 -> GP 2.0. All 6 compulsory 5.0 (Sum = 30.0)
+    // Bonus = max(0, 2.0 - 2.0) = 0.0 -> GPA = 30.0 / 6 = 5.00
     const student: StudentInput = {
       id: "EDGE-04",
       name: "Sakib Al Hasan",
       class: "Class 9",
-      optional: "BIO",
+      optional: "AGR",
       marks: {
         BAN: 85,
         ENG: 85,
         MAT: 85,
         PHY: { theory: 60, practical: 20 },
         CHE: { theory: 60, practical: 20 },
-        AGR: { theory: 60, practical: 20 },
+        BIO: { theory: 60, practical: 20 },
+        AGR: { theory: 26, practical: 14 }, // Total 40 -> GP 2.0
         HMT: { theory: 60, practical: 20 },
         REL: 85,
-        BIO: { theory: 26, practical: 14 }, // Total 40 -> GP 2.0
       },
     };
 
@@ -285,8 +285,8 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
   });
 
   it("EDGE-05: Optional GP > 2.0 contributes active bonus points", () => {
-    // All 8 compulsory GP 4.0 (Sum = 32.0). Optional HMT GP 5.0 (Bonus = 3.0)
-    // Raw GPA = (32 + 3.0) / 8 = 35 / 8 = 4.375 -> Capped/Rounded 4.38 (A)
+    // All 6 compulsory GP 4.0 (Sum = 24.0). Optional HMT GP 5.0 (Bonus = 3.0)
+    // Raw GPA = (24 + 3.0) / 6 = 27 / 6 = 4.50 (A)
     const student: StudentInput = {
       id: "EDGE-05",
       name: "Mehedi Hasan",
@@ -298,43 +298,43 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
         MAT: 75,
         PHY: { theory: 55, practical: 20 },
         CHE: { theory: 55, practical: 20 },
-        AGR: { theory: 55, practical: 20 },
         BIO: { theory: 55, practical: 20 },
-        REL: 75,
         HMT: { theory: 65, practical: 20 },
+        AGR: { theory: 55, practical: 20 },
+        REL: 75,
       },
     };
 
     const res = calculateStudentGPA(student);
-    expect(res.compulsoryGPsSum).toBe(32.0);
+    expect(res.compulsoryGPsSum).toBe(24.0);
     expect(res.optionalBonusGP).toBe(3.0);
-    expect(res.finalGPA).toBe(4.38);
+    expect(res.finalGPA).toBe(4.5);
     expect(res.finalLetterGrade).toBe("A");
   });
 
   it("EDGE-06: GPA Capping at 5.00", () => {
-    // All 8 compulsory GP 5.0 (Sum = 40.0). Optional BIO GP 5.0 (Bonus = 3.0)
-    // Raw GPA = (40 + 3.0) / 8 = 43 / 8 = 5.375 -> Capped at 5.00 A+
+    // All 6 compulsory GP 5.0 (Sum = 30.0). Optional AGR GP 5.0 (Bonus = 3.0)
+    // Raw GPA = (30 + 3.0) / 6 = 33 / 6 = 5.50 -> Capped at 5.00 A+
     const student: StudentInput = {
       id: "EDGE-06",
       name: "Farhana Akter",
       class: "Class 9",
-      optional: "BIO",
+      optional: "AGR",
       marks: {
         BAN: 90,
         ENG: 90,
         MAT: 90,
         PHY: { theory: 70, practical: 25 },
         CHE: { theory: 70, practical: 25 },
+        BIO: { theory: 70, practical: 25 },
         AGR: { theory: 70, practical: 25 },
         HMT: { theory: 70, practical: 25 },
         REL: 90,
-        BIO: { theory: 70, practical: 25 },
       },
     };
 
     const res = calculateStudentGPA(student);
-    expect(res.rawGPA).toBeCloseTo(5.375, 2);
+    expect(res.rawGPA).toBe(5.5);
     expect(res.cappedGPA).toBe(5.0);
     expect(res.finalGPA).toBe(5.0);
     expect(res.finalLetterGrade).toBe("A+");
@@ -345,17 +345,17 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
       id: "EDGE-07",
       name: "Sadia Islam",
       class: "Class 9",
-      optional: "BIO",
+      optional: "HMT",
       marks: {
-        BAN: "AB", // Absent!
+        BAN: "AB", // Absent in compulsory BAN!
         ENG: 90,
         MAT: 90,
         PHY: { theory: 70, practical: 20 },
         CHE: { theory: 70, practical: 20 },
-        AGR: { theory: 70, practical: 20 },
-        HMT: { theory: 70, practical: 20 },
-        REL: 90,
         BIO: { theory: 60, practical: 20 },
+        HMT: { theory: 60, practical: 20 },
+        AGR: { theory: 60, practical: 20 },
+        REL: 90,
       },
     };
 
@@ -379,10 +379,10 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
         MAT: 80,
         PHY: { theory: 60, practical: 20 },
         CHE: { theory: 60, practical: 20 },
-        AGR: { theory: 60, practical: 20 },
         BIO: { theory: 60, practical: 20 },
-        REL: 80,
         HMT: "AB", // Optional Absent
+        AGR: { theory: 60, practical: 20 },
+        REL: 80,
       },
     };
 

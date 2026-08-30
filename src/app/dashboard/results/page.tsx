@@ -153,12 +153,12 @@ export default function ClassResultsMatrixPage() {
                   <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">BAN</th>
                   <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">ENG</th>
                   <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">MAT</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">REL</th>
                   <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px]">PHY (T+P)</th>
                   <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px]">CHE (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px]">AGR (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px] bg-purple-950 text-purple-200">BIO (T+P)</th>
+                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px]">BIO (T+P)</th>
                   <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px] bg-purple-950 text-purple-200">HMT (T+P)</th>
+                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px] bg-purple-950 text-purple-200">AGR (T+P)</th>
+                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px] bg-purple-950 text-purple-200">REL</th>
                   <th className="py-3 px-2 border-r border-slate-800 text-center w-16">Raw GPA</th>
                   <th className="py-3 px-3 border-r border-slate-800 text-center w-20">Final GPA</th>
                   <th className="py-3 px-3 border-r border-slate-800 text-center w-16">Grade</th>
@@ -243,16 +243,6 @@ export default function ClassResultsMatrixPage() {
                           )}
                         </td>
 
-                        {/* REL */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(rel)}`}>
-                          <div className="font-bold text-slate-900">{rel?.displayMark || "—"}</div>
-                          {rel && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(rel?.letterGrade)}`}>
-                              {rel.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
                         {/* PHY */}
                         <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(phy)}`}>
                           <div className="font-bold text-slate-900">{phy?.displayMark || "—"}</div>
@@ -273,40 +263,17 @@ export default function ClassResultsMatrixPage() {
                           )}
                         </td>
 
-                        {/* AGR (Compulsory for everyone) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(agr)}`}>
-                          {agr ? (
-                            <div>
-                              <div className="font-bold text-slate-900">{agr.displayMark}</div>
-                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(agr.letterGrade)} mt-0.5 inline-block`}>
-                                {agr.letterGrade}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-slate-300">—</span>
+                        {/* BIO (Compulsory) */}
+                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(bio)}`}>
+                          <div className="font-bold text-slate-900">{bio?.displayMark || "—"}</div>
+                          {bio && (
+                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(bio?.letterGrade)}`}>
+                              {bio.letterGrade}
+                            </span>
                           )}
                         </td>
 
-                        {/* BIO (Separate Column with 4th OPT tag if applicable) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(bio, r.optionalSubject === "BIO")}`}>
-                          {bio ? (
-                            <div>
-                              {r.optionalSubject === "BIO" && (
-                                <span className="bg-purple-200 text-purple-900 text-[9px] px-1 py-0.2 rounded font-bold border border-purple-300 mb-0.5 inline-block">
-                                  4th OPT
-                                </span>
-                              )}
-                              <div className="font-bold text-slate-900">{bio.displayMark}</div>
-                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(bio.letterGrade)} mt-0.5 inline-block`}>
-                                {bio.letterGrade}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-slate-300">—</span>
-                          )}
-                        </td>
-
-                        {/* HMT (Separate Column with 4th OPT tag if applicable) */}
+                        {/* HMT (Optional Column with 4th OPT tag if applicable) */}
                         <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(hmt, r.optionalSubject === "HMT")}`}>
                           {hmt ? (
                             <div>
@@ -318,6 +285,44 @@ export default function ClassResultsMatrixPage() {
                               <div className="font-bold text-slate-900">{hmt.displayMark}</div>
                               <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(hmt.letterGrade)} mt-0.5 inline-block`}>
                                 {hmt.letterGrade}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-slate-300">—</span>
+                          )}
+                        </td>
+
+                        {/* AGR (Optional Column with 4th OPT tag if applicable) */}
+                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(agr, r.optionalSubject === "AGR")}`}>
+                          {agr ? (
+                            <div>
+                              {r.optionalSubject === "AGR" && (
+                                <span className="bg-purple-200 text-purple-900 text-[9px] px-1 py-0.2 rounded font-bold border border-purple-300 mb-0.5 inline-block">
+                                  4th OPT
+                                </span>
+                              )}
+                              <div className="font-bold text-slate-900">{agr.displayMark}</div>
+                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(agr.letterGrade)} mt-0.5 inline-block`}>
+                                {agr.letterGrade}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-slate-300">—</span>
+                          )}
+                        </td>
+
+                        {/* REL (Optional Column with 4th OPT tag if applicable) */}
+                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(rel, r.optionalSubject === "REL")}`}>
+                          {rel ? (
+                            <div>
+                              {r.optionalSubject === "REL" && (
+                                <span className="bg-purple-200 text-purple-900 text-[9px] px-1 py-0.2 rounded font-bold border border-purple-300 mb-0.5 inline-block">
+                                  4th OPT
+                                </span>
+                              )}
+                              <div className="font-bold text-slate-900">{rel.displayMark}</div>
+                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(rel.letterGrade)} mt-0.5 inline-block`}>
+                                {rel.letterGrade}
                               </span>
                             </div>
                           ) : (

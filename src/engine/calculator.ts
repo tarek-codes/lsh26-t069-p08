@@ -59,13 +59,13 @@ export function calculateStudentGPA(
   );
 
   const compulsoryGPsSum = compulsoryGPsSumDecimal.toNumber();
-  const compulsoryCount = compulsorySubjects.length; // 8
+  const compulsoryCount = 6.0; // 6 Compulsory Subjects: BAN, ENG, MAT, PHY, CHE, BIO
 
   // 4. Calculate Raw Uncapped GPA (R-13)
-  // Raw GPA = (Sum of Compulsory GPs + Optional Bonus) / compulsoryCount (8.0)
+  // Raw GPA = (Sum of 6 Compulsory GPs + Optional Bonus) / 6.0
   const rawGPADecimal = compulsoryGPsSumDecimal
     .plus(optionalBonusGP)
-    .dividedBy(compulsoryCount);
+    .dividedBy(6.0);
 
   const rawGPA = rawGPADecimal.toNumber();
 
