@@ -207,8 +207,8 @@ export default function DashboardOverviewPage() {
           />
         </div>
 
-        {/* ─── 3. Main Analytics Grid (Larger Prominent Cards & Charts) ─── */}
-        <div className="grid grid-cols-12 gap-3.5 h-[310px] flex-shrink-0">
+        {/* ─── 3. Main Analytics Grid (Taller Prominent Cards & Charts) ─── */}
+        <div className="grid grid-cols-12 gap-3.5 h-[345px] flex-shrink-0">
 
           {/* Left Panel: Grade Distribution Bar Chart (7 cols) */}
           <div className="col-span-7 bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs flex flex-col justify-between h-full min-h-0">
@@ -400,9 +400,9 @@ function KPICard({
   linkHref: string;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4.5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-colors">
+    <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs flex flex-col justify-between hover:border-slate-300 transition-colors">
       <div className="flex items-center justify-between">
-        <span className={`w-9 h-9 rounded-xl flex items-center justify-center ${iconBg}`}>
+        <span className={`w-7 h-7 rounded-lg flex items-center justify-center ${iconBg}`}>
           {icon}
         </span>
         <Link
@@ -410,14 +410,14 @@ function KPICard({
           className="inline-flex items-center gap-0.5 text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 hover:bg-blue-100 transition-colors"
         >
           <span>View</span>
-          <ArrowUpRight className="w-3 h-3" />
+          <ArrowUpRight className="w-2.5 h-2.5" />
         </Link>
       </div>
-      <div className="pt-3 space-y-0.5">
-        <div className={`text-4xl font-extrabold font-mono ${valueColor} leading-none tracking-tight`}>
+      <div className="pt-2 space-y-0.5">
+        <div className={`text-2xl font-extrabold font-mono ${valueColor} leading-none tracking-tight`}>
           {value}
         </div>
-        <div className="text-xs text-slate-800 font-bold truncate mt-1">{label}</div>
+        <div className="text-xs text-slate-800 font-bold truncate mt-0.5">{label}</div>
         <div className="text-[11px] text-slate-400 font-medium truncate">{sub}</div>
       </div>
     </div>
