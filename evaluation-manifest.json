@@ -20,7 +20,7 @@
     },
     "R-11": {
       "status": "complete",
-      "evidence": "src/engine/rules.ts:evaluateSubjectMark (Dual component check: Theory >= 25/75 AND Practical >= 8/25)"
+      "evidence": "src/engine/rules.ts:evaluateSubjectMark (Dual component pass constraint: Theory >= 25/75 AND Practical >= 8/25)"
     },
     "R-12": {
       "status": "complete",
@@ -46,11 +46,11 @@
       "status": "complete",
       "evidence": "src/engine/trace.ts & src/components/results/TraceDrawer.tsx (Per-student immutable step-by-step calculation audit trace)"
     },
-    "MARKS_IMPORT": {
+    "R-IMPORT": {
       "status": "complete",
       "evidence": "src/engine/marks-importer.ts & src/app/dashboard/import/page.tsx (CSV/TSV/JSON ingestion with exact row-by-row rejection diagnostics)"
     },
-    "CLASS_ANALYTICS": {
+    "R-ANALYTICS": {
       "status": "complete",
       "evidence": "src/app/api/v1/analytics/route.ts & src/app/dashboard/analytics/page.tsx (Pass rate, grade distribution, most failed subject analysis with root causes)"
     }
@@ -65,7 +65,10 @@
         "src/engine/rules.ts",
         "src/engine/marks-importer.ts",
         "src/app/dashboard/analytics/page.tsx",
-        "src/app/dashboard/import/page.tsx"
+        "src/app/dashboard/import/page.tsx",
+        "src/app/dashboard/checking-lists/page.tsx",
+        "src/app/dashboard/results/page.tsx",
+        "src/app/dashboard/marks-entry/page.tsx"
       ]
     }
   ],
