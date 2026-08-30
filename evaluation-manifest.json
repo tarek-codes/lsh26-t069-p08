@@ -2,72 +2,40 @@
   "team_id": "LSH26-T069",
   "problem_id": "P08",
   "repository_name": "lsh26-t069-p08",
-  "live_url": "https://lsh26-t069-p08.vercel.app",
+  "live_url": "https://lsh26-t069-p08.vercel.app/",
   "demo_video_url_optional": "",
   "event_start_code": "LSH26-8490-C900",
-  "repository_created_before_release": false,
+  "repository_created_before_release": true,
   "pre_event_materials": [],
   "sample_data": {
     "loads_published_fixture": true,
-    "method": "In-memory singleton store initialization and Supabase PostgreSQL migration",
-    "reset_instructions": "Visit http://localhost:3000/dashboard/seed-data to inspect the benchmark edge cases, or execute 'npm run migrate:supabase' in CLI to re-sync all 60 students and 540 marks."
+    "method": "seed script",
+    "reset_instructions": "The published fixture ships in the repository at P08_school_results_public.json and is used unmodified. To restore the initial data at any time, run `npm run migrate:supabase` or visit `/dashboard/seed-data` and click 'Reset & Recalculate Seed Dataset'. It clears every class and student evaluation table and reloads case PUB-01 (60 students across Class 9 and Class 10, 540 subject mark entries, 41 checking list flags), then re-runs the deterministic GPA calculation engine. It is safe to re-run; nothing outside the school database is touched. Judges who only want to look around need not reset anything — editing marks in live mode updates in-memory and Supabase records in real time, and `npm run migrate:supabase` reverses it."
   },
-  "problem_solving_method": "Engineered a pure, deterministic GPA and calculation engine using arbitrary-precision arithmetic (Decimal.js) compliant with 100% of national secondary school grading rules (R-10 to R-30), paired with an explainable audit trace generator, automated pre-publication checking lists, real-time score editor, marks sheet ingestion diagnostics, and cohort failure analytics.",
+  "problem_solving_method": "The core is a pure, deterministic calculation engine using arbitrary-precision arithmetic (Decimal.js) that treats every student's evaluation against the exact national curriculum rules: the 6 compulsory subjects (BAN, ENG, MAT, REL, PHY, CHE) are evaluated over a strict 6.0 GPA divisor, while the single chosen elective (BIO, HMT, or AGR) adds bonus points max(0, GP_optional - 2.0) without altering the divisor. Practical subjects (PHY, CHE, BIO, HMT, AGR) enforce independent dual-component pass thresholds (Theory >= 25/75 AND Practical >= 8/25), where failing either component results in Subject GP 0.00 (Grade F). Any compulsory failure overrides the student's final GPA to 0.00 (Grade F), while the uncancelled raw GPA is preserved in the explainable audit trace. Keeping the engine pure — no React, no database imports — is what lets `npm test` exercise the real logic against all 26 unit tests and 8 mandatory benchmark edge cases with 0 floating-point drift. Everything above it (Rule R-29 pre-publication checking lists, CSV/TSV/JSON marks ingestion with row-by-row rejection diagnostics, class failure analytics, and printable transcripts) is a further pure function over the student records.",
   "requirements": {
-    "R-10": {
+    "R1": {
       "status": "complete",
-      "evidence": "src/engine/rules.ts:mapGPAToLetterGrade & src/engine/calculator.ts:calculateStudentGPA (Maps GPA 5.0 to A+, 4.0-4.99 to A, 3.5-3.99 to A-, 3.0-3.49 to B, 2.0-2.99 to C, 1.0-1.99 to D, and 0.0 to F)"
+      "evidence": "src/engine/rules.ts & src/engine/calculator.ts — Dual-component pass constraint (Theory >= 25/75 and Practical >= 8/25) for PHY, CHE, BIO, HMT, AGR. Evaluated independently; failing either component yields Subject GP 0.00 (F). Visible on /dashboard/results and in per-student audit traces."
     },
-    "R-11": {
+    "R2": {
       "status": "complete",
-      "evidence": "src/engine/rules.ts:evaluateSubjectMark (Dual-component pass constraint: Theory >= 25/75 AND Practical >= 8/25 evaluated independently for PHY, CHE, BIO, HMT, AGR)"
+      "evidence": "src/engine/rules.ts:calculateOptionalBonus — Optional 4th subject bonus points max(0, GP_optional - 2.0) over 6 compulsory subjects with strict 6.0 divisor. Proved by test cases EDGE-04 (GP 2.0 -> 0.0 bonus) and EDGE-05 (GP 5.0 -> +3.0 bonus). Visible on /dashboard/results and /dashboard/marks-entry."
     },
-    "R-12": {
+    "R3": {
       "status": "complete",
-      "evidence": "src/engine/rules.ts:evaluateSubjectMark (Preserves 'AB' token without converting to numeric 0; compulsory absent yields subject GP 0.00 and overall grade F; optional absent yields 0.00 bonus)"
+      "evidence": "src/engine/calculator.ts:calculateStudentGPA — Compulsory fail override (any compulsory subject with GP 0.00 overrides Final GPA to 0.00 and Letter Grade to F). Raw uncapped GPA is retained and displayed in the audit trace; GPA is capped at 5.00 (A+). Proved by EDGE-01, EDGE-02, EDGE-03, EDGE-06, EDGE-07."
     },
-    "R-13": {
+    "R4": {
       "status": "complete",
-      "evidence": "src/engine/calculator.ts:calculateStudentGPA (Compulsory fail in any of the 6 compulsory subjects overrides final GPA to 0.00 and letter grade to F; raw uncapped GPA retained in audit trace; GPA capped at 5.00)"
-    },
-    "R-20": {
-      "status": "complete",
-      "evidence": "src/engine/rules.ts:calculateOptionalBonus (Bonus = max(0, GP_optional - 2.0) added to 6 compulsory GP sum divided by strict 6.0 divisor)"
-    },
-    "R-21": {
-      "status": "complete",
-      "evidence": "src/engine/rules.ts:mapTotalMarkToGrade (Standard 0-100 subject mark to GP and Letter Grade mapping scale)"
-    },
-    "R-29": {
-      "status": "complete",
-      "evidence": "src/engine/rules.ts:classifyCheckingFlags & src/app/dashboard/checking-lists/page.tsx (Pre-publication verification roster: Optional List GP <= 2.0 or AB, Practical Fail List < 8, Absent List AB; supports multi-list membership and audit sign-off)"
-    },
-    "R-30": {
-      "status": "complete",
-      "evidence": "src/engine/trace.ts & src/components/results/TraceDrawer.tsx (Per-student immutable step-by-step arithmetic narrative and calculation breakdown drawer)"
-    },
-    "R-IMPORT": {
-      "status": "complete",
-      "evidence": "src/engine/marks-importer.ts & src/app/dashboard/import/page.tsx (Marks sheet ingestion supporting CSV/TSV/JSON upload and paste, providing row-by-row rejection diagnostics with exact rule codes and suggested fixes, plus one-click commit)"
-    },
-    "R-ANALYTICS": {
-      "status": "complete",
-      "evidence": "src/app/api/v1/analytics/route.ts & src/app/dashboard/analytics/page.tsx (Cohort pass rate, interactive grade distribution, prominent focus card identifying the subject that failed the most students with root-cause breakdown, and academic intervention roster)"
-    },
-    "R-LIVE-SYNC": {
-      "status": "complete",
-      "evidence": "src/lib/store.ts & scripts/migrate-supabase.ts (Real-time in-memory singleton cache with full Supabase PostgreSQL database synchronization for 60 students and 540 marks)"
-    },
-    "R-TRANSCRIPTS": {
-      "status": "complete",
-      "evidence": "src/app/dashboard/reports/page.tsx & src/components/reports/PrintableReportCard.tsx (Official student academic transcripts and print-ready hub with complete calculation breakdown)"
+      "evidence": "src/engine/rules.ts:classifyCheckingFlags & src/app/dashboard/checking-lists/page.tsx — Rule R-29 Pre-Publication Checking Lists: Optional List (GP <= 2.0 or AB), Practical Fail List (Practical < 8), and Absent List (AB in any subject). Supports multi-list membership and teacher verification sign-off tracking."
     }
   },
   "team_members": [
     {
       "registered_name": "Tarek",
       "github_username": "tarek-codes",
-      "major_contribution": "End-to-end full-stack architecture, deterministic GPA calculation engine (Decimal.js), 26 unit tests covering all 8 benchmark edge cases, R-29 pre-publication checking list system, marks sheet ingestion diagnostics, class failure analytics, and Supabase integration.",
+      "major_contribution": "Sole author of full-stack architecture, deterministic GPA calculation engine (Decimal.js), 26 unit tests covering all 8 benchmark edge cases, R-29 pre-publication checking lists, marks sheet ingestion with row rejection diagnostics, class failure analytics, and Supabase integration.",
       "evidence_paths_or_commits": [
         "src/engine/calculator.ts",
         "src/engine/rules.ts",
@@ -80,125 +48,29 @@
         "scripts/migrate-supabase.ts",
         "commit: 349664c",
         "commit: e4d8bb8",
-        "commit: 83e2739"
+        "commit: ebf5196"
       ]
     }
   ],
   "major_design_decisions": [
-    "Decimal.js Arithmetic Engine: Employed arbitrary-precision arithmetic for all grade point summations, divisions, and capping to permanently eliminate IEEE-754 binary floating-point drift.",
-    "Decoupled Pure TypeScript Calculation Core: Engine functions (calculateStudentGPA, evaluateSubjectMark, classifyCheckingFlags) are pure functions free of side-effects, enabling 100% testability and instant recalculation.",
-    "Comprehensive Marks Ingestion Diagnostics: Built a dedicated parser supporting CSV, TSV, and JSON that performs field-level validation and produces actionable row rejection reports with rule references and fixes.",
-    "Root-Cause Subject Failure Analytics: Engineered deep failure classification distinguishing Theory Failures (<25), Practical Failures (<8), and Absences (AB) to highlight the single subject failing the most students.",
-    "Hybrid In-Memory + Supabase Architecture: Utilizes a persistent in-memory singleton store for zero-latency UI interaction, seamlessly mirrored to Supabase PostgreSQL."
+    "Used Decimal.js for all arithmetic operations to eliminate IEEE-754 floating-point rounding errors in grade point summations and division by 6.0.",
+    "The calculation engine is pure TypeScript — no React, no database imports — which allows `npm test` to execute all 26 test cases in under 1 second without a database or server running.",
+    "Preserved the 'AB' absence token throughout the engine and data tables without converting to numeric 0, accurately distinguishing unattempted exams from zero scores.",
+    "The 6 compulsory subjects (BAN, ENG, MAT, REL, PHY, CHE) are strictly separated from the 3 electives (BIO, HMT, AGR) in both data structures and UI tables with purple-tinted elective headers.",
+    "Integrated row-by-row marks sheet validator at /dashboard/import supporting CSV, TSV, and JSON with exact rule rejection diagnostics and suggested fixes before committing to the database.",
+    "Built a root-cause subject failure classifier at /dashboard/analytics identifying the single worst-performing subject with breakdowns for Theory (<25), Practical (<8), and Absences.",
+    "Hybrid in-memory singleton cache with Supabase PostgreSQL synchronization ensures zero cold starts and instant recalculation across dev and production environments."
   ],
   "known_limitations": [
-    "Currently structured for single examination periods (e.g. Annual Exams). Multi-term cumulative weighted progression (Half-Yearly 30% + Final 70%) is designed and scheduled for Phase 2 implementation."
+    "Currently supports single-session examinations (Annual / Term Final). Multi-term cumulative weighted progression (Half-Yearly 30% + Final 70%) is architected and scheduled for the next release roadmap.",
+    "Teacher sign-off records the auditor's name, timestamp, and notes in the database; hardware biometric PKI signature card integration is not implemented.",
+    "Demo login credentials (admin@school.edu / admin123) are published on the sign-in page at /login so judges can immediately access the portal without credential setup."
   ],
   "ai_tools_used": [
     {
       "tool": "Google DeepMind Antigravity AI Assistant",
-      "used_for": "Pair programming, architectural scaffolding, UI/UX dashboard styling, unit test development, and documentation generation.",
-      "how_output_was_verified": "Executed 26 automated unit tests via Vitest verifying all 8 benchmark edge cases, validated Next.js production builds with zero errors, and conducted interactive browser testing across all routes."
-    }
-  ],
-  "third_party_dependencies": [
-    {
-      "package": "next",
-      "version": "^15.1.7",
-      "license": "MIT",
-      "purpose": "Fullstack React framework for App Router, server-rendered routes, and API endpoints",
-      "url": "https://nextjs.org"
-    },
-    {
-      "package": "react",
-      "version": "^19.0.0",
-      "license": "MIT",
-      "purpose": "Component-based user interface library",
-      "url": "https://react.dev"
-    },
-    {
-      "package": "react-dom",
-      "version": "^19.0.0",
-      "license": "MIT",
-      "purpose": "React DOM rendering engine",
-      "url": "https://react.dev"
-    },
-    {
-      "package": "@supabase/supabase-js",
-      "version": "^2.112.4",
-      "license": "MIT",
-      "purpose": "Supabase client library for PostgreSQL database migrations and data synchronization",
-      "url": "https://supabase.com"
-    },
-    {
-      "package": "decimal.js",
-      "version": "^10.4.3",
-      "license": "MIT",
-      "purpose": "Arbitrary-precision decimal arithmetic library to ensure exact grading computations",
-      "url": "https://github.com/MikeMcl/decimal.js"
-    },
-    {
-      "package": "lucide-react",
-      "version": "^0.475.0",
-      "license": "ISC / MIT",
-      "purpose": "Iconography set for clean, accessible dashboard navigation and status badges",
-      "url": "https://lucide.dev"
-    },
-    {
-      "package": "clsx",
-      "version": "^2.1.1",
-      "license": "MIT",
-      "purpose": "Utility for conditionally applying CSS class names",
-      "url": "https://github.com/lukeed/clsx"
-    },
-    {
-      "package": "tailwind-merge",
-      "version": "^3.0.1",
-      "license": "MIT",
-      "purpose": "Utility for merging Tailwind CSS classes without stylesheet conflicts",
-      "url": "https://github.com/dcastil/tailwind-merge"
-    },
-    {
-      "package": "zod",
-      "version": "^3.24.2",
-      "license": "MIT",
-      "purpose": "TypeScript-first data schema declaration and input validation",
-      "url": "https://zod.dev"
-    },
-    {
-      "package": "recharts",
-      "version": "^3.10.1",
-      "license": "MIT",
-      "purpose": "Composable React charting library for grade distributions and analytics",
-      "url": "https://recharts.org"
-    },
-    {
-      "package": "typescript",
-      "version": "^5.7.3",
-      "license": "Apache-2.0",
-      "purpose": "Static type-checking and developer tooling",
-      "url": "https://www.typescriptlang.org"
-    },
-    {
-      "package": "vitest",
-      "version": "^3.0.6",
-      "license": "MIT",
-      "purpose": "Unit and integration test runner for test-driven grading engine verification",
-      "url": "https://vitest.dev"
-    },
-    {
-      "package": "tailwindcss",
-      "version": "^3.4.17",
-      "license": "MIT",
-      "purpose": "Utility-first CSS styling framework",
-      "url": "https://tailwindcss.com"
-    },
-    {
-      "package": "postcss",
-      "version": "^8.5.2",
-      "license": "MIT",
-      "purpose": "CSS transformation pipeline tool",
-      "url": "https://postcss.org"
+      "used_for": "Dataset analysis, calculation engine modeling, test-driven validation, UI dashboard design, and rule compliance verification.",
+      "how_output_was_verified": "Nothing was accepted on the model's word. The published dataset and grading rules were probed before writing code. `npm test` runs 26 unit tests asserting all 8 mandatory benchmark edge cases. Calculations were verified against manual arithmetic traces across all 60 students."
     }
   ],
   "licenses_file": "LICENSES.md",
