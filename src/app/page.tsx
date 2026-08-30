@@ -92,26 +92,6 @@ export default function LandingPage() {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
-
-        {/* Quick Highlights Counter */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-10">
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-blue-400">100%</div>
-            <div className="text-xs text-slate-400 mt-0.5">Deterministic Rules</div>
-          </div>
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400">6.0</div>
-            <div className="text-xs text-slate-400 mt-0.5">Fixed Divisor</div>
-          </div>
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-purple-400">R-29</div>
-            <div className="text-xs text-slate-400 mt-0.5">Checking Lists</div>
-          </div>
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md">
-            <div className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-400">0.00</div>
-            <div className="text-xs text-slate-400 mt-0.5">Float Drift (Decimal.js)</div>
-          </div>
-        </div>
       </section>
 
       {/* Feature Grid Section */}
