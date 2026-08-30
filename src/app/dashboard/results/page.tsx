@@ -194,9 +194,8 @@ export default function ClassResultsMatrixPage() {
                     return (
                       <tr
                         key={r.studentId}
-                        className={`hover:bg-blue-50/40 transition-colors ${
-                          !r.isPassed ? "bg-red-50/20" : ""
-                        }`}
+                        style={!r.isPassed ? { backgroundColor: "rgba(220,38,38,0.07)" } : undefined}
+                        className="hover:bg-[var(--bg-subtle)] transition-colors"
                       >
                         {/* Roll */}
                         <td className="py-2.5 px-3 border-r border-slate-100 text-center font-bold text-slate-700">
@@ -214,129 +213,129 @@ export default function ClassResultsMatrixPage() {
                         </td>
 
                         {/* BAN */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(ban)}`}>
-                          <div className="font-bold text-slate-900">{ban?.displayMark || "—"}</div>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(ban)}>
+                          <div className="font-bold" style={{ color: "var(--fg)" }}>{ban?.displayMark || "—"}</div>
                           {ban && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(ban?.letterGrade)}`}>
+                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(ban?.letterGrade)}>
                               {ban.letterGrade}
                             </span>
                           )}
                         </td>
 
                         {/* ENG */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(eng)}`}>
-                          <div className="font-bold text-slate-900">{eng?.displayMark || "—"}</div>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(eng)}>
+                          <div className="font-bold" style={{ color: "var(--fg)" }}>{eng?.displayMark || "—"}</div>
                           {eng && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(eng?.letterGrade)}`}>
+                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(eng?.letterGrade)}>
                               {eng.letterGrade}
                             </span>
                           )}
                         </td>
 
                         {/* MAT */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(mat)}`}>
-                          <div className="font-bold text-slate-900">{mat?.displayMark || "—"}</div>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(mat)}>
+                          <div className="font-bold" style={{ color: "var(--fg)" }}>{mat?.displayMark || "—"}</div>
                           {mat && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(mat?.letterGrade)}`}>
+                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(mat?.letterGrade)}>
                               {mat.letterGrade}
                             </span>
                           )}
                         </td>
 
                         {/* REL (Compulsory) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(rel)}`}>
-                          <div className="font-bold text-slate-900">{rel?.displayMark || "—"}</div>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(rel)}>
+                          <div className="font-bold" style={{ color: "var(--fg)" }}>{rel?.displayMark || "—"}</div>
                           {rel && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(rel?.letterGrade)}`}>
+                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(rel?.letterGrade)}>
                               {rel.letterGrade}
                             </span>
                           )}
                         </td>
 
                         {/* PHY (Compulsory) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(phy)}`}>
-                          <div className="font-bold text-slate-900">{phy?.displayMark || "—"}</div>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(phy)}>
+                          <div className="font-bold" style={{ color: "var(--fg)" }}>{phy?.displayMark || "—"}</div>
                           {phy && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(phy?.letterGrade)}`}>
+                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(phy?.letterGrade)}>
                               {phy.letterGrade}
                             </span>
                           )}
                         </td>
 
                         {/* CHE (Compulsory) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(che)}`}>
-                          <div className="font-bold text-slate-900">{che?.displayMark || "—"}</div>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(che)}>
+                          <div className="font-bold" style={{ color: "var(--fg)" }}>{che?.displayMark || "—"}</div>
                           {che && (
-                            <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(che?.letterGrade)}`}>
+                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(che?.letterGrade)}>
                               {che.letterGrade}
                             </span>
                           )}
                         </td>
 
                         {/* BIO (Optional Column with 4th OPT tag if applicable) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(bio, r.optionalSubject === "BIO")}`}>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(bio, r.optionalSubject === "BIO")}>
                           {bio ? (
                             <div>
                               {r.optionalSubject === "BIO" && (
-                                <span className="bg-purple-200 text-purple-900 text-[9px] px-1 py-0.2 rounded font-bold border border-purple-300 mb-0.5 inline-block">
+                                <span style={{ backgroundColor: "rgba(124,58,237,0.15)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.3)" }} className="text-[9px] px-1 py-0.5 rounded font-bold border mb-0.5 inline-block">
                                   4th OPT
                                 </span>
                               )}
-                              <div className="font-bold text-slate-900">{bio.displayMark}</div>
-                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(bio.letterGrade)} mt-0.5 inline-block`}>
+                              <div className="font-bold" style={{ color: "var(--fg)" }}>{bio.displayMark}</div>
+                              <span className="text-[10px] font-bold px-1 rounded mt-0.5 inline-block" style={getGradeColorStyle(bio.letterGrade)}>
                                 {bio.letterGrade}
                               </span>
                             </div>
                           ) : (
-                            <span className="text-slate-300">—</span>
+                            <span style={{ color: "var(--fg-subtle)" }}>—</span>
                           )}
                         </td>
 
                         {/* HMT (Optional Column with 4th OPT tag if applicable) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(hmt, r.optionalSubject === "HMT")}`}>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(hmt, r.optionalSubject === "HMT")}>
                           {hmt ? (
                             <div>
                               {r.optionalSubject === "HMT" && (
-                                <span className="bg-purple-200 text-purple-900 text-[9px] px-1 py-0.2 rounded font-bold border border-purple-300 mb-0.5 inline-block">
+                                <span style={{ backgroundColor: "rgba(124,58,237,0.15)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.3)" }} className="text-[9px] px-1 py-0.5 rounded font-bold border mb-0.5 inline-block">
                                   4th OPT
                                 </span>
                               )}
-                              <div className="font-bold text-slate-900">{hmt.displayMark}</div>
-                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(hmt.letterGrade)} mt-0.5 inline-block`}>
+                              <div className="font-bold" style={{ color: "var(--fg)" }}>{hmt.displayMark}</div>
+                              <span className="text-[10px] font-bold px-1 rounded mt-0.5 inline-block" style={getGradeColorStyle(hmt.letterGrade)}>
                                 {hmt.letterGrade}
                               </span>
                             </div>
                           ) : (
-                            <span className="text-slate-300">—</span>
+                            <span style={{ color: "var(--fg-subtle)" }}>—</span>
                           )}
                         </td>
 
                         {/* AGR (Optional Column with 4th OPT tag if applicable) */}
-                        <td className={`py-2 px-2 border-r border-slate-100 text-center ${getCellBg(agr, r.optionalSubject === "AGR")}`}>
+                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(agr, r.optionalSubject === "AGR")}>
                           {agr ? (
                             <div>
                               {r.optionalSubject === "AGR" && (
-                                <span className="bg-purple-200 text-purple-900 text-[9px] px-1 py-0.2 rounded font-bold border border-purple-300 mb-0.5 inline-block">
+                                <span style={{ backgroundColor: "rgba(124,58,237,0.15)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.3)" }} className="text-[9px] px-1 py-0.5 rounded font-bold border mb-0.5 inline-block">
                                   4th OPT
                                 </span>
                               )}
-                              <div className="font-bold text-slate-900">{agr.displayMark}</div>
-                              <span className={`text-[10px] font-bold px-1 rounded ${getGradeColor(agr.letterGrade)} mt-0.5 inline-block`}>
+                              <div className="font-bold" style={{ color: "var(--fg)" }}>{agr.displayMark}</div>
+                              <span className="text-[10px] font-bold px-1 rounded mt-0.5 inline-block" style={getGradeColorStyle(agr.letterGrade)}>
                                 {agr.letterGrade}
                               </span>
                             </div>
                           ) : (
-                            <span className="text-slate-300">—</span>
+                            <span style={{ color: "var(--fg-subtle)" }}>—</span>
                           )}
                         </td>
 
                         {/* Raw GPA */}
-                        <td className="py-2.5 px-2 border-r border-slate-100 text-center text-slate-500 text-[11px]">
+                        <td className="py-2.5 px-2 border-r border-slate-100 text-center text-[11px]" style={{ color: "var(--fg-muted)" }}>
                           {r.rawGPA.toFixed(2)}
                         </td>
 
                         {/* Final GPA */}
-                        <td className="py-2.5 px-3 border-r border-slate-100 text-center font-bold text-sm text-slate-900">
+                        <td className="py-2.5 px-3 border-r border-slate-100 text-center font-bold text-sm" style={{ color: "var(--fg)" }}>
                           {r.finalGPA.toFixed(2)}
                         </td>
 
@@ -438,32 +437,38 @@ export default function ClassResultsMatrixPage() {
   );
 }
 
+// Cell background — returns inline style for theme-neutral coloring
+function getCellStyle(sub: any, isOptional = false): React.CSSProperties {
+  if (!sub) {
+    return isOptional
+      ? { backgroundColor: "rgba(124,58,237,0.07)", borderLeft: "1px solid rgba(124,58,237,0.2)", borderRight: "1px solid rgba(124,58,237,0.2)" }
+      : {};
+  }
+  if (sub.isAbsent) return { backgroundColor: "rgba(100,116,139,0.2)" };
+  if (!sub.isPassed) return { backgroundColor: "rgba(220,38,38,0.12)" };
+  if (isOptional) return { backgroundColor: "rgba(124,58,237,0.07)", borderLeft: "1px solid rgba(124,58,237,0.2)", borderRight: "1px solid rgba(124,58,237,0.2)" };
+  return {};
+}
+
+// Keep old function for backward compat — returns empty to let cells just inherit
 function getCellBg(sub: any, isOptional = false): string {
-  if (!sub) return isOptional ? "bg-purple-50/70 font-semibold text-purple-900" : "";
-  if (sub.isAbsent) return "bg-slate-200 text-slate-800 font-bold";
-  if (!sub.isPassed) return "bg-red-100 text-red-800 font-bold";
-  if (isOptional) return "bg-purple-50/80 font-semibold text-purple-950 border-l border-r border-purple-100";
   return "";
 }
 
-function getGradeColor(grade?: string): string {
+function getGradeColorStyle(grade?: string): React.CSSProperties {
   switch (grade) {
-    case "A+":
-      return "bg-emerald-100 text-emerald-800 border border-emerald-300";
-    case "A":
-      return "bg-emerald-50 text-emerald-700 border border-emerald-200";
-    case "A-":
-      return "bg-teal-50 text-teal-700 border border-teal-200";
-    case "B":
-      return "bg-blue-50 text-blue-700 border border-blue-200";
-    case "C":
-      return "bg-amber-50 text-amber-700 border border-amber-200";
-    case "D":
-      return "bg-orange-50 text-orange-700 border border-orange-200";
-    case "F":
-      return "bg-red-100 text-red-700 border border-red-300";
-    default:
-      return "text-slate-500";
+    case "A+": return { backgroundColor: "rgba(5,150,105,0.12)", color: "#059669", border: "1px solid rgba(5,150,105,0.3)" };
+    case "A":  return { backgroundColor: "rgba(16,185,129,0.10)", color: "#10b981", border: "1px solid rgba(16,185,129,0.25)" };
+    case "A-": return { backgroundColor: "rgba(13,148,136,0.10)", color: "#0d9488", border: "1px solid rgba(13,148,136,0.25)" };
+    case "B":  return { backgroundColor: "rgba(37,99,235,0.10)", color: "#3b82f6", border: "1px solid rgba(37,99,235,0.25)" };
+    case "C":  return { backgroundColor: "rgba(217,119,6,0.10)", color: "#d97706", border: "1px solid rgba(217,119,6,0.25)" };
+    case "D":  return { backgroundColor: "rgba(234,88,12,0.10)", color: "#ea580c", border: "1px solid rgba(234,88,12,0.25)" };
+    case "F":  return { backgroundColor: "rgba(220,38,38,0.12)", color: "#ef4444", border: "1px solid rgba(220,38,38,0.3)" };
+    default:   return { color: "var(--fg-subtle)" };
   }
+}
+
+function getGradeColor(grade?: string): string {
+  return ""; // Kept for backward compat — use getGradeColorStyle instead
 }
 

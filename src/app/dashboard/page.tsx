@@ -13,6 +13,7 @@ import {
   ArrowUpRight,
   BarChart3,
   PieChart,
+  School,
 } from "lucide-react";
 import {
   BarChart,
@@ -121,8 +122,8 @@ export default function DashboardOverviewPage() {
         {/* ─── 1. Header Row ─── */}
         <div className="bg-white border border-slate-200 rounded-xl px-5 py-2.5 flex items-center justify-between shadow-xs flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              SR
+            <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs flex-shrink-0">
+              <School className="w-5 h-5" />
             </div>
             <div>
               <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-snug">

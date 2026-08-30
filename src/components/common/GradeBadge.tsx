@@ -8,30 +8,35 @@ interface GradeBadgeProps {
 }
 
 export function GradeBadge({ grade, size = "md", className = "" }: GradeBadgeProps) {
-  let styleClasses = "bg-slate-100 text-slate-700 border-slate-300";
+  // Use inline styles for dark-mode compatibility via CSS tokens
+  let styleProps: React.CSSProperties = {};
+  let extraClass = "";
 
   switch (grade) {
     case "A+":
-      styleClasses = "bg-emerald-50 text-emerald-700 border-emerald-300";
+      styleProps = { backgroundColor: "rgba(5,150,105,0.12)", color: "#059669", borderColor: "rgba(5,150,105,0.35)" };
       break;
     case "A":
-      styleClasses = "bg-emerald-50/80 text-emerald-600 border-emerald-200";
+      styleProps = { backgroundColor: "rgba(16,185,129,0.10)", color: "#10b981", borderColor: "rgba(16,185,129,0.30)" };
       break;
     case "A-":
-      styleClasses = "bg-teal-50 text-teal-700 border-teal-200";
+      styleProps = { backgroundColor: "rgba(13,148,136,0.10)", color: "#0d9488", borderColor: "rgba(13,148,136,0.30)" };
       break;
     case "B":
-      styleClasses = "bg-blue-50 text-blue-700 border-blue-200";
+      styleProps = { backgroundColor: "rgba(37,99,235,0.10)", color: "#2563eb", borderColor: "rgba(37,99,235,0.30)" };
       break;
     case "C":
-      styleClasses = "bg-amber-50 text-amber-700 border-amber-200";
+      styleProps = { backgroundColor: "rgba(217,119,6,0.10)", color: "#d97706", borderColor: "rgba(217,119,6,0.30)" };
       break;
     case "D":
-      styleClasses = "bg-orange-50 text-orange-700 border-orange-200";
+      styleProps = { backgroundColor: "rgba(234,88,12,0.10)", color: "#ea580c", borderColor: "rgba(234,88,12,0.30)" };
       break;
     case "F":
-      styleClasses = "bg-red-50 text-red-700 border-red-300 font-bold";
+      styleProps = { backgroundColor: "rgba(220,38,38,0.12)", color: "#dc2626", borderColor: "rgba(220,38,38,0.35)" };
+      extraClass = "font-bold";
       break;
+    default:
+      styleProps = { backgroundColor: "var(--bg-subtle)", color: "var(--fg-muted)", borderColor: "var(--border)" };
   }
 
   const sizeClasses =
@@ -43,7 +48,8 @@ export function GradeBadge({ grade, size = "md", className = "" }: GradeBadgePro
 
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-md border font-mono ${styleClasses} ${sizeClasses} ${className}`}
+      className={`inline-flex items-center justify-center rounded-md border font-mono ${sizeClasses} ${extraClass} ${className}`}
+      style={styleProps}
     >
       {grade}
     </span>
