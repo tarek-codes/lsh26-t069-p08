@@ -201,39 +201,39 @@ export default function LandingPage() {
             >
               <div className="space-y-1">
                 <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
-                  Calculation Precision
+                  Zero Calculation Errors
                 </p>
                 <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
-                  100% Exact
+                  100% Accuracy
                 </p>
-                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Decimal.js Arbitrary-Precision</p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Automated Precision Tabulation</p>
               </div>
               <div className="space-y-1">
                 <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
-                  Divisor Standard
+                  Institutional Standard
                 </p>
                 <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
-                  6.0 Fixed
+                  Fully Compliant
                 </p>
-                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>National Curriculum Standard</p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Built-in Curriculum Guidelines</p>
               </div>
               <div className="space-y-1">
                 <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
-                  Audit Rosters
+                  Publication Safety
                 </p>
                 <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
-                  3 Checking Lists
+                  Audit Ready
                 </p>
-                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Optional, Practical &amp; Absent</p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Pre-Publication Risk Filters</p>
               </div>
               <div className="space-y-1">
                 <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
-                  Validation Rules
+                  Processing Speed
                 </p>
                 <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
-                  Automated
+                  Instant Results
                 </p>
-                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Dual-component passing criteria</p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Real-Time Batch Verification</p>
               </div>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function LandingPage() {
               Platform Modules
             </p>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: "var(--fg)" }}>
-              Complete Examination Life-Cycle
+              All features
             </h2>
             <p className="text-sm" style={{ color: "var(--fg-muted)" }}>
               Integrated tools for head examiners, teachers, and school administrators.
