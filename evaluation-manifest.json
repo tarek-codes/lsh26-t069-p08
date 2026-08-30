@@ -2,15 +2,15 @@
   "team_id": "LSH26-T069",
   "problem_id": "P08",
   "repository_name": "lsh26-t069-p08",
-  "live_url": "https://lsh26-t069-p08.vercel.app/",
+  "live_url": "https://lsh26-t069-p08-git-main-tarekalambhuiyan-bracuacbds-projects.vercel.app/dashboard",
   "demo_video_url_optional": "",
   "event_start_code": "LSH26-8490-C900",
-  "repository_created_before_release": true,
+  "repository_created_before_release": false,
   "pre_event_materials": [],
   "sample_data": {
     "loads_published_fixture": true,
     "method": "seed script",
-    "reset_instructions": "The published fixture ships in the repository at P08_school_results_public.json and is used unmodified. To restore the initial data at any time, run `npm run migrate:supabase` or visit `/dashboard/seed-data` and click 'Reset & Recalculate Seed Dataset'. It clears every class and student evaluation table and reloads case PUB-01 (60 students across Class 9 and Class 10, 540 subject mark entries, 41 checking list flags), then re-runs the deterministic GPA calculation engine. It is safe to re-run; nothing outside the school database is touched. Judges who only want to look around need not reset anything — editing marks in live mode updates in-memory and Supabase records in real time, and `npm run migrate:supabase` reverses it."
+    "reset_instructions": "The published fixture ships in the repository at P08_school_results_public.json and src/data/seed-students.json and is used unmodified. To restore the initial data at any time, run `npm run migrate:supabase` or visit `/dashboard/seed-data` and click 'Reset & Recalculate Seed Dataset'. It clears every class and student evaluation table and reloads case PUB-01 (60 students across Class 9 and Class 10, 540 subject mark entries, 41 checking list flags), then re-runs the deterministic GPA calculation engine. It is safe to re-run; nothing outside the school database is touched. Judges who only want to look around need not reset anything — editing marks in live mode updates in-memory and Supabase records in real time, and `npm run migrate:supabase` reverses it."
   },
   "problem_solving_method": "The core is a pure, deterministic calculation engine using arbitrary-precision arithmetic (Decimal.js) that treats every student's evaluation against the exact national curriculum rules: the 6 compulsory subjects (BAN, ENG, MAT, REL, PHY, CHE) are evaluated over a strict 6.0 GPA divisor, while the single chosen elective (BIO, HMT, or AGR) adds bonus points max(0, GP_optional - 2.0) without altering the divisor. Practical subjects (PHY, CHE, BIO, HMT, AGR) enforce independent dual-component pass thresholds (Theory >= 25/75 AND Practical >= 8/25), where failing either component results in Subject GP 0.00 (Grade F). Any compulsory failure overrides the student's final GPA to 0.00 (Grade F), while the uncancelled raw GPA is preserved in the explainable audit trace. Keeping the engine pure — no React, no database imports — is what lets `npm test` exercise the real logic against all 26 unit tests and 8 mandatory benchmark edge cases with 0 floating-point drift. Everything above it (Rule R-29 pre-publication checking lists, CSV/TSV/JSON marks ingestion with row-by-row rejection diagnostics, class failure analytics, and printable transcripts) is a further pure function over the student records.",
   "requirements": {
@@ -33,7 +33,7 @@
   },
   "team_members": [
     {
-      "registered_name": "Tarek",
+      "registered_name": "Tarek Alam Bhuiyan",
       "github_username": "tarek-codes",
       "major_contribution": "Sole author of full-stack architecture, deterministic GPA calculation engine (Decimal.js), 26 unit tests covering all 8 benchmark edge cases, R-29 pre-publication checking lists, marks sheet ingestion with row rejection diagnostics, class failure analytics, and Supabase integration.",
       "evidence_paths_or_commits": [
@@ -46,9 +46,9 @@
         "src/app/dashboard/results/page.tsx",
         "src/app/dashboard/marks-entry/page.tsx",
         "scripts/migrate-supabase.ts",
-        "commit: 349664c",
-        "commit: e4d8bb8",
-        "commit: ebf5196"
+        "349664c",
+        "e4d8bb8",
+        "ebf5196"
       ]
     }
   ],
