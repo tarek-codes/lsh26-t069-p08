@@ -126,7 +126,7 @@ export default function DashboardOverviewPage() {
             </div>
             <div>
               <h1 className="text-sm font-bold text-slate-900 tracking-tight leading-snug">
-                Academic Result &amp; GPA Engine
+                School Result Processing and GPA Engine
               </h1>
               <p className="text-[11px] text-slate-500 flex items-center gap-2">
                 <Calendar className="w-3 h-3 text-slate-400" />
