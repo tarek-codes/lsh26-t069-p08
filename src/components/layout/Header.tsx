@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 interface HeaderProps {
   title: string;
@@ -25,6 +26,7 @@ export function Header({
       </div>
 
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         {/* Class Cohort Switcher */}
         {onClassChange && (
           <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
