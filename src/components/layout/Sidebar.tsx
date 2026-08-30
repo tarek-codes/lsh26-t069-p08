@@ -14,6 +14,7 @@ import {
   GraduationCap,
   LogOut,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -100,85 +101,139 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col flex-shrink-0 h-screen sticky top-0 no-print select-none shadow-[2px_0_8px_rgba(0,0,0,0.02)]">
-      {/* Brand Logo Header */}
-      <div className="px-6 py-5 flex items-center gap-3 border-b border-slate-100">
-        <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20">
+    <aside
+      style={{
+        backgroundColor: "var(--surface)",
+        borderRight: "1px solid var(--border)",
+      }}
+      className="w-64 flex flex-col flex-shrink-0 h-screen sticky top-0 no-print select-none"
+    >
+      {/* Brand */}
+      <div
+        style={{ borderBottom: "1px solid var(--border)" }}
+        className="px-5 py-4 flex items-center gap-3"
+      >
+        <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white shadow-sm flex-shrink-0">
           <GraduationCap className="w-5 h-5" />
         </div>
         <div>
-          <span className="font-bold text-base tracking-tight text-slate-900 flex items-center">
-            School<span className="text-blue-600">Engine</span>
-          </span>
-          <p className="text-[10px] text-slate-400 font-medium">Result &amp; GPA System</p>
+          <p className="font-bold text-sm tracking-tight leading-none" style={{ color: "var(--fg)" }}>
+            School<span style={{ color: "var(--accent)" }}>Engine</span>
+          </p>
+          <p className="text-[10px] mt-0.5 font-medium" style={{ color: "var(--fg-subtle)" }}>
+            Result &amp; GPA System
+          </p>
         </div>
       </div>
 
-      {/* Navigation Groups */}
-      <div className="flex-1 px-4 py-5 space-y-6 overflow-y-auto">
-        {/* Menu Section */}
-        <div className="space-y-1">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2">
-            NAVIGATION
-          </div>
+      {/* Nav Items */}
+      <div className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        <p
+          className="text-[10px] font-bold uppercase tracking-widest px-3 mb-3"
+          style={{ color: "var(--fg-subtle)" }}
+        >
+          Navigation
+        </p>
 
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 ${
-                  item.active
-                    ? "bg-blue-50/90 text-blue-700 shadow-xs"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Icon
-                    className={`w-4 h-4 transition-colors ${
-                      item.active ? "text-blue-600" : "text-slate-400"
-                    }`}
-                  />
-                  <span>{item.name}</span>
-                </div>
-
-                {item.badge !== undefined && (
-                  <span
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${
-                      item.active
-                        ? "bg-blue-600 text-white"
-                        : "bg-slate-100 text-slate-600 border border-slate-200"
-                    }`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
-
-          {/* Dedicated Red Sign Out Button */}
-          <div className="pt-2 border-t border-slate-100 mt-2">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          return (
             <Link
-              href="/login"
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-red-600 bg-red-50/70 hover:bg-red-600 hover:text-white border border-red-200/80 transition-all duration-150 shadow-xs group"
+              key={item.name}
+              href={item.href}
+              style={
+                item.active
+                  ? {
+                      backgroundColor: "var(--accent-subtle)",
+                      color: "var(--accent)",
+                      border: "1px solid var(--accent-border)",
+                    }
+                  : {
+                      color: "var(--fg-muted)",
+                      border: "1px solid transparent",
+                    }
+              }
+              className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all hover:bg-[var(--bg-subtle)] hover:text-[var(--fg)]"
             >
-              <LogOut className="w-4 h-4 text-red-500 group-hover:text-white transition-colors" />
-              <span>Sign Out</span>
+              <div className="flex items-center gap-3">
+                <Icon
+                  className="w-4 h-4"
+                  style={{ color: item.active ? "var(--accent)" : "var(--fg-subtle)" }}
+                />
+                {item.name}
+              </div>
+              {item.badge !== undefined && (
+                <span
+                  style={
+                    item.active
+                      ? { backgroundColor: "var(--accent)", color: "white" }
+                      : {
+                          backgroundColor: "var(--bg-subtle)",
+                          color: "var(--fg-muted)",
+                          border: "1px solid var(--border)",
+                        }
+                  }
+                  className="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold"
+                >
+                  {item.badge}
+                </span>
+              )}
             </Link>
-          </div>
-        </div>
+          );
+        })}
       </div>
 
-      {/* User Info Footer */}
-      <div className="p-3.5 border-t border-slate-100 bg-slate-50/50 flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-xs">
-          SA
+      {/* Bottom: theme toggle + sign out + user info */}
+      <div style={{ borderTop: "1px solid var(--border)" }} className="p-3 space-y-2">
+        {/* Theme toggle row */}
+        <div className="flex items-center justify-between px-2 py-1">
+          <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
+            Appearance
+          </span>
+          <ThemeToggle />
         </div>
-        <div className="truncate">
-          <div className="font-semibold text-xs text-slate-900 leading-tight">System Admin</div>
-          <div className="text-[10px] text-slate-500 truncate">Exam Controller Portal</div>
+
+        {/* Sign Out */}
+        <Link
+          href="/login"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all group"
+          style={{
+            color: "#dc2626",
+            backgroundColor: "#fef2f2",
+            border: "1px solid #fecaca",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.backgroundColor = "#dc2626";
+            (e.currentTarget as HTMLElement).style.color = "white";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.backgroundColor = "#fef2f2";
+            (e.currentTarget as HTMLElement).style.color = "#dc2626";
+          }}
+        >
+          <LogOut className="w-4 h-4" />
+          Sign Out
+        </Link>
+
+        {/* User info */}
+        <div
+          style={{
+            backgroundColor: "var(--bg-subtle)",
+            border: "1px solid var(--border)",
+          }}
+          className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
+        >
+          <div className="w-7 h-7 rounded-full bg-[var(--accent)] text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">
+            SA
+          </div>
+          <div className="truncate">
+            <p className="text-xs font-semibold leading-tight truncate" style={{ color: "var(--fg)" }}>
+              System Admin
+            </p>
+            <p className="text-[10px] truncate" style={{ color: "var(--fg-subtle)" }}>
+              Exam Controller Portal
+            </p>
+          </div>
         </div>
       </div>
     </aside>

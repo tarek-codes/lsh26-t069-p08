@@ -1,51 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================ */
+/* DESIGN TOKENS — Light mode defaults, dark mode overrides     */
+/* ============================================================ */
 @layer base {
   :root {
-    /* Core Flat Theme (Zero Gradients) */
-    --color-primary: #2563eb;
-    --color-primary-hover: #1d4ed8;
-    --color-secondary: #475569;
-    --color-background: #f8fafc;
-    --color-foreground: #0f172a;
-    --color-card: #ffffff;
-    --color-card-foreground: #0f172a;
-    --color-muted: #f1f5f9;
-    --color-muted-foreground: #64748b;
-    --color-border: #e2e8f0;
-    --color-ring: #2563eb;
+    --bg:           #f8fafc;
+    --bg-subtle:    #f1f5f9;
+    --surface:      #ffffff;
+    --surface-alt:  #f8fafc;
+    --border:       #e2e8f0;
+    --border-strong:#cbd5e1;
+    --fg:           #0f172a;
+    --fg-muted:     #64748b;
+    --fg-subtle:    #94a3b8;
+    --accent:       #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-fg:    #ffffff;
+    --accent-subtle:#eff6ff;
+    --accent-border:#bfdbfe;
+    --ring:         #2563eb;
 
-    /* Radius System */
+    --grade-aplus: #059669;
+    --grade-a:     #10b981;
+    --grade-aminus:#0d9488;
+    --grade-b:     #2563eb;
+    --grade-c:     #d97706;
+    --grade-d:     #ea580c;
+    --grade-f:     #dc2626;
+
     --radius-sm: 6px;
     --radius-md: 10px;
     --radius-lg: 14px;
     --radius-xl: 18px;
+  }
 
-    /* Semantic Solid Grade Colors */
-    --grade-aplus: #059669;
-    --grade-a: #10b981;
-    --grade-aminus: #0d9488;
-    --grade-b: #2563eb;
-    --grade-c: #d97706;
-    --grade-d: #ea580c;
-    --grade-f: #dc2626;
+  .dark {
+    --bg:           #0a0f1a;
+    --bg-subtle:    #0f172a;
+    --surface:      #111827;
+    --surface-alt:  #1e293b;
+    --border:       #1e293b;
+    --border-strong:#334155;
+    --fg:           #f1f5f9;
+    --fg-muted:     #94a3b8;
+    --fg-subtle:    #64748b;
+    --accent:       #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-fg:    #ffffff;
+    --accent-subtle:#172554;
+    --accent-border:#1e3a8a;
+    --ring:         #3b82f6;
   }
 }
 
+/* ============================================================ */
+/* BASE RESET                                                    */
+/* ============================================================ */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  /* smooth theme transition */
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
@@ -56,36 +86,48 @@ code, pre, .font-mono {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 
-/* Typography Scale */
 h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
   font-weight: 700;
 }
 
-/* Smooth transitions globally */
 a, button {
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
-}
-button {
-  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
-/* Focus Ring */
+button { cursor: pointer; }
+
 :focus-visible {
-  outline: 2px solid var(--color-ring);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* ========================================================= */
-/* STRICT PRINT RULES (All pages print cleanly, 1 per student)*/
-/* ========================================================= */
+/* ============================================================ */
+/* THEME-AWARE UTILITY CLASSES                                  */
+/* ============================================================ */
+.bg-app        { background-color: var(--bg); }
+.bg-subtle     { background-color: var(--bg-subtle); }
+.bg-surface    { background-color: var(--surface); }
+.bg-surface-alt{ background-color: var(--surface-alt); }
+.border-app    { border-color: var(--border); }
+.border-strong { border-color: var(--border-strong); }
+.text-app      { color: var(--fg); }
+.text-muted    { color: var(--fg-muted); }
+.text-subtle   { color: var(--fg-subtle); }
+.text-accent   { color: var(--accent); }
+.bg-accent     { background-color: var(--accent); color: var(--accent-fg); }
+.bg-accent-subtle { background-color: var(--accent-subtle); }
+
+/* ============================================================ */
+/* STRICT PRINT RULES                                            */
+/* ============================================================ */
 @page {
   size: A4 portrait;
   margin: 10mm 12mm;
 }
 
 @media print {
-  /* Ensure parent containers DO NOT clip pages or force single page overflow */
   html, body, #__next, main, div {
     height: auto !important;
     max-height: none !important;
@@ -102,11 +144,8 @@ button {
     print-color-adjust: exact !important;
   }
 
-  .no-print, aside, header, nav {
-    display: none !important;
-  }
+  .no-print, aside, header, nav { display: none !important; }
 
-  /* Each Transcript Card is exactly 1 PDF page */
   .page-break {
     page-break-after: always !important;
     break-after: page !important;
