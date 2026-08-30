@@ -242,7 +242,10 @@ export function evaluateSubjectMark(
 
 /**
  * Rule R-29: Pre-Publication Checking List Classifier
- * Flags only when criteria actually changed or influenced the result
+ * 1. Optional List = Every student whose optional grade point is 2.0 or below (an absent optional counts)
+ * 2. Practical Fail List = Every student with a practical part below 8 in any subject
+ * 3. Absent List = Every student with AB in any subject
+ * (A student can be on more than one list)
  */
 export function classifyCheckingFlags(
   evaluations: SubjectEvaluation[],
@@ -258,18 +261,20 @@ export function classifyCheckingFlags(
 ): CheckingFlag[] {
   const flags: CheckingFlag[] = [];
 
+  // 1. Absent List: Every student with AB in any subject
   for (const evalItem of evaluations) {
-    // 1. Absentee List Flag
     if (evalItem.isAbsent) {
       flags.push({
         type: "ABSENT",
         subjectCode: evalItem.code,
-        reason: `Student was marked Absent (AB) in ${evalItem.name} (${evalItem.isCompulsory ? "Compulsory" : "Optional"})`,
+        reason: `Student was marked Absent (AB) in ${evalItem.name} (${evalItem.isCompulsory ? "Compulsory" : "Optional 4th"})`,
         severity: evalItem.isCompulsory ? "HIGH" : "MEDIUM",
       });
     }
+  }
 
-    // 2. Practical Fail List Flag (Practical mark < 8)
+  // 2. Practical Fail List: Every student with a practical part below 8 in any subject
+  for (const evalItem of evaluations) {
     if (evalItem.isPractical && typeof evalItem.practicalMark === "number") {
       if (evalItem.practicalMark < 8) {
         flags.push({
@@ -280,30 +285,20 @@ export function classifyCheckingFlags(
         });
       }
     }
+  }
 
-    // 3. Optional Subject Rule Flag - Flag ONLY when the optional subject rule changed the result/grade
-    if (evalItem.code === optionalSubjectCode) {
-      if (context) {
-        const { optionalBonusGP, hasCompulsoryFail, baseGPAWithoutBonus, finalGPAWithBonus, finalLetterGrade, baseLetterGradeWithoutBonus } = context;
-        // Check if optional bonus contributed to a higher GPA or pushed the letter grade up without being blocked by compulsory fail
-        const gradeChanged = !hasCompulsoryFail && (finalLetterGrade !== baseLetterGradeWithoutBonus || finalGPAWithBonus > baseGPAWithoutBonus);
-        if (gradeChanged && optionalBonusGP > 0) {
-          flags.push({
-            type: "OPTIONAL_LOW",
-            subjectCode: evalItem.code,
-            reason: `Optional subject ${evalItem.name} (+${optionalBonusGP.toFixed(2)} GP bonus) elevated final GPA from ${baseGPAWithoutBonus.toFixed(2)} (${baseLetterGradeWithoutBonus}) to ${finalGPAWithBonus.toFixed(2)} (${finalLetterGrade})`,
-            severity: "MEDIUM",
-          });
-        }
-      } else if (evalItem.gradePoint > 2.0) {
-        const bonus = Math.max(0, evalItem.gradePoint - 2.0);
-        flags.push({
-          type: "OPTIONAL_LOW",
-          subjectCode: evalItem.code,
-          reason: `Optional subject ${evalItem.name} contributed +${bonus.toFixed(2)} bonus points to overall score`,
-          severity: "MEDIUM",
-        });
-      }
+  // 3. Optional List: Every student whose optional grade point is 2.0 or below (an absent optional counts)
+  const optionalEval = evaluations.find((e) => e.code === optionalSubjectCode);
+  if (optionalEval) {
+    if (optionalEval.isAbsent || optionalEval.gradePoint <= 2.0) {
+      flags.push({
+        type: "OPTIONAL_LOW",
+        subjectCode: optionalEval.code,
+        reason: optionalEval.isAbsent
+          ? `Optional subject ${optionalEval.name} is marked Absent (AB) -> Contributes 0.00 bonus points (R-20)`
+          : `Optional subject ${optionalEval.name} grade point is ${optionalEval.gradePoint.toFixed(2)} (<= 2.00 threshold) -> Contributes 0.00 bonus points (R-20)`,
+        severity: "MEDIUM",
+      });
     }
   }
 

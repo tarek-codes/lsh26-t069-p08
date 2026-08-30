@@ -60,12 +60,12 @@ function CheckingListsContent() {
     loadFlags();
   }, [activeTab, activeClassId, statusFilter]);
 
-  // 3 Primary Criteria + All Filters
+  // 3 Primary Criteria + All Filters (R-29)
   const tabs = [
     { id: "ALL", label: "All Flagged Students" },
-    { id: "OPTIONAL_LOW", label: "Optional Subject Rule" },
-    { id: "PRACTICAL_FAIL", label: "Practical Fail (<8)" },
-    { id: "ABSENT", label: "Absent Mark (AB)" },
+    { id: "OPTIONAL_LOW", label: "Optional List (GP ≤ 2.0 / AB)" },
+    { id: "PRACTICAL_FAIL", label: "Practical Fail List (< 8)" },
+    { id: "ABSENT", label: "Absent List (AB)" },
   ];
 
   const totalCount = flags.length;
@@ -78,7 +78,7 @@ function CheckingListsContent() {
     <>
       <Header
         title="Checking List"
-        subtitle="Verification & audit roster for students whose results were affected by Optional Subject Rule, Practical Failures, or Absent Marks"
+        subtitle="Rule R-29 Audit: Optional List (GP ≤ 2.0 or AB), Practical Fail List (Practical < 8), and Absent List (AB in any subject)"
         activeClassId={activeClassId}
         onClassChange={setActiveClassId}
       />

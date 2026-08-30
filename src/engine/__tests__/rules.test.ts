@@ -281,7 +281,7 @@ describe("The 8 Mandatory Hard-Edge Benchmark Test Cases", () => {
     expect(res.optionalBonusGP).toBe(0.0);
     expect(res.finalGPA).toBe(5.0);
     expect(res.finalLetterGrade).toBe("A+");
-    expect(res.checkingFlags.some((f) => f.type === "OPTIONAL_LOW")).toBe(false);
+    expect(res.checkingFlags.some((f) => f.type === "OPTIONAL_LOW")).toBe(true);
   });
 
   it("EDGE-05: Optional GP > 2.0 contributes active bonus points", () => {
