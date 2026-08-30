@@ -312,15 +312,16 @@ export default function MarksEntryPage() {
                       return (
                         <div
                           key={sub.code}
-                          className={`p-3.5 rounded-xl border-2 transition-all flex flex-wrap items-center justify-between gap-3 text-xs ${
+                          className="p-3.5 rounded-xl border-2 transition-all flex flex-wrap items-center justify-between gap-3 text-xs"
+                          style={
                             isAbsent
-                              ? "bg-slate-100 border-slate-300"
+                              ? { backgroundColor: "rgba(100,116,139,0.12)", borderColor: "rgba(100,116,139,0.35)" }
                               : !subEval.isPassed
-                              ? "bg-red-50/80 border-red-300"
+                              ? { backgroundColor: "rgba(220,38,38,0.09)", borderColor: "rgba(220,38,38,0.45)" }
                               : isOptional
-                              ? "bg-gradient-to-r from-purple-50 via-fuchsia-50/60 to-purple-50/40 border-purple-400 shadow-xs ring-1 ring-purple-300/60"
-                              : "bg-slate-50 border-slate-200"
-                          }`}
+                              ? { backgroundColor: "rgba(124,58,237,0.08)", borderColor: "rgba(124,58,237,0.45)" }
+                              : { backgroundColor: "var(--bg)", borderColor: "var(--border)" }
+                          }
                         >
                           {/* Subject Code & Name */}
                           <div className="w-44 space-y-1">
@@ -357,9 +358,11 @@ export default function MarksEntryPage() {
                                     max={75}
                                     value={theoryVal}
                                     onChange={(e) => handleTheoryChange(sub.code, e.target.value)}
-                                    className={`w-16 px-2 py-1 bg-white border rounded text-center text-xs font-bold focus:ring-2 focus:ring-blue-500 ${
-                                      isTheoryFail ? "border-red-500 text-red-900 bg-red-50" : "border-slate-300 text-slate-900"
-                                    }`}
+                                    className="w-16 px-2 py-1 border rounded text-center text-xs font-bold focus:ring-2 focus:ring-blue-500"
+                                    style={isTheoryFail
+                                      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
+                                      : { borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" }
+                                    }
                                   />
                                 </div>
                                 <span className="text-slate-400 mt-3">+</span>
@@ -371,9 +374,11 @@ export default function MarksEntryPage() {
                                     max={25}
                                     value={practicalVal}
                                     onChange={(e) => handlePracticalChange(sub.code, e.target.value)}
-                                    className={`w-16 px-2 py-1 bg-white border rounded text-center text-xs font-bold focus:ring-2 focus:ring-blue-500 ${
-                                      isPracticalFail ? "border-red-500 text-red-900 bg-red-50" : "border-slate-300 text-slate-900"
-                                    }`}
+                                    className="w-16 px-2 py-1 border rounded text-center text-xs font-bold focus:ring-2 focus:ring-blue-500"
+                                    style={isPracticalFail
+                                      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
+                                      : { borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" }
+                                    }
                                   />
                                 </div>
                                 <div className="space-y-0.5 pl-2">
@@ -393,9 +398,11 @@ export default function MarksEntryPage() {
                                     max={100}
                                     value={nonPracVal}
                                     onChange={(e) => handleNonPracticalChange(sub.code, e.target.value)}
-                                    className={`w-20 px-2 py-1 bg-white border rounded text-center text-xs font-bold focus:ring-2 focus:ring-blue-500 ${
-                                      isNonPracFail ? "border-red-500 text-red-900 bg-red-50" : "border-slate-300 text-slate-900"
-                                    }`}
+                                    className="w-20 px-2 py-1 border rounded text-center text-xs font-bold focus:ring-2 focus:ring-blue-500"
+                                    style={isNonPracFail
+                                      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
+                                      : { borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" }
+                                    }
                                   />
                                 </div>
                               </div>

@@ -29,9 +29,10 @@ export function calculateStudentGPA(
   const failingCompulsorySubjects: SubjectCode[] = [];
 
   const optionalCode = student.optional;
-  const compulsorySubjects = COMPULSORY_SUBJECTS; // BAN, ENG, MAT, REL, PHY, CHE
+  // Dynamic compulsory subjects: Core subjects + electives that are NOT chosen as the 4th optional
+  const compulsorySubjects = getCompulsorySubjectsForStudent(optionalCode);
 
-  // 1. Evaluate 6 Compulsory Subjects
+  // 1. Evaluate Compulsory Subjects
   let compulsoryGPsSumDecimal = new Decimal(0);
 
   for (const code of compulsorySubjects) {
@@ -46,33 +47,33 @@ export function calculateStudentGPA(
     }
   }
 
-  // 2. Evaluate Elective / Optional Subjects (BIO, HMT, AGR)
+  // 2. Evaluate Chosen Optional 4th Subject (BIO, HMT, or AGR)
+  const rawOptionalMark = student.marks[optionalCode] ?? 0;
+  const optionalEvaluation = evaluateSubjectMark(optionalCode, rawOptionalMark, false);
+  if (!subjectEvaluations.some((s) => s.code === optionalCode)) {
+    subjectEvaluations.push(optionalEvaluation);
+  }
+
+  // Also evaluate non-optional electives for FAIL CHECK only (not GPA sum).
+  // In this system all subjects except the chosen 4th optional are compulsory —
+  // failing any of them (theory < 25, practical < 8, total < 33) overrides the final verdict to F.
   const electiveCodes: OptionalSubjectCode[] = ["BIO", "HMT", "AGR"];
-  let optionalEvaluation: SubjectEvaluation | null = null;
-
   for (const code of electiveCodes) {
-    const isChosenOptional = code === optionalCode;
-    const rawMark = student.marks[code] ?? 0;
-    const evaluation = evaluateSubjectMark(code, rawMark, false);
-    
-    // Add to evaluations list if not already present
-    if (!subjectEvaluations.some((s) => s.code === code)) {
-      subjectEvaluations.push(evaluation);
-    }
-
-    if (isChosenOptional) {
-      optionalEvaluation = evaluation;
-    }
-  }
-
-  // If optional was somehow not in electives, evaluate it directly
-  if (!optionalEvaluation) {
-    const rawMark = student.marks[optionalCode] ?? 0;
-    optionalEvaluation = evaluateSubjectMark(optionalCode, rawMark, false);
-    if (!subjectEvaluations.some((s) => s.code === optionalCode)) {
-      subjectEvaluations.push(optionalEvaluation);
+    if (code !== optionalCode) {
+      const rawMark = student.marks[code];
+      if (rawMark !== undefined) {
+        const evaluation = evaluateSubjectMark(code, rawMark, true);
+        if (!subjectEvaluations.some((s) => s.code === code)) {
+          subjectEvaluations.push(evaluation);
+        }
+        // Fail check only — GP is NOT added to compulsoryGPsSumDecimal so GPA formula stays correct
+        if (evaluation.gradePoint === 0) {
+          failingCompulsorySubjects.push(code);
+        }
+      }
     }
   }
+
 
   // 3. Calculate Optional Bonus (R-20) from the chosen optional 4th subject
   const { bonus: optionalBonusGP } = calculateOptionalBonus(

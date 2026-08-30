@@ -106,13 +106,34 @@ export default function DashboardOverviewPage() {
   ];
 
   const gradeRanges = [
-    { range: "80 – 100", grade: "A+", gp: "5.00", color: "bg-emerald-50 border-emerald-200 text-emerald-900", badgeColor: "bg-emerald-600 text-white" },
-    { range: "70 – 79", grade: "A", gp: "4.00", color: "bg-emerald-50/70 border-emerald-200 text-emerald-800", badgeColor: "bg-emerald-500 text-white" },
-    { range: "60 – 69", grade: "A-", gp: "3.50", color: "bg-teal-50 border-teal-200 text-teal-900", badgeColor: "bg-teal-600 text-white" },
-    { range: "50 – 59", grade: "B", gp: "3.00", color: "bg-blue-50 border-blue-200 text-blue-900", badgeColor: "bg-blue-600 text-white" },
-    { range: "40 – 49", grade: "C", gp: "2.00", color: "bg-amber-50 border-amber-200 text-amber-900", badgeColor: "bg-amber-500 text-white" },
-    { range: "33 – 39", grade: "D", gp: "1.00", color: "bg-orange-50 border-orange-200 text-orange-900", badgeColor: "bg-orange-500 text-white" },
-    { range: "0 – 32", grade: "F", gp: "0.00", color: "bg-red-50 border-red-200 text-red-900", badgeColor: "bg-red-600 text-white" },
+    { range: "80 – 100", grade: "A+", gp: "5.00",
+      style: { backgroundColor: "rgba(5,150,105,0.10)", borderColor: "rgba(5,150,105,0.30)" },
+      textStyle: { color: "#059669" },
+      badgeStyle: { backgroundColor: "#059669", color: "#fff" } },
+    { range: "70 – 79", grade: "A", gp: "4.00",
+      style: { backgroundColor: "rgba(16,185,129,0.09)", borderColor: "rgba(16,185,129,0.28)" },
+      textStyle: { color: "#10b981" },
+      badgeStyle: { backgroundColor: "#10b981", color: "#fff" } },
+    { range: "60 – 69", grade: "A-", gp: "3.50",
+      style: { backgroundColor: "rgba(13,148,136,0.10)", borderColor: "rgba(13,148,136,0.28)" },
+      textStyle: { color: "#0d9488" },
+      badgeStyle: { backgroundColor: "#0d9488", color: "#fff" } },
+    { range: "50 – 59", grade: "B", gp: "3.00",
+      style: { backgroundColor: "rgba(37,99,235,0.10)", borderColor: "rgba(37,99,235,0.28)" },
+      textStyle: { color: "#2563eb" },
+      badgeStyle: { backgroundColor: "#2563eb", color: "#fff" } },
+    { range: "40 – 49", grade: "C", gp: "2.00",
+      style: { backgroundColor: "rgba(217,119,6,0.10)", borderColor: "rgba(217,119,6,0.28)" },
+      textStyle: { color: "#d97706" },
+      badgeStyle: { backgroundColor: "#d97706", color: "#fff" } },
+    { range: "33 – 39", grade: "D", gp: "1.00",
+      style: { backgroundColor: "rgba(234,88,12,0.10)", borderColor: "rgba(234,88,12,0.28)" },
+      textStyle: { color: "#ea580c" },
+      badgeStyle: { backgroundColor: "#ea580c", color: "#fff" } },
+    { range: "0 – 32", grade: "F", gp: "0.00",
+      style: { backgroundColor: "rgba(220,38,38,0.10)", borderColor: "rgba(220,38,38,0.28)" },
+      textStyle: { color: "#dc2626" },
+      badgeStyle: { backgroundColor: "#dc2626", color: "#fff" } },
   ];
 
   return (
@@ -360,17 +381,21 @@ export default function DashboardOverviewPage() {
             {gradeRanges.map((g) => (
               <div
                 key={g.grade}
-                className={`p-2 rounded-xl border ${g.color} flex items-center justify-between shadow-xs`}
+                className="p-2 rounded-xl border flex items-center justify-between shadow-xs"
+                style={g.style}
               >
                 <div className="space-y-0.5">
-                  <div className="text-xs font-bold font-mono text-slate-900">
+                  <div className="text-xs font-bold font-mono" style={g.textStyle}>
                     {g.range}
                   </div>
-                  <div className="text-[10px] font-mono text-slate-600">
+                  <div className="text-[10px] font-mono" style={{ ...g.textStyle, opacity: 0.7 }}>
                     GP {g.gp}
                   </div>
                 </div>
-                <span className={`px-2 py-0.5 rounded-lg text-xs font-bold font-mono ${g.badgeColor}`}>
+                <span
+                  className="px-2 py-0.5 rounded-lg text-xs font-bold font-mono"
+                  style={g.badgeStyle}
+                >
                   {g.grade}
                 </span>
               </div>
