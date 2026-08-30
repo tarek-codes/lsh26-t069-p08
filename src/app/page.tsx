@@ -12,58 +12,74 @@ import {
   FileSpreadsheet,
   BarChart3,
   ShieldCheck,
+  CheckCircle2,
+  Cpu,
+  Layers,
+  Sparkles,
+  Database,
+  ArrowUpRight,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 
-const features = [
+const coreCapabilities = [
   {
     icon: Calculator,
-    title: "Deterministic GPA Engine",
-    desc: "Calculates grade points and letter grades using arbitrary-precision arithmetic — no floating-point rounding errors, ever.",
+    tag: "Arithmetic Precision",
+    title: "Deterministic Calculation Engine",
+    desc: "Fixed-divisor decimal computation eliminating floating-point drift across all theory, MCQ, and practical aggregates.",
   },
   {
     icon: ClipboardList,
-    title: "Pre-Publication Checking",
-    desc: "Automated rosters for low elective scores, practical failures, and absent candidates — with audit sign-off before results go live.",
+    tag: "Audit Control",
+    title: "Pre-Publication Checking Rosters",
+    desc: "Three-tier verification for low elective performance, practical examination thresholds, and candidate absenteeism.",
   },
   {
     icon: UploadCloud,
-    title: "Marks Ingestion",
-    desc: "Upload CSV, TSV, or JSON marks sheets. Invalid rows are flagged with exact diagnostic reasons and suggested fixes.",
+    tag: "Data Ingestion",
+    title: "Schema & Rejection Diagnostics",
+    desc: "Automated ingestion for CSV, TSV, and JSON formats with specific error codes and instantaneous row-level diagnostics.",
   },
   {
     icon: BarChart3,
-    title: "Failure Analytics",
-    desc: "Cohort pass rates, grade distribution charts, and identification of the worst-performing subject with component breakdown.",
+    tag: "Cohort Metrics",
+    title: "Cohort Failure Analytics",
+    desc: "Comprehensive distribution breakdowns pinpointing the lowest-performing subjects across theory vs practical divisions.",
   },
   {
     icon: FileSpreadsheet,
-    title: "Live Score Editor",
-    desc: "Full-width table editor with student selection and real-time GPA recalculation on every keystroke.",
+    tag: "Real-Time Scoring",
+    title: "Interactive Score Editor",
+    desc: "Seamless marks entry with real-time recalculation of grade points, bonus adjustments, and status indicators.",
   },
   {
     icon: Printer,
-    title: "Transcripts & Audit Trail",
-    desc: "Printable official academic transcripts with the full arithmetic calculation breakdown for every student.",
+    tag: "Compliance",
+    title: "Official Academic Transcripts",
+    desc: "Formal, single-page print-optimized academic grade sheets complete with step-by-step arithmetic audit traces.",
   },
 ];
 
-const pillars = [
+const logicPillars = [
   {
-    label: "Dual-Component Validation",
-    desc: "Theory and Practical marks evaluated independently for science electives.",
+    title: "Dual-Component Verification",
+    badge: "Rule Integrity",
+    desc: "Continuous validation ensuring Theory and Practical marks pass distinct minimum criteria independently before subject aggregation.",
   },
   {
-    label: "Elective Bonus Points",
-    desc: "Fourth subject excess grade points added without affecting the compulsory divisor.",
+    title: "Elective Subject Bonus",
+    badge: "GPA Optimization",
+    desc: "Calculates additional credit from optional 4th subjects above baseline thresholds without inflating standard divisor limits.",
   },
   {
-    label: "Compulsory Subject Lock",
-    desc: "Any core subject failure sets final GPA to zero and logs a full audit trace.",
+    title: "Compulsory Failure Locking",
+    badge: "Academic Standards",
+    desc: "Immediate fail override if any core subject fails to meet passing criteria, preserving institutional evaluation standards.",
   },
   {
-    label: "Three-Tier Review",
-    desc: "Low elective, practical fail, and absent rosters must be signed off before publication.",
+    title: "Formal Sign-off Workflow",
+    badge: "Accountability",
+    desc: "Mandatory pre-publication checklist approval preventing unreviewed grade sheets from reaching student distribution.",
   },
 ];
 
@@ -71,34 +87,37 @@ export default function LandingPage() {
   return (
     <div
       style={{ backgroundColor: "var(--bg)", color: "var(--fg)" }}
-      className="min-h-screen flex flex-col font-sans antialiased"
+      className="min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white"
     >
-      {/* ─── HEADER ─── */}
+      {/* Top Navbar */}
       <header
         style={{
           backgroundColor: "var(--surface)",
           borderBottom: "1px solid var(--border)",
         }}
-        className="sticky top-0 z-50"
+        className="sticky top-0 z-50 backdrop-blur-md"
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Brand */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white shadow-sm flex-shrink-0 group-hover:bg-[var(--accent-hover)] transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
               <GraduationCap className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-bold text-sm tracking-tight leading-none" style={{ color: "var(--fg)" }}>
-                School<span style={{ color: "var(--accent)" }}>Engine</span>
-              </p>
-              <p className="text-[10px] font-mono mt-0.5" style={{ color: "var(--fg-subtle)" }}>
-                Secondary Result &amp; GPA System
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-base tracking-tight" style={{ color: "var(--fg)" }}>
+                  School<span style={{ color: "var(--accent)" }}>Engine</span>
+                </span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-[var(--accent-subtle)] text-[var(--accent)] border border-[var(--accent-border)]">
+                  Enterprise
+                </span>
+              </div>
+              <p className="text-[10px] font-mono" style={{ color: "var(--fg-subtle)" }}>
+                Deterministic GPA &amp; Result Processing
               </p>
             </div>
           </Link>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <ThemeToggle />
             <Link
               href="/login"
@@ -106,185 +125,284 @@ export default function LandingPage() {
                 backgroundColor: "var(--accent)",
                 color: "var(--accent-fg)",
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-colors hover:bg-[var(--accent-hover)]"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold hover:opacity-95 active:scale-98 transition-all shadow-xs"
             >
-              <ShieldCheck className="w-3.5 h-3.5 opacity-80" />
-              Sign in
+              <ShieldCheck className="w-4 h-4 opacity-90" />
+              <span>Sign in</span>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* ─── HERO ─── */}
-      <section
-        style={{
-          backgroundColor: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
-        }}
-        className="px-6 pt-20 pb-24"
-      >
-        <div className="max-w-3xl mx-auto text-center space-y-6">
-          <div
-            style={{
-              backgroundColor: "var(--accent-subtle)",
-              border: "1px solid var(--accent-border)",
-              color: "var(--accent)",
-            }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] inline-block" />
-            National Secondary Education Curriculum Engine
-          </div>
+      {/* Hero Section */}
+      <main className="flex-1">
+        <section
+          style={{
+            backgroundColor: "var(--surface)",
+            borderBottom: "1px solid var(--border)",
+          }}
+          className="relative px-6 pt-24 pb-28 pattern-grid-light overflow-hidden"
+        >
+          <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+            {/* Top Chip */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-[var(--bg-subtle)] border border-[var(--border)] shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
+              <span style={{ color: "var(--fg-muted)" }}>Secondary Education Examination &amp; Tabulation Suite</span>
+            </div>
 
-          <h1
-            style={{ color: "var(--fg)" }}
-            className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1]"
-          >
-            School Result Processing
-            <br />
-            and GPA Engine
-          </h1>
-
-          <p
-            style={{ color: "var(--fg-muted)" }}
-            className="text-base max-w-xl mx-auto leading-relaxed"
-          >
-            Automated examination result tabulation, dual-component practical
-            validation, and three-tier pre-publication verification for
-            secondary schools.
-          </p>
-
-          <div className="flex items-center justify-center gap-3 pt-2">
-            <Link
-              href="/login"
-              style={{ backgroundColor: "var(--accent)", color: "var(--accent-fg)" }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold shadow-sm transition-colors hover:bg-[var(--accent-hover)]"
-            >
-              Enter Portal
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PILLARS ─── */}
-      <section
-        style={{
-          backgroundColor: "var(--bg-subtle)",
-          borderBottom: "1px solid var(--border)",
-        }}
-        className="px-6 py-12"
-      >
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {pillars.map((p) => (
-            <div
-              key={p.label}
-              style={{
-                backgroundColor: "var(--surface)",
-                border: "1px solid var(--border)",
-              }}
-              className="rounded-xl p-5 space-y-2"
-            >
-              <p className="text-xs font-bold" style={{ color: "var(--accent)" }}>
-                {p.label}
-              </p>
-              <p className="text-xs leading-relaxed" style={{ color: "var(--fg-muted)" }}>
-                {p.desc}
+            {/* Main Headline */}
+            <div className="space-y-4">
+              <h1
+                style={{ color: "var(--fg)" }}
+                className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1]"
+              >
+                School Result Processing
+                <br />
+                and GPA Engine
+              </h1>
+              <p
+                style={{ color: "var(--fg-muted)" }}
+                className="text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-normal"
+              >
+                Zero-drift deterministic calculations, strict dual-component threshold evaluation, and verifiable pre-publication audit workflows designed for academic institutions.
               </p>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ─── FEATURES ─── */}
-      <section className="px-6 py-16 flex-1">
-        <div className="max-w-7xl mx-auto space-y-10">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--fg)" }}>
-              Administrative &amp; Examination Capabilities
+            {/* Actions */}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+              <Link
+                href="/login"
+                style={{ backgroundColor: "var(--accent)", color: "var(--accent-fg)" }}
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-sm font-bold shadow-md hover:scale-102 active:scale-98 transition-all"
+              >
+                <span>Enter Portal</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="#capabilities"
+                style={{
+                  backgroundColor: "var(--surface)",
+                  color: "var(--fg)",
+                  borderColor: "var(--border-strong)",
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold border hover:bg-[var(--bg-subtle)] transition-all"
+              >
+                <span>View Architecture</span>
+              </Link>
+            </div>
+
+            {/* Quick Metrics Bar */}
+            <div
+              style={{
+                backgroundColor: "var(--bg)",
+                borderColor: "var(--border)",
+              }}
+              className="mt-12 p-5 rounded-2xl border grid grid-cols-2 sm:grid-cols-4 gap-4 text-left shadow-xs"
+            >
+              <div className="space-y-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
+                  Calculation Precision
+                </p>
+                <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
+                  100% Exact
+                </p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Decimal.js Arbitrary-Precision</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
+                  Divisor Standard
+                </p>
+                <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
+                  6.0 Fixed
+                </p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>National Curriculum Standard</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
+                  Audit Rosters
+                </p>
+                <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
+                  3 Checking Lists
+                </p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Optional, Practical &amp; Absent</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--fg-subtle)" }}>
+                  Validation Rules
+                </p>
+                <p className="text-xl font-extrabold font-mono" style={{ color: "var(--fg)" }}>
+                  Automated
+                </p>
+                <p className="text-[10px]" style={{ color: "var(--fg-muted)" }}>Dual-component passing criteria</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Evaluation Logic Pillars */}
+        <section
+          style={{
+            backgroundColor: "var(--bg-subtle)",
+            borderBottom: "1px solid var(--border)",
+          }}
+          className="py-16 px-6"
+        >
+          <div className="max-w-7xl mx-auto space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--accent)" }}>
+                  Institutional Logic
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1" style={{ color: "var(--fg)" }}>
+                  Rigorous Curriculum Safeguards
+                </h2>
+              </div>
+              <p className="text-xs sm:text-sm max-w-md" style={{ color: "var(--fg-muted)" }}>
+                Built around standard curriculum guidelines to ensure compliant and transparent academic results.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {logicPillars.map((pillar) => (
+                <div
+                  key={pillar.title}
+                  style={{
+                    backgroundColor: "var(--surface)",
+                    borderColor: "var(--border)",
+                  }}
+                  className="p-6 rounded-2xl border space-y-3.5 hover:border-[var(--border-strong)] hover:shadow-sm transition-all"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded uppercase tracking-wider bg-[var(--accent-subtle)] text-[var(--accent)] border border-[var(--accent-border)]">
+                      {pillar.badge}
+                    </span>
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  </div>
+                  <h3 className="font-bold text-base" style={{ color: "var(--fg)" }}>
+                    {pillar.title}
+                  </h3>
+                  <p className="text-xs leading-relaxed" style={{ color: "var(--fg-muted)" }}>
+                    {pillar.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Core Administrative Capabilities */}
+        <section id="capabilities" className="py-20 px-6 max-w-7xl mx-auto space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--accent)" }}>
+              Platform Modules
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: "var(--fg)" }}>
+              Complete Examination Life-Cycle
             </h2>
-            <p className="text-sm mt-1" style={{ color: "var(--fg-muted)" }}>
-              End-to-end workflows from raw marks ingestion to printable transcripts.
+            <p className="text-sm" style={{ color: "var(--fg-muted)" }}>
+              Integrated tools for head examiners, teachers, and school administrators.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {features.map((f) => {
-              const Icon = f.icon;
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {coreCapabilities.map((item) => {
+              const Icon = item.icon;
               return (
                 <div
-                  key={f.title}
+                  key={item.title}
                   style={{
                     backgroundColor: "var(--surface)",
-                    border: "1px solid var(--border)",
+                    borderColor: "var(--border)",
                   }}
-                  className="rounded-xl p-6 space-y-3 hover:border-[var(--border-strong)] transition-colors"
+                  className="p-7 rounded-2xl border space-y-4 hover:border-[var(--accent)] hover:shadow-md transition-all group"
                 >
-                  <div
-                    style={{
-                      backgroundColor: "var(--accent-subtle)",
-                      border: "1px solid var(--accent-border)",
-                    }}
-                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                  >
-                    <Icon className="w-5 h-5" style={{ color: "var(--accent)" }} />
+                  <div className="flex items-center justify-between">
+                    <div
+                      style={{
+                        backgroundColor: "var(--accent-subtle)",
+                        borderColor: "var(--accent-border)",
+                      }}
+                      className="w-12 h-12 rounded-xl border flex items-center justify-center group-hover:scale-105 transition-transform"
+                    >
+                      <Icon className="w-6 h-6" style={{ color: "var(--accent)" }} />
+                    </div>
+                    <span className="text-[11px] font-mono font-medium" style={{ color: "var(--fg-subtle)" }}>
+                      {item.tag}
+                    </span>
                   </div>
-                  <h3 className="font-bold text-sm" style={{ color: "var(--fg)" }}>
-                    {f.title}
-                  </h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "var(--fg-muted)" }}>
-                    {f.desc}
-                  </p>
+
+                  <div className="space-y-2">
+                    <h3 className="font-bold text-base group-hover:text-[var(--accent)] transition-colors" style={{ color: "var(--fg)" }}>
+                      {item.title}
+                    </h3>
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--fg-muted)" }}>
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
               );
             })}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── CTA ─── */}
-      <section
-        style={{ borderTop: "1px solid var(--border)", backgroundColor: "var(--surface)" }}
-        className="px-6 py-14"
-      >
-        <div
+        {/* CTA Callout */}
+        <section
           style={{
-            backgroundColor: "var(--bg-subtle)",
-            border: "1px solid var(--border)",
+            backgroundColor: "var(--surface)",
+            borderTop: "1px solid var(--border)",
           }}
-          className="max-w-3xl mx-auto rounded-2xl p-10 text-center space-y-4"
+          className="py-16 px-6"
         >
-          <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--fg)" }}>
-            Ready to tabulate class results?
-          </h2>
-          <p className="text-sm" style={{ color: "var(--fg-muted)" }}>
-            Access the portal with pre-configured demo credentials — no setup required.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/login"
-              style={{ backgroundColor: "var(--accent)", color: "var(--accent-fg)" }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold shadow-sm transition-colors hover:bg-[var(--accent-hover)]"
-            >
-              Enter Portal
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+          <div
+            style={{
+              backgroundColor: "var(--bg-subtle)",
+              borderColor: "var(--border-strong)",
+            }}
+            className="max-w-4xl mx-auto rounded-3xl p-10 sm:p-12 border text-center space-y-6 shadow-sm"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[var(--accent-subtle)] text-[var(--accent)] border border-[var(--accent-border)]">
+              <Cpu className="w-3.5 h-3.5" />
+              <span>Ready for Immediate Deployment</span>
+            </div>
+            
+            <div className="space-y-2 max-w-xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight" style={{ color: "var(--fg)" }}>
+                Start Tabulating Results Today
+              </h2>
+              <p className="text-xs sm:text-sm" style={{ color: "var(--fg-muted)" }}>
+                Sign into the examination controller portal with built-in demonstration fixtures and benchmark edge-cases.
+              </p>
+            </div>
 
-      {/* ─── FOOTER ─── */}
+            <div className="pt-2">
+              <Link
+                href="/login"
+                style={{ backgroundColor: "var(--accent)", color: "var(--accent-fg)" }}
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-bold shadow-md hover:scale-102 active:scale-98 transition-all"
+              >
+                <span>Enter Portal</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
       <footer
         style={{
+          backgroundColor: "var(--bg)",
           borderTop: "1px solid var(--border)",
-          backgroundColor: "var(--bg-subtle)",
           color: "var(--fg-subtle)",
         }}
-        className="px-6 py-5 text-xs font-mono"
+        className="px-6 py-6 text-xs font-mono"
       >
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <span>SchoolEngine &bull; GPA Engine (Problem P08)</span>
-          <span>National Curriculum Grading Architecture</span>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>SchoolEngine Evaluation Platform &bull; Problem P08</span>
+          </div>
+          <div>National Secondary Education Examination Architecture</div>
         </div>
       </footer>
     </div>
