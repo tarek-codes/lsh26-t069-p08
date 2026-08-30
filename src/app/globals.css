@@ -71,6 +71,98 @@ html {
   transition: background-color 200ms ease, color 200ms ease;
 }
 
+/* ============================================================ */
+/* DARK MODE OVERRIDES FOR HARDCODED TAILWIND DASHBOARD CLASSES  */
+/* This ensures the theme toggle works everywhere, including all  */
+/* dashboard pages that use hardcoded bg-white / bg-slate-*     */
+/* ============================================================ */
+
+/* Backgrounds */
+.dark .bg-white           { background-color: var(--surface) !important; }
+.dark .bg-slate-50        { background-color: var(--bg) !important; }
+.dark .bg-slate-100       { background-color: var(--bg-subtle) !important; }
+.dark .bg-slate-200       { background-color: var(--bg-subtle) !important; }
+.dark .bg-slate-900       { background-color: var(--surface-alt) !important; }
+.dark .bg-slate-950       { background-color: var(--bg) !important; }
+
+/* Text */
+.dark .text-slate-900     { color: var(--fg) !important; }
+.dark .text-slate-800     { color: var(--fg) !important; }
+.dark .text-slate-700     { color: var(--fg-muted) !important; }
+.dark .text-slate-600     { color: var(--fg-muted) !important; }
+.dark .text-slate-500     { color: var(--fg-subtle) !important; }
+.dark .text-slate-400     { color: var(--fg-subtle) !important; }
+
+/* Borders */
+.dark .border-slate-100   { border-color: var(--border) !important; }
+.dark .border-slate-200   { border-color: var(--border) !important; }
+.dark .border-slate-300   { border-color: var(--border-strong) !important; }
+
+/* Hover backgrounds */
+.dark .hover\:bg-slate-50:hover  { background-color: var(--bg-subtle) !important; }
+.dark .hover\:bg-slate-100:hover { background-color: var(--surface-alt) !important; }
+
+/* Grade range colored rows — keep them distinct but softer in dark */
+.dark .bg-emerald-50  { background-color: rgba(5, 150, 105, 0.12) !important; }
+.dark .bg-teal-50     { background-color: rgba(13, 148, 136, 0.12) !important; }
+.dark .bg-blue-50     { background-color: rgba(37, 99, 235, 0.12) !important; }
+.dark .bg-amber-50    { background-color: rgba(217, 119, 6, 0.12) !important; }
+.dark .bg-orange-50   { background-color: rgba(234, 88, 12, 0.12) !important; }
+.dark .bg-red-50      { background-color: rgba(220, 38, 38, 0.12) !important; }
+.dark .bg-purple-50   { background-color: rgba(124, 58, 237, 0.12) !important; }
+
+.dark .border-emerald-200 { border-color: rgba(5, 150, 105, 0.3) !important; }
+.dark .border-teal-200    { border-color: rgba(13, 148, 136, 0.3) !important; }
+.dark .border-blue-100,
+.dark .border-blue-200    { border-color: rgba(37, 99, 235, 0.3) !important; }
+.dark .border-amber-200   { border-color: rgba(217, 119, 6, 0.3) !important; }
+.dark .border-orange-200  { border-color: rgba(234, 88, 12, 0.3) !important; }
+.dark .border-red-100,
+.dark .border-red-200     { border-color: rgba(220, 38, 38, 0.3) !important; }
+.dark .border-purple-200  { border-color: rgba(124, 58, 237, 0.3) !important; }
+
+/* Grade text colors — keep vibrant, just slightly adjusted */
+.dark .text-emerald-900   { color: #6ee7b7 !important; }
+.dark .text-emerald-800   { color: #6ee7b7 !important; }
+.dark .text-teal-900      { color: #5eead4 !important; }
+.dark .text-blue-900      { color: #93c5fd !important; }
+.dark .text-amber-900     { color: #fcd34d !important; }
+.dark .text-orange-900    { color: #fdba74 !important; }
+.dark .text-red-900       { color: #fca5a5 !important; }
+
+/* Input / form fields */
+.dark input, .dark textarea, .dark select {
+  background-color: var(--bg-subtle) !important;
+  border-color: var(--border) !important;
+  color: var(--fg) !important;
+}
+.dark input::placeholder,
+.dark textarea::placeholder { color: var(--fg-subtle) !important; }
+
+/* Table rows */
+.dark .hover\:bg-slate-50\/70:hover {
+  background-color: rgba(15, 23, 36, 0.5) !important;
+}
+
+/* Shadows soften in dark */
+.dark .shadow-xs,
+.dark .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important; }
+
+/* Opacity Tailwind slate variants used in table cells */
+.dark .bg-slate-50\/50  { background-color: rgba(14, 21, 36, 0.5) !important; }
+.dark .bg-slate-50\/70  { background-color: rgba(14, 21, 36, 0.7) !important; }
+.dark .bg-white\/80     { background-color: rgba(17, 24, 44, 0.8) !important; }
+
+/* Select element in dark */
+.dark select option {
+  background-color: var(--surface) !important;
+  color: var(--fg) !important;
+}
+
+
+
+
+
 body {
   background-color: var(--bg);
   color: var(--fg);
