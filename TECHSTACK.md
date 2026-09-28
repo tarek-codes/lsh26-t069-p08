@@ -1,124 +1,106 @@
-# Technology Stack & Environment Specification (`TECHSTACK.md`)
+# Technology Stack & Setup Guide (`TECHSTACK.md`)
 
-## 1. Core Technology Choices
+## 1. What Technologies We Use & Why
 
-| Layer / Concern | Technology Selection | Version / Standard | Justification |
-| :--- | :--- | :--- | :--- |
-| **Framework** | **Next.js** | **`15.x` (App Router)** | Fullstack framework with React 19, App Router, Server Actions, and native Route Handlers for high performance and clean architecture. |
-| **Frontend UI** | **React** | **`19.x`** | Component-driven declarative UI with React Server Components (RSC) and fast client interactions. |
-| **Database** | **PostgreSQL** | **`18` (via Supabase)** | Enterprise-grade relational database providing ACID compliance, check constraints, foreign keys, and sub-millisecond query performance. |
-| **Database Client** | **Supabase JS** | **`2.x`** | Type-safe database queries, real-time subscriptions, and connection pooling. |
-| **Language** | **TypeScript** | **`5.x`** | End-to-end type safety, strict null checking, and zero-runtime-overhead interfaces for the core GPA Engine. |
-| **Styling & Design System** | **Tailwind CSS / CSS Custom Properties** | **`v3.4.x`** | Modern, responsive styling with custom CSS tokens, dark/light theme support, and zero runtime overhead. |
-| **Icons** | **Lucide React** | **`0.47x`** | Clean, accessible vector icons for admin metrics, checking list badges, and status indicators. |
-| **Schema Validation** | **Zod** | **`3.x`** | Runtime data validation on mark entries, API payloads, and query parameters. |
-| **Calculation Engine** | **Pure TypeScript + Decimal.js** | **`10.x`** | High-precision arithmetic preventing IEEE-754 floating point drift during GPA division and rounding. |
-| **Unit & Integration Testing** | **Vitest** | **`3.x`** | Blazing-fast test runner for 100% unit test coverage of all grading rules (`R-10`, `R-11`, `R-12`, `R-13`, `R-20`, `R-21`, `R-29`). |
-| **Package Manager** | **npm** | **Node.js `20+ LTS`** | Fast, deterministic dependency management. |
+Here is the simple breakdown of all the tools and technologies used in this project:
+
+| Technology | What it does | Why we chose it (Simple Reason) |
+| :--- | :--- | :--- |
+| **Next.js 16** (App Router) | Web framework | Fast, modern framework that handles both page rendering and backend API routes in one place. |
+| **React 19** | User interface | Builds clean, interactive components for the dashboard, tables, and modal dialogs. |
+| **TypeScript 5** | Programming language | Catches errors before running the code and guarantees that student marks and data types are always correct. |
+| **Tailwind CSS v4** | Styling | Makes it easy to build a clean, responsive, dark/light themed interface with simple utility classes. |
+| **Decimal.js** | Math precision | Computer numbers can have rounding glitches (like `0.1 + 0.2 = 0.30000000000000004`). Decimal.js prevents this so every GPA is 100% exact. |
+| **Recharts** | Charts & graphs | Renders easy-to-read bar and pie charts for class grade distributions on the dashboard. |
+| **Lucide React** | Icons | Provides clean, modern icons for navigation, warnings, and status badges. |
+| **Zod** | Data validation | Checks uploaded student mark files (CSV or JSON) to ensure no invalid marks are accepted. |
+| **Vitest** | Automated testing | Automatically tests all grading rules and edge cases in milliseconds to ensure zero bugs. |
+| **In-Memory Store + Supabase** | Data storage | Runs instantly in-memory with preloaded seed data, and has Supabase PostgreSQL scripts ready when cloud database storage is needed. |
 
 ---
 
-## 2. Directory Layout & Module Structure
+## 2. Project Folder Structure
+
+A simple guide to where files are located:
 
 ```
-tarek-mvp/
-├── .agents/                          # Customization skills & agents
+lsh26-t069-p08/
 ├── src/
-│   ├── app/                          # Next.js 16.3.3 App Router
-│   │   ├── layout.tsx                # Root layout with sidebar navigation
-│   │   ├── page.tsx                  # Landing / Dashboard redirect
-│   │   ├── dashboard/
-│   │   │   ├── page.tsx              # Overview metrics & distribution charts
-│   │   │   ├── results/
-│   │   │   │   ├── page.tsx          # Class results matrix with filters
-│   │   │   │   └── [studentId]/      # Individual student transcript view
-│   │   │   ├── checking-lists/
-│   │   │   │   ├── page.tsx          # Pre-publication verification dashboard
-│   │   │   │   ├── optional/         # Optional <= 2.0 review tab
-│   │   │   │   ├── practical/        # Practical fail < 8 review tab
-│   │   │   │   ├── absent/           # Absentee review tab
-│   │   │   │   └── multi-flag/       # Multi-flag review summary tab
-│   │   │   ├── marks-entry/          # Mark entry and batch editor
-│   │   │   ├── seed-data/            # Seed data manager & 8 edge-case suite
-│   │   │   └── reports/              # Printable transcripts & export
-│   │   └── api/
-│   │       └── v1/                   # RESTful API route handlers
-│   ├── components/                   # Reusable UI component library
-│   │   ├── layout/
-│   │   │   ├── Sidebar.tsx           # Admin side navigation panel
-│   │   │   ├── Header.tsx            # Context bar & class switcher
-│   │   │   └── Shell.tsx             # Responsive dashboard layout container
-│   │   ├── dashboard/
-│   │   │   ├── MetricCards.tsx       # Key metrics summary
-│   │   │   └── GradeDistribution.tsx # Visual breakdown chart
-│   │   ├── results/
-│   │   │   ├── ResultsTable.tsx      # Main student grade matrix
-│   │   │   ├── GradeBadge.tsx        # Styled letter grade badge
-│   │   │   └── TraceDrawer.tsx       # Audit trace slideover modal
-│   │   ├── checking-lists/
-│   │   │   ├── FlaggedTable.tsx      # Filterable checking list table
-│   │   │   └── SignoffModal.tsx      # Administrative verification dialog
-│   │   └── ui/                       # Low-level accessible primitives
-│   ├── engine/                       # Pure Domain GPA Engine
-│   │   ├── types.ts                  # Domain interfaces & rule codes
-│   │   ├── rules.ts                  # Formal rule implementations (R-10 to R-29)
-│   │   ├── calculator.ts             # Student & class calculation orchestrator
-│   │   ├── trace.ts                  # Step-by-step narrative builder
-│   │   └── __tests__/
-│   │       ├── rules.test.ts         # Edge case unit tests
-│   │       └── engine.test.ts        # Comprehensive test suite
+│   ├── app/                          # Next.js App Router pages and APIs
+│   │   ├── layout.tsx                # App layout (sidebar and header container)
+│   │   ├── page.tsx                  # Landing page introducing the app
+│   │   ├── globals.css               # Global styles, color tokens, and theme settings
+│   │   ├── dashboard/                # Main dashboard pages
+│   │   │   ├── page.tsx              # Dashboard home (calls DashboardClient)
+│   │   │   ├── DashboardClient.tsx   # Dashboard charts, metrics cards, and filters
+│   │   │   ├── results/              # All student results matrix and search
+│   │   │   ├── checking-lists/       # Pre-publication verification lists (Review queues)
+│   │   │   ├── marks-entry/          # Live spreadsheet-style mark editor
+│   │   │   ├── import/               # Bulk CSV/JSON marks file uploader
+│   │   │   ├── analytics/            # Class subject failure and performance analytics
+│   │   │   ├── reports/              # Printable academic transcripts
+│   │   │   └── seed-data/            # Reset and view the 60 seed students
+│   │   └── api/v1/                   # REST API endpoints for results, classes, and flags
+│   ├── components/                   # Reusable UI components
+│   │   ├── checking-lists/           # Modals and sign-off dialogs for review lists
+│   │   ├── common/                   # Reusable badges, buttons, and theme toggle
+│   │   ├── layout/                   # Sidebar, Header, and Shell containers
+│   │   └── results/                  # Calculation audit trace drawer
+│   ├── engine/                       # Pure grading & calculation logic
+│   │   ├── calculator.ts             # Orchestrates GPA calculation for students and classes
+│   │   ├── rules.ts                  # Implementation of all grading rules (R-10 to R-29)
+│   │   ├── trace.ts                  # Generates step-by-step human explanations of calculations
+│   │   ├── types.ts                  # Data types and rule code constants
+│   │   └── marks-importer.ts         # Parsers for CSV/JSON files
 │   ├── lib/
-│   │   ├── db.ts                     # Supabase client initialization
-│   │   ├── seed.ts                   # 60-student dataset loader with 8 hard edge cases
-│   │   └── utils.ts                  # Helper utilities and formatters
+│   │   └── store.ts                  # Reactive data store with 60 preloaded seed students
 │   └── data/
-│       └── seed-students.json        # Static JSON dataset of 60 students
-├── public/                           # Static assets, school crest, fonts
-├── REQUIREMENTS.md                   # Full requirements specification
-├── RULES.md                          # Authoritative business rules specification
-├── DATA-MODEL.md                     # Database schema & PostgreSQL DDL
-├── SYSTEM-ARCHITECTURE.md            # System design & sequence diagrams
-├── API-SPECIFICATION.md              # REST & Server Action specifications
-├── TECHSTACK.md                      # Technology stack & setup guide
-├── package.json                      # Project dependencies & scripts
-├── tsconfig.json                     # TypeScript configuration
-└── next.config.ts                    # Next.js 16.3.3 configuration
+│       └── seed-students.json        # 60 sample students across Class 9 and Class 10
+├── scripts/
+│   └── migrate-supabase.ts           # Migration script for Supabase PostgreSQL
+├── REQUIREMENTS.md                   # Plain-language requirements and edge case guide
+├── RULES.md                          # Plain-language grading rules reference
+├── TECHSTACK.md                      # This document (tech stack & setup)
+└── package.json                      # Project dependencies and run commands
 ```
 
 ---
 
-## 3. Environment Configuration (`.env.local`)
+## 3. How to Run the Project
+
+### Prerequisites
+* **Node.js** version 20 or higher.
+* **npm** (comes with Node.js).
+
+### Available Commands
+
+Open your terminal in the project folder and run:
+
+| Command | What it does |
+| :--- | :--- |
+| `npm run dev` | Starts the local development server at `http://localhost:3000` |
+| `npm run build` | Builds an optimized production version of the application |
+| `npm run start` | Runs the production build locally |
+| `npm run lint` | Checks code formatting and catches TypeScript errors |
+| `npm run test` | Runs all Vitest unit tests to verify grading rule accuracy |
+| `npm run test:watch` | Runs unit tests continuously as you edit code |
+| `npm run migrate:supabase` | Sets up the database tables in Supabase if using cloud storage |
+
+---
+
+## 4. Environment Variables (`.env.local`)
+
+For standard development, the app works right out of the box with the preloaded in-memory store. 
+
+If you want to connect to a cloud Supabase database, create a `.env.local` file with:
 
 ```env
-# Supabase PostgreSQL Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+# Optional Supabase Connection
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+DATABASE_URL=postgresql://postgres:password@your-db.supabase.co:5432/postgres
 
-# Database Direct Connection (for migrations)
-DATABASE_URL=postgresql://postgres.your-project-id:password@aws-0-region.pooler.supabase.com:6543/postgres?pgbouncer=true
-DIRECT_URL=postgresql://postgres.your-project-id:password@aws-0-region.pooler.supabase.com:5432/postgres
-
-# Application Settings
-NEXT_PUBLIC_APP_NAME="School Result Processing and GPA Engine"
+# App Info
+NEXT_PUBLIC_APP_NAME="School Result Processing & GPA Engine"
 NEXT_PUBLIC_DEFAULT_ACADEMIC_YEAR=2026
-```
-
----
-
-## 4. Standard NPM Scripts
-
-```json
-{
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "seed": "tsx src/lib/seed.ts"
-  }
-}
 ```

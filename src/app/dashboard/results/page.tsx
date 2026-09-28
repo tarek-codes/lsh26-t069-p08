@@ -4,16 +4,43 @@ import React, { useEffect, useState } from "react";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
-import { StatusBadge } from "@/components/common/StatusBadge";
 import { TraceDrawer } from "@/components/results/TraceDrawer";
-import {
-  Search,
-  Filter,
-  Eye,
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-} from "lucide-react";
+import { Search, Eye, ChevronLeft, ChevronRight, Inbox } from "lucide-react";
+
+// Subject columns in display order. `practical` marks T+P subjects.
+const SUBJECT_COLUMNS: { code: string; practical: boolean }[] = [
+  { code: "BAN", practical: false },
+  { code: "ENG", practical: false },
+  { code: "MAT", practical: false },
+  { code: "REL", practical: false },
+  { code: "PHY", practical: true },
+  { code: "CHE", practical: true },
+  { code: "BIO", practical: true },
+  { code: "HMT", practical: true },
+  { code: "AGR", practical: true },
+];
+
+const GRADE_VARS: Record<string, string> = {
+  "A+": "--grade-aplus",
+  A: "--grade-a",
+  "A-": "--grade-aminus",
+  B: "--grade-b",
+  C: "--grade-c",
+  D: "--grade-d",
+  F: "--grade-f",
+};
+
+// Sticky column geometry (px). Left: Roll, ID, Name. Right: Final GPA, Grade, Audit.
+const W_ROLL = 56;
+const W_ID = 72;
+const W_NAME = 168;
+const W_FINAL = 84;
+const W_GRADE = 64;
+const W_AUDIT = 92;
+
+// Opaque backgrounds for sticky cells so scrolled content never shows through.
+const STICKY_BODY_BG =
+  "bg-[var(--surface)] group-hover:bg-[color-mix(in_srgb,var(--bg-subtle)_70%,var(--surface))]";
 
 export default function ClassResultsMatrixPage() {
   const [activeClassId, setActiveClassId] = useState("c1010000-0000-0000-0000-000000000001");
@@ -76,62 +103,62 @@ export default function ClassResultsMatrixPage() {
   const endIndex = Math.min(startIndex + effectivePageSize, totalCount);
   const paginatedResults = pageSize === -1 ? results : results.slice(startIndex, endIndex);
 
+  const colCount = 3 + SUBJECT_COLUMNS.length + 4;
+
   return (
     <Shell>
       <Header
-        title="Class Results Master Matrix"
-        subtitle="Complete subject mark breakdown, component pass analysis, optional bonus, and deterministic GPA/grade"
+        title="Class results matrix"
+        subtitle="Subject mark breakdown, component pass analysis, optional bonus and deterministic GPA/grade"
         activeClassId={activeClassId}
         onClassChange={setActiveClassId}
       />
 
-      <main className="p-6 space-y-4 max-w-[1600px] mx-auto w-full">
-        {/* Controls Toolbar */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3 flex-1">
-            {/* Search Input */}
-            <div className="relative min-w-[240px] max-w-xs">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Search student name, ID, roll..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+      <main className="p-6 lg:p-8 space-y-6 max-w-[1600px] mx-auto w-full">
+        {/* Controls toolbar */}
+        <div className="card p-3 flex flex-wrap items-center gap-3">
+          <div className="relative w-full sm:w-72">
+            <Search className="w-4 h-4 text-[var(--fg-subtle)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search name, ID or roll"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="input pl-9"
+              aria-label="Search students"
+            />
+          </div>
 
-            {/* Grade Filter */}
-            <div className="flex items-center gap-1.5 text-xs text-slate-600">
-              <Filter className="w-3.5 h-3.5 text-slate-400" />
-              <span>Grade Filter:</span>
-              <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
-                {(["ALL", "A+", "A", "A-", "B", "C", "D", "F"] as const).map((grade) => (
-                  <button
-                    key={grade}
-                    onClick={() => setSelectedGrade(grade)}
-                    className={`px-2.5 py-1 rounded font-semibold transition-all ${
-                      selectedGrade === grade
-                        ? "bg-white text-blue-700 shadow-xs font-bold"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    {grade}
-                  </button>
-                ))}
-              </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-[var(--fg-muted)]">Grade</span>
+            <div className="segmented" role="tablist" aria-label="Filter by grade">
+              {(["ALL", "A+", "A", "A-", "B", "C", "D", "F"] as const).map((grade) => (
+                <button
+                  key={grade}
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedGrade === grade}
+                  onClick={() => setSelectedGrade(grade)}
+                  className="px-2.5! min-w-8 tabular-nums"
+                >
+                  {grade === "ALL" ? "All" : grade}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-slate-600">
-            <span>Page Size:</span>
+          <div className="flex items-center gap-2 ml-auto">
+            <label htmlFor="page-size" className="text-xs font-medium text-[var(--fg-muted)] whitespace-nowrap">
+              Rows per page
+            </label>
             <select
+              id="page-size"
               value={pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
                 setCurrentPage(1);
               }}
-              className="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-md text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input w-auto! pr-8"
             >
               <option value={10}>10 per page</option>
               <option value={15}>15 per page</option>
@@ -141,269 +168,220 @@ export default function ClassResultsMatrixPage() {
           </div>
         </div>
 
-        {/* Master Results Table */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        {/* Master results table */}
+        <div className="card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left border-collapse select-none">
-              <thead className="bg-slate-900 text-slate-200 uppercase text-[10px] tracking-wider font-bold sticky top-0 z-10">
+            <table className="data-table select-none">
+              <thead>
                 <tr>
-                  <th className="py-3 px-3 border-r border-slate-800 text-center w-12">Roll</th>
-                  <th className="py-3 px-3 border-r border-slate-800 w-16">ID</th>
-                  <th className="py-3 px-4 border-r border-slate-800 min-w-[150px]">Student Name</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">BAN</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">ENG</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">MAT</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[65px]">REL</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px]">PHY (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px]">CHE (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px] bg-purple-950 text-purple-200">BIO (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px] bg-purple-950 text-purple-200">HMT (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center min-w-[85px] bg-purple-950 text-purple-200">AGR (T+P)</th>
-                  <th className="py-3 px-2 border-r border-slate-800 text-center w-16">Raw GPA</th>
-                  <th className="py-3 px-3 border-r border-slate-800 text-center w-20">Final GPA</th>
-                  <th className="py-3 px-3 border-r border-slate-800 text-center w-16">Grade</th>
-                  <th className="py-3 px-3 text-center w-24">Audit Trace</th>
+                  <th
+                    className="sticky left-0 z-[3] text-right"
+                    style={{ width: W_ROLL, minWidth: W_ROLL, maxWidth: W_ROLL }}
+                  >
+                    Roll
+                  </th>
+                  <th
+                    className="sticky z-[3]"
+                    style={{ left: W_ROLL, width: W_ID, minWidth: W_ID, maxWidth: W_ID }}
+                  >
+                    ID
+                  </th>
+                  <th
+                    className="sticky z-[3] border-r border-[var(--border)]"
+                    style={{ left: W_ROLL + W_ID, width: W_NAME, minWidth: W_NAME, maxWidth: W_NAME }}
+                  >
+                    Student
+                  </th>
+                  {SUBJECT_COLUMNS.map((col) => (
+                    <th key={col.code} className="text-right! px-3!">
+                      {col.code}
+                      {col.practical && (
+                        <span className="ml-1 font-medium text-[var(--fg-subtle)]">T+P</span>
+                      )}
+                    </th>
+                  ))}
+                  <th className="text-right! px-3!">Raw GPA</th>
+                  <th
+                    className="sticky z-[3] text-right! border-l border-[var(--border)]"
+                    style={{ right: W_GRADE + W_AUDIT, width: W_FINAL, minWidth: W_FINAL }}
+                  >
+                    Final GPA
+                  </th>
+                  <th
+                    className="sticky z-[3] text-center!"
+                    style={{ right: W_AUDIT, width: W_GRADE, minWidth: W_GRADE }}
+                  >
+                    Grade
+                  </th>
+                  <th
+                    className="sticky right-0 z-[3] text-right!"
+                    style={{ width: W_AUDIT, minWidth: W_AUDIT }}
+                  >
+                    Audit
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-mono">
+              <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={16} className="py-12 text-center text-slate-400">
-                      <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                      Loading class results matrix...
+                    <td colSpan={colCount} className="py-16! text-center">
+                      <div className="flex flex-col items-center gap-2 text-[var(--fg-subtle)]">
+                        <div className="w-5 h-5 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin" />
+                        <span className="text-xs">Loading class results…</span>
+                      </div>
                     </td>
                   </tr>
                 ) : paginatedResults.length === 0 ? (
                   <tr>
-                    <td colSpan={16} className="py-12 text-center text-slate-500 font-sans">
-                      No student results matched your filter criteria.
+                    <td colSpan={colCount} className="py-16! text-center">
+                      <div className="flex flex-col items-center gap-2 text-[var(--fg-subtle)]">
+                        <Inbox className="w-6 h-6" />
+                        <span className="text-sm text-[var(--fg-muted)]">
+                          No student results match your filters.
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ) : (
-                  paginatedResults.map((r: any) => {
-                    const ban = r.subjectEvaluations?.find((s: any) => s.code === "BAN");
-                    const eng = r.subjectEvaluations?.find((s: any) => s.code === "ENG");
-                    const mat = r.subjectEvaluations?.find((s: any) => s.code === "MAT");
-                    const rel = r.subjectEvaluations?.find((s: any) => s.code === "REL");
-                    const phy = r.subjectEvaluations?.find((s: any) => s.code === "PHY");
-                    const che = r.subjectEvaluations?.find((s: any) => s.code === "CHE");
-                    const bio = r.subjectEvaluations?.find((s: any) => s.code === "BIO");
-                    const hmt = r.subjectEvaluations?.find((s: any) => s.code === "HMT");
-                    const agr = r.subjectEvaluations?.find((s: any) => s.code === "AGR");
-
-                    return (
-                      <tr
-                        key={r.studentId}
-                        style={!r.isPassed ? { backgroundColor: "rgba(220,38,38,0.07)" } : undefined}
-                        className="hover:bg-[var(--bg-subtle)] transition-colors"
+                  paginatedResults.map((r: any) => (
+                    <tr key={r.studentId} className="group">
+                      {/* Roll */}
+                      <td
+                        className={`sticky left-0 z-[1] text-right tabular-nums text-[var(--fg-muted)] ${STICKY_BODY_BG}`}
+                        style={{
+                          width: W_ROLL,
+                          minWidth: W_ROLL,
+                          maxWidth: W_ROLL,
+                          boxShadow: !r.isPassed ? "inset 2px 0 0 var(--grade-f)" : undefined,
+                        }}
                       >
-                        {/* Roll */}
-                        <td className="py-2.5 px-3 border-r border-slate-100 text-center font-bold text-slate-700">
-                          {r.roll || "—"}
-                        </td>
+                        {r.roll || "—"}
+                      </td>
 
-                        {/* ID */}
-                        <td className="py-2.5 px-3 border-r border-slate-100 font-semibold text-slate-900">
-                          {r.studentId}
-                        </td>
+                      {/* ID */}
+                      <td
+                        className={`sticky z-[1] font-mono text-xs text-[var(--fg-muted)] whitespace-nowrap ${STICKY_BODY_BG}`}
+                        style={{ left: W_ROLL, width: W_ID, minWidth: W_ID, maxWidth: W_ID }}
+                      >
+                        {r.studentId}
+                      </td>
 
-                        {/* Student Name */}
-                        <td className="py-2.5 px-4 border-r border-slate-100 font-sans font-medium text-slate-900">
+                      {/* Student name */}
+                      <td
+                        className={`sticky z-[1] font-medium whitespace-nowrap border-r border-[var(--border)] ${STICKY_BODY_BG}`}
+                        style={{ left: W_ROLL + W_ID, width: W_NAME, minWidth: W_NAME, maxWidth: W_NAME }}
+                      >
+                        <span className="block truncate" title={r.studentName}>
                           {r.studentName}
-                        </td>
+                        </span>
+                      </td>
 
-                        {/* BAN */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(ban)}>
-                          <div className="font-bold" style={{ color: "var(--fg)" }}>{ban?.displayMark || "—"}</div>
-                          {ban && (
-                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(ban?.letterGrade)}>
-                              {ban.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* ENG */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(eng)}>
-                          <div className="font-bold" style={{ color: "var(--fg)" }}>{eng?.displayMark || "—"}</div>
-                          {eng && (
-                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(eng?.letterGrade)}>
-                              {eng.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* MAT */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(mat)}>
-                          <div className="font-bold" style={{ color: "var(--fg)" }}>{mat?.displayMark || "—"}</div>
-                          {mat && (
-                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(mat?.letterGrade)}>
-                              {mat.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* REL (Compulsory) */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(rel)}>
-                          <div className="font-bold" style={{ color: "var(--fg)" }}>{rel?.displayMark || "—"}</div>
-                          {rel && (
-                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(rel?.letterGrade)}>
-                              {rel.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* PHY (Compulsory) */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(phy)}>
-                          <div className="font-bold" style={{ color: "var(--fg)" }}>{phy?.displayMark || "—"}</div>
-                          {phy && (
-                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(phy?.letterGrade)}>
-                              {phy.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* CHE (Compulsory) */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(che)}>
-                          <div className="font-bold" style={{ color: "var(--fg)" }}>{che?.displayMark || "—"}</div>
-                          {che && (
-                            <span className="text-[10px] font-bold px-1 rounded inline-block" style={getGradeColorStyle(che?.letterGrade)}>
-                              {che.letterGrade}
-                            </span>
-                          )}
-                        </td>
-
-                        {/* BIO (Optional Column with 4th OPT tag if applicable) */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(bio, r.optionalSubject === "BIO")}>
-                          {bio ? (
-                            <div>
-                              {r.optionalSubject === "BIO" && (
-                                <span style={{ backgroundColor: "rgba(124,58,237,0.15)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.3)" }} className="text-[9px] px-1 py-0.5 rounded font-bold border mb-0.5 inline-block">
-                                  4th OPT
-                                </span>
-                              )}
-                              <div className="font-bold" style={{ color: "var(--fg)" }}>{bio.displayMark}</div>
-                              <span className="text-[10px] font-bold px-1 rounded mt-0.5 inline-block" style={getGradeColorStyle(bio.letterGrade)}>
-                                {bio.letterGrade}
-                              </span>
-                            </div>
-                          ) : (
-                            <span style={{ color: "var(--fg-subtle)" }}>—</span>
-                          )}
-                        </td>
-
-                        {/* HMT (Optional Column with 4th OPT tag if applicable) */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(hmt, r.optionalSubject === "HMT")}>
-                          {hmt ? (
-                            <div>
-                              {r.optionalSubject === "HMT" && (
-                                <span style={{ backgroundColor: "rgba(124,58,237,0.15)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.3)" }} className="text-[9px] px-1 py-0.5 rounded font-bold border mb-0.5 inline-block">
-                                  4th OPT
-                                </span>
-                              )}
-                              <div className="font-bold" style={{ color: "var(--fg)" }}>{hmt.displayMark}</div>
-                              <span className="text-[10px] font-bold px-1 rounded mt-0.5 inline-block" style={getGradeColorStyle(hmt.letterGrade)}>
-                                {hmt.letterGrade}
-                              </span>
-                            </div>
-                          ) : (
-                            <span style={{ color: "var(--fg-subtle)" }}>—</span>
-                          )}
-                        </td>
-
-                        {/* AGR (Optional Column with 4th OPT tag if applicable) */}
-                        <td className="py-2 px-2 border-r border-slate-100 text-center" style={getCellStyle(agr, r.optionalSubject === "AGR")}>
-                          {agr ? (
-                            <div>
-                              {r.optionalSubject === "AGR" && (
-                                <span style={{ backgroundColor: "rgba(124,58,237,0.15)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.3)" }} className="text-[9px] px-1 py-0.5 rounded font-bold border mb-0.5 inline-block">
-                                  4th OPT
-                                </span>
-                              )}
-                              <div className="font-bold" style={{ color: "var(--fg)" }}>{agr.displayMark}</div>
-                              <span className="text-[10px] font-bold px-1 rounded mt-0.5 inline-block" style={getGradeColorStyle(agr.letterGrade)}>
-                                {agr.letterGrade}
-                              </span>
-                            </div>
-                          ) : (
-                            <span style={{ color: "var(--fg-subtle)" }}>—</span>
-                          )}
-                        </td>
-
-                        {/* Raw GPA */}
-                        <td className="py-2.5 px-2 border-r border-slate-100 text-center text-[11px]" style={{ color: "var(--fg-muted)" }}>
-                          {r.rawGPA.toFixed(2)}
-                        </td>
-
-                        {/* Final GPA */}
-                        <td className="py-2.5 px-3 border-r border-slate-100 text-center font-bold text-sm" style={{ color: "var(--fg)" }}>
-                          {r.finalGPA.toFixed(2)}
-                        </td>
-
-                        {/* Letter Grade */}
-                        <td className="py-2.5 px-3 border-r border-slate-100 text-center">
-                          <GradeBadge grade={r.finalLetterGrade} size="sm" />
-                        </td>
-
-                        {/* Action: Trace */}
-                        <td className="py-2.5 px-3 text-center">
-                          <button
-                            onClick={() => setSelectedStudentId(r.studentId)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white transition-colors font-sans text-xs font-semibold border border-blue-200"
+                      {/* Subjects */}
+                      {SUBJECT_COLUMNS.map((col) => {
+                        const sub = r.subjectEvaluations?.find((s: any) => s.code === col.code);
+                        const isOptional = r.optionalSubject === col.code;
+                        return (
+                          <td
+                            key={col.code}
+                            className="text-right whitespace-nowrap px-3! py-2!"
+                            style={getCellStyle(sub)}
                           >
-                            <Eye className="w-3.5 h-3.5" />
-                            <span>Trace</span>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
+                            <SubjectMark sub={sub} isOptional={isOptional} />
+                          </td>
+                        );
+                      })}
+
+                      {/* Raw GPA */}
+                      <td className="text-right tabular-nums text-[var(--fg-muted)] px-3!">
+                        {r.rawGPA.toFixed(2)}
+                      </td>
+
+                      {/* Final GPA */}
+                      <td
+                        className={`sticky z-[1] text-right tabular-nums font-semibold text-sm border-l border-[var(--border)] ${STICKY_BODY_BG}`}
+                        style={{
+                          right: W_GRADE + W_AUDIT,
+                          width: W_FINAL,
+                          minWidth: W_FINAL,
+                          color: r.isPassed ? "var(--fg)" : "var(--grade-f)",
+                        }}
+                      >
+                        {r.finalGPA.toFixed(2)}
+                      </td>
+
+                      {/* Letter grade */}
+                      <td
+                        className={`sticky z-[1] text-center ${STICKY_BODY_BG}`}
+                        style={{ right: W_AUDIT, width: W_GRADE, minWidth: W_GRADE }}
+                      >
+                        <GradeBadge grade={r.finalLetterGrade} size="sm" />
+                      </td>
+
+                      {/* Action: trace */}
+                      <td
+                        className={`sticky right-0 z-[1] text-right ${STICKY_BODY_BG}`}
+                        style={{ width: W_AUDIT, minWidth: W_AUDIT }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setSelectedStudentId(r.studentId)}
+                          className="btn btn-secondary btn-sm"
+                          title={`View calculation trace for ${r.studentName}`}
+                        >
+                          <Eye />
+                          <span>Trace</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
                 )}
               </tbody>
             </table>
           </div>
 
-          {/* Pagination Controls */}
+          {/* Pagination controls */}
           {totalCount > 0 && (
-            <div className="bg-slate-50 px-4 py-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs select-none">
-              <div className="text-slate-600 font-medium">
-                Showing <span className="font-bold text-slate-900">{totalCount === 0 ? 0 : startIndex + 1}</span> to{" "}
-                <span className="font-bold text-slate-900">{endIndex}</span> of{" "}
-                <span className="font-bold text-slate-900">{totalCount}</span> students
-              </div>
+            <div className="px-5 py-3 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-3 select-none">
+              <p className="text-xs text-[var(--fg-muted)] tabular-nums">
+                Showing{" "}
+                <span className="font-medium text-[var(--fg)]">{totalCount === 0 ? 0 : startIndex + 1}</span>
+                –<span className="font-medium text-[var(--fg)]">{endIndex}</span> of{" "}
+                <span className="font-medium text-[var(--fg)]">{totalCount}</span> students
+              </p>
 
               <div className="flex items-center gap-1.5">
                 <button
+                  type="button"
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="px-2.5 py-1.5 rounded-md border border-slate-200 bg-white text-slate-700 font-semibold hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed inline-flex items-center gap-1 transition-colors"
+                  className="btn btn-secondary btn-sm"
                 >
-                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <ChevronLeft />
                   <span>Previous</span>
                 </button>
 
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                    <button
-                      key={pageNum}
-                      onClick={() => setCurrentPage(pageNum)}
-                      className={`w-7 h-7 rounded-md text-xs font-bold transition-all ${
-                        currentPage === pageNum
-                          ? "bg-blue-600 text-white shadow-xs"
-                          : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-100"
-                      }`}
-                    >
-                      {pageNum}
-                    </button>
-                  ))}
-                </div>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    type="button"
+                    onClick={() => setCurrentPage(pageNum)}
+                    aria-current={currentPage === pageNum ? "page" : undefined}
+                    className={`btn btn-sm min-w-[30px] px-2! tabular-nums ${
+                      currentPage === pageNum ? "btn-primary" : "btn-secondary"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
 
                 <button
+                  type="button"
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-2.5 py-1.5 rounded-md border border-slate-200 bg-white text-slate-700 font-semibold hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed inline-flex items-center gap-1 transition-colors"
+                  className="btn btn-secondary btn-sm"
                 >
                   <span>Next</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight />
                 </button>
               </div>
             </div>
@@ -411,24 +389,34 @@ export default function ClassResultsMatrixPage() {
         </div>
 
         {/* Legend */}
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 flex flex-wrap items-center gap-4">
-          <span className="font-bold text-slate-900">Legend:</span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-red-100 border border-red-300 inline-block" />
-            <span>Component Fail (Theory &lt; 25 / Practical &lt; 8)</span>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-[var(--fg-muted)]">
+          <span className="font-medium text-[var(--fg)]">Legend</span>
+          <span className="flex items-center gap-2">
+            <span
+              className="w-3.5 h-3.5 rounded-sm inline-block"
+              style={{
+                backgroundColor: "color-mix(in srgb, var(--grade-f) 10%, transparent)",
+                boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--grade-f) 30%, transparent)",
+              }}
+            />
+            <span>Component fail (theory &lt; 25 / practical &lt; 8)</span>
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-purple-100 border border-purple-300 inline-block" />
-            <span>Optional 4th Subject (BIO / HMT / AGR)</span>
+          <span className="flex items-center gap-2">
+            <OptionalMarker />
+            <span>Optional 4th subject (BIO / HMT / AGR)</span>
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded bg-slate-200 border border-slate-300 inline-block" />
-            <span>Absent Mark (AB)</span>
+          <span className="flex items-center gap-2">
+            <span className="w-3.5 h-3.5 rounded-sm inline-block bg-[var(--bg-subtle)] border border-[var(--border-strong)]" />
+            <span>Absent mark (AB)</span>
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-0.5 h-3.5 inline-block rounded-full bg-[var(--grade-f)]" />
+            <span>Student failed</span>
           </span>
         </div>
       </main>
 
-      {/* Slideover Audit Trace Drawer */}
+      {/* Slideover audit trace drawer */}
       <TraceDrawer
         studentId={selectedStudentId}
         onClose={() => setSelectedStudentId(null)}
@@ -437,38 +425,59 @@ export default function ClassResultsMatrixPage() {
   );
 }
 
-// Cell background — returns inline style for theme-neutral coloring
-function getCellStyle(sub: any, isOptional = false): React.CSSProperties {
+function OptionalMarker() {
+  return (
+    <span className="inline-flex items-center h-4 px-1 rounded-sm text-[10px] font-medium leading-none text-[var(--accent)] bg-[var(--accent-subtle)]">
+      4th opt
+    </span>
+  );
+}
+
+// Mark + subject grade, stacked. T+P marks keep the "70+20=90" notation with the total emphasised.
+function SubjectMark({ sub, isOptional }: { sub: any; isOptional: boolean }) {
   if (!sub) {
-    return isOptional
-      ? { backgroundColor: "rgba(124,58,237,0.07)", borderLeft: "1px solid rgba(124,58,237,0.2)", borderRight: "1px solid rgba(124,58,237,0.2)" }
-      : {};
+    return <span className="text-[var(--fg-subtle)]">—</span>;
   }
-  if (sub.isAbsent) return { backgroundColor: "rgba(100,116,139,0.2)" };
-  if (!sub.isPassed) return { backgroundColor: "rgba(220,38,38,0.12)" };
-  if (isOptional) return { backgroundColor: "rgba(124,58,237,0.07)", borderLeft: "1px solid rgba(124,58,237,0.2)", borderRight: "1px solid rgba(124,58,237,0.2)" };
+
+  const mark: string = sub.displayMark || "—";
+  const eqIdx = mark.lastIndexOf("=");
+  const failed = !sub.isPassed;
+  const totalColor = sub.isAbsent ? "var(--fg-muted)" : failed ? "var(--grade-f)" : "var(--fg)";
+  const gradeVar = GRADE_VARS[sub.letterGrade];
+
+  return (
+    <div className="leading-tight">
+      <div className="tabular-nums text-[13px]">
+        {eqIdx > 0 ? (
+          <>
+            <span className="text-[var(--fg-subtle)]">{mark.slice(0, eqIdx + 1)}</span>
+            <span className="font-semibold" style={{ color: totalColor }}>
+              {mark.slice(eqIdx + 1)}
+            </span>
+          </>
+        ) : (
+          <span className="font-semibold" style={{ color: totalColor }}>
+            {mark}
+          </span>
+        )}
+      </div>
+      <div className="mt-1 flex items-center justify-end gap-1.5">
+        {isOptional && <OptionalMarker />}
+        <span
+          className="text-[11px] font-semibold tabular-nums"
+          style={{ color: gradeVar ? `var(${gradeVar})` : "var(--fg-subtle)" }}
+        >
+          {sub.letterGrade}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// Cell background — subtle per-cell tint for failures / absences only.
+function getCellStyle(sub: any): React.CSSProperties {
+  if (!sub) return {};
+  if (sub.isAbsent) return { backgroundColor: "var(--bg-subtle)" };
+  if (!sub.isPassed) return { backgroundColor: "color-mix(in srgb, var(--grade-f) 8%, transparent)" };
   return {};
 }
-
-// Keep old function for backward compat — returns empty to let cells just inherit
-function getCellBg(sub: any, isOptional = false): string {
-  return "";
-}
-
-function getGradeColorStyle(grade?: string): React.CSSProperties {
-  switch (grade) {
-    case "A+": return { backgroundColor: "rgba(5,150,105,0.12)", color: "#059669", border: "1px solid rgba(5,150,105,0.3)" };
-    case "A":  return { backgroundColor: "rgba(16,185,129,0.10)", color: "#10b981", border: "1px solid rgba(16,185,129,0.25)" };
-    case "A-": return { backgroundColor: "rgba(13,148,136,0.10)", color: "#0d9488", border: "1px solid rgba(13,148,136,0.25)" };
-    case "B":  return { backgroundColor: "rgba(37,99,235,0.10)", color: "#3b82f6", border: "1px solid rgba(37,99,235,0.25)" };
-    case "C":  return { backgroundColor: "rgba(217,119,6,0.10)", color: "#d97706", border: "1px solid rgba(217,119,6,0.25)" };
-    case "D":  return { backgroundColor: "rgba(234,88,12,0.10)", color: "#ea580c", border: "1px solid rgba(234,88,12,0.25)" };
-    case "F":  return { backgroundColor: "rgba(220,38,38,0.12)", color: "#ef4444", border: "1px solid rgba(220,38,38,0.3)" };
-    default:   return { color: "var(--fg-subtle)" };
-  }
-}
-
-function getGradeColor(grade?: string): string {
-  return ""; // Kept for backward compat — use getGradeColorStyle instead
-}
-

@@ -173,7 +173,7 @@ export default function SeedDataPage() {
         <div className="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 shadow-xl flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1 max-w-3xl">
             <div className="flex items-center gap-2">
-              <span className="p-1 rounded bg-blue-600">
+              <span className="p-1 rounded-sm bg-blue-600">
                 <TestTube2 className="w-4 h-4 text-white" />
               </span>
               <h3 className="font-bold text-base tracking-tight text-white">
@@ -199,17 +199,17 @@ export default function SeedDataPage() {
             {edgeCases.map((ec) => (
               <div
                 key={ec.edgeId}
-                className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 transition-all flex flex-col justify-between space-y-4"
+                className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs hover:border-blue-400 transition-all flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded bg-slate-900 text-white font-mono text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-sm bg-slate-900 text-white font-mono text-[10px] font-bold">
                         {ec.edgeId}
                       </span>
                       <h4 className="font-bold text-sm text-slate-900">{ec.title}</h4>
                     </div>
-                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">
+                    <span className="text-xs font-mono px-2 py-0.5 rounded-sm bg-slate-100 text-slate-700 font-semibold">
                       {ec.id}
                     </span>
                   </div>

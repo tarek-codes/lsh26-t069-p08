@@ -272,6 +272,79 @@ class SchoolDataStore {
     return this.calculationRuns.get(classId);
   }
 
+  public getDashboardSummary(classId: string = "ALL") {
+    const classes = this.getClasses();
+
+    if (classId === "ALL" || !classId) {
+      let totalStudents = 0;
+      let passedStudents = 0;
+      let failedStudents = 0;
+      let sumGPA = 0;
+      const gradeDist: Record<string, number> = { "A+": 0, A: 0, "A-": 0, B: 0, C: 0, D: 0, F: 0 };
+      const flaggedCount = { optionalLow: 0, practicalFail: 0, absent: 0, total: 0 };
+
+      for (const cls of classes) {
+        const run = this.getLatestRun(cls.id);
+        if (run) {
+          totalStudents += run.summary.totalStudents;
+          passedStudents += run.summary.passedStudents;
+          failedStudents += run.summary.failedStudents;
+          sumGPA += run.summary.averageGPA * run.summary.totalStudents;
+
+          for (const [g, count] of Object.entries(run.summary.gradeDistribution)) {
+            gradeDist[g] = (gradeDist[g] || 0) + (count as number);
+          }
+
+          flaggedCount.optionalLow += run.summary.flaggedCount.optionalLow || 0;
+          flaggedCount.practicalFail += run.summary.flaggedCount.practicalFail || 0;
+          flaggedCount.absent += run.summary.flaggedCount.absent || 0;
+          flaggedCount.total += run.summary.flaggedCount.total || 0;
+        }
+      }
+
+      return {
+        class: { id: "ALL", name: "All Classes (60 Students)", code: "ALL" },
+        runInfo: { status: "PUBLISHED", calculatedAt: new Date().toISOString() },
+        summary: {
+          totalStudents,
+          passedStudents,
+          failedStudents,
+          passRate: totalStudents > 0 ? Math.round((passedStudents / totalStudents) * 1000) / 10 : 0,
+          averageGPA: totalStudents > 0 ? Math.round((sumGPA / totalStudents) * 100) / 100 : 0,
+          gradeDistribution: gradeDist,
+          flaggedCount,
+        },
+      };
+    }
+
+    const targetClass = this.getClassById(classId);
+    if (!targetClass) return null;
+
+    const latestRun = this.getLatestRun(targetClass.id);
+    return {
+      class: targetClass,
+      runInfo: latestRun
+        ? {
+            runId: latestRun.id,
+            runCode: latestRun.runCode,
+            calculatedAt: latestRun.calculatedAt,
+            status: latestRun.status,
+          }
+        : null,
+      summary: latestRun
+        ? {
+            totalStudents: latestRun.summary.totalStudents,
+            passedStudents: latestRun.summary.passedStudents,
+            failedStudents: latestRun.summary.failedStudents,
+            passRate: latestRun.summary.passRate,
+            averageGPA: latestRun.summary.averageGPA,
+            gradeDistribution: latestRun.summary.gradeDistribution,
+            flaggedCount: latestRun.summary.flaggedCount,
+          }
+        : null,
+    };
+  }
+
   public getStudentResult(
     studentId: string
   ): StudentCalculationResult | undefined {
@@ -338,4 +411,83 @@ export const store = globalForStore.schoolStore || new SchoolDataStore();
 
 if (process.env.NODE_ENV !== "production") {
   globalForStore.schoolStore = store;
+  // Ensure the existing singleton inherits any updated prototype methods during HMR
+  Object.setPrototypeOf(store, SchoolDataStore.prototype);
 }
+
+export function getDashboardSummary(classId: string = "ALL") {
+  const classes = store.getClasses();
+
+  if (classId === "ALL" || !classId) {
+    let totalStudents = 0;
+    let passedStudents = 0;
+    let failedStudents = 0;
+    let sumGPA = 0;
+    const gradeDist: Record<string, number> = { "A+": 0, A: 0, "A-": 0, B: 0, C: 0, D: 0, F: 0 };
+    const flaggedCount = { optionalLow: 0, practicalFail: 0, absent: 0, total: 0 };
+
+    for (const cls of classes) {
+      const run = store.getLatestRun(cls.id);
+      if (run) {
+        totalStudents += run.summary.totalStudents;
+        passedStudents += run.summary.passedStudents;
+        failedStudents += run.summary.failedStudents;
+        sumGPA += run.summary.averageGPA * run.summary.totalStudents;
+
+        for (const [g, count] of Object.entries(run.summary.gradeDistribution)) {
+          gradeDist[g] = (gradeDist[g] || 0) + (count as number);
+        }
+
+        flaggedCount.optionalLow += run.summary.flaggedCount.optionalLow || 0;
+        flaggedCount.practicalFail += run.summary.flaggedCount.practicalFail || 0;
+        flaggedCount.absent += run.summary.flaggedCount.absent || 0;
+        flaggedCount.total += run.summary.flaggedCount.total || 0;
+      }
+    }
+
+    return {
+      class: { id: "ALL", name: "All Classes (60 Students)", code: "ALL" },
+      runInfo: { status: "PUBLISHED", calculatedAt: new Date().toISOString() },
+      summary: {
+        totalStudents,
+        passedStudents,
+        failedStudents,
+        passRate: totalStudents > 0 ? Math.round((passedStudents / totalStudents) * 1000) / 10 : 0,
+        averageGPA: totalStudents > 0 ? Math.round((sumGPA / totalStudents) * 100) / 100 : 0,
+        gradeDistribution: gradeDist,
+        flaggedCount,
+      },
+    };
+  }
+
+  const targetClass = store.getClassById(classId);
+  if (!targetClass) return null;
+
+  const latestRun = store.getLatestRun(targetClass.id);
+  return {
+    class: targetClass,
+    runInfo: latestRun
+      ? {
+          runId: latestRun.id,
+          runCode: latestRun.runCode,
+          calculatedAt: latestRun.calculatedAt,
+          status: latestRun.status,
+        }
+      : null,
+    summary: latestRun
+      ? {
+          totalStudents: latestRun.summary.totalStudents,
+          passedStudents: latestRun.summary.passedStudents,
+          failedStudents: latestRun.summary.failedStudents,
+          passRate: latestRun.summary.passRate,
+          averageGPA: latestRun.summary.averageGPA,
+          gradeDistribution: latestRun.summary.gradeDistribution,
+          flaggedCount: latestRun.summary.flaggedCount,
+        }
+      : null,
+  };
+}
+
+(store as any).getDashboardSummary = getDashboardSummary;
+SchoolDataStore.prototype.getDashboardSummary = getDashboardSummary;
+

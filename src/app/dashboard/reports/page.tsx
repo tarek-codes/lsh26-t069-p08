@@ -141,7 +141,7 @@ export default function ReportsPage() {
               <select
                 value={selectedStudentId}
                 onChange={(e) => setSelectedStudentId(e.target.value)}
-                className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               >
                 {transcripts.map((t: any) => (
                   <option key={t.student.id} value={t.student.id}>
@@ -374,7 +374,7 @@ function TranscriptCard({
                   <div className="flex items-center gap-1.5">
                     <span className={isOptional ? "font-bold text-purple-950" : ""}>{sub.name} ({sub.code})</span>
                     {isOptional && (
-                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-purple-200 text-purple-900 border border-purple-300 font-mono no-print">
+                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-sm bg-purple-200 text-purple-900 border border-purple-300 font-mono no-print">
                         Optional 4th
                       </span>
                     )}

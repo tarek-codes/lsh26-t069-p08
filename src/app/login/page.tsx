@@ -55,7 +55,7 @@ export default function LoginPage() {
         className="h-16 px-6 flex items-center justify-between"
       >
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white group-hover:scale-105 transition-transform flex-shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center text-white group-hover:scale-105 transition-transform shrink-0">
             <GraduationCap className="w-5 h-5" />
           </div>
           <div>
@@ -63,7 +63,7 @@ export default function LoginPage() {
               <span className="font-extrabold text-sm tracking-tight" style={{ color: "var(--fg)" }}>
                 School<span style={{ color: "var(--accent)" }}>Engine</span>
               </span>
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[var(--accent-subtle)] text-[var(--accent)] border border-[var(--accent-border)]">
+              <span className="px-1.5 py-0.5 rounded-sm text-[9px] font-mono font-bold uppercase bg-[var(--accent-subtle)] text-[var(--accent)] border border-[var(--accent-border)]">
                 Admin
               </span>
             </div>
@@ -134,7 +134,7 @@ export default function LoginPage() {
                   }}
                   className="flex items-center gap-2 p-3.5 rounded-xl text-xs border"
                 >
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{error}</span>
                 </div>
               )}
@@ -186,7 +186,7 @@ export default function LoginPage() {
                         borderColor: "var(--border)",
                         color: "var(--fg)",
                       }}
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl text-xs font-mono border focus:outline-none focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--fg-subtle)]"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl text-xs font-mono border focus:outline-hidden focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--fg-subtle)]"
                     />
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function LoginPage() {
                         borderColor: "var(--border)",
                         color: "var(--fg)",
                       }}
-                      className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs font-mono border focus:outline-none focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--fg-subtle)]"
+                      className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs font-mono border focus:outline-hidden focus:ring-2 focus:ring-[var(--accent)] placeholder:text-[var(--fg-subtle)]"
                     />
                     <button
                       type="button"

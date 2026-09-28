@@ -56,7 +56,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
             backgroundColor: "var(--bg-subtle)",
             borderBottom: "1px solid var(--border)",
           }}
-          className="px-6 py-4 flex items-center justify-between flex-shrink-0"
+          className="px-6 py-4 flex items-center justify-between shrink-0"
         >
           <div>
             <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                   color: "var(--fg-muted)",
                   borderColor: "var(--border)",
                 }}
-                className="font-mono text-xs px-2 py-0.5 rounded font-semibold border"
+                className="font-mono text-xs px-2 py-0.5 rounded-sm font-semibold border"
               >
                 {studentId}
               </span>
@@ -122,9 +122,9 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       {evalData.hasCompulsoryFail ? (
-                        <AlertOctagon className="w-4 h-4 text-red-500 flex-shrink-0" />
+                        <AlertOctagon className="w-4 h-4 text-red-500 shrink-0" />
                       ) : (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                       )}
                       <span
                         className="text-xs font-bold uppercase tracking-wider"
@@ -205,7 +205,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                                   borderColor: "var(--border)",
                                   color: "var(--fg-muted)",
                                 }}
-                                className="text-[10px] px-1.5 py-0.2 rounded font-mono border"
+                                className="text-[10px] px-1.5 py-0.2 rounded-sm font-mono border"
                               >
                                 Theory+Practical
                               </span>
@@ -216,7 +216,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2 flex-shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                           <span className="font-mono font-bold" style={{ color: "var(--fg)" }}>
                             GP {s.gradePoint.toFixed(2)}
                           </span>
@@ -262,7 +262,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                               backgroundColor: "rgba(124, 58, 237, 0.18)",
                               color: "#c4b5fd",
                             }}
-                            className="text-[10px] px-1.5 py-0.2 rounded font-semibold"
+                            className="text-[10px] px-1.5 py-0.2 rounded-sm font-semibold"
                           >
                             Elective 4th
                           </span>
@@ -281,7 +281,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                           borderColor: "var(--border)",
                           color: "var(--fg-muted)",
                         }}
-                        className="p-2 rounded border font-mono text-[11px] space-y-1"
+                        className="p-2 rounded-sm border font-mono text-[11px] space-y-1"
                       >
                         <p>Formula: max(0, Optional_GP - 2.00)</p>
                         <p className="font-semibold text-purple-400">
