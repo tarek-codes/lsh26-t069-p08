@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { store } from "@/lib/store";
 import { syncStore } from "@/lib/store-sync";
-import { saveStudents } from "@/lib/persistence";
+import { saveStudents, persistenceEnabled } from "@/lib/persistence";
 import { SUBJECT_DEFINITIONS, SubjectCode } from "@/engine/types";
 
 const MarkSchema = z.union([
@@ -81,6 +81,7 @@ export async function POST(
       data: {
         student: updatedStudent,
         result: updatedResult,
+        persisted: persistenceEnabled(),
       },
     });
   } catch (error) {

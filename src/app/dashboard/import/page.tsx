@@ -27,7 +27,7 @@ export default function ImportMarksPage() {
   const [loading, setLoading] = useState(false);
   const [importing, setImporting] = useState(false);
   const [validationResult, setValidationResult] = useState<any>(null);
-  const [commitSuccess, setCommitSuccess] = useState<{ insertedCount: number; updatedCount: number } | null>(null);
+  const [commitSuccess, setCommitSuccess] = useState<{ insertedCount: number; updatedCount: number; persisted: boolean } | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"rejected" | "accepted">("rejected");
 
@@ -90,6 +90,7 @@ export default function ImportMarksPage() {
         setCommitSuccess({
           insertedCount: json.data.insertedCount,
           updatedCount: json.data.updatedCount,
+          persisted: json.data.persisted !== false,
         });
       } else {
         alert(json.error?.message || "Failed to commit students");
@@ -150,7 +151,10 @@ export default function ImportMarksPage() {
                 <h4 className="font-bold text-sm">Import &amp; Recalculation Complete!</h4>
                 <p className="text-xs text-emerald-800 mt-0.5">
                   <strong>{commitSuccess.insertedCount} new {commitSuccess.insertedCount === 1 ? "student" : "students"}</strong> added and{" "}
-                  <strong>{commitSuccess.updatedCount} {commitSuccess.updatedCount === 1 ? "student's" : "students'"} marks</strong> updated. Results, checking lists and reports are refreshed.
+                  <strong>{commitSuccess.updatedCount} {commitSuccess.updatedCount === 1 ? "student's" : "students'"} marks</strong> updated.{" "}
+                  {commitSuccess.persisted
+                    ? "Saved to the database; results, checking lists and reports are refreshed."
+                    : "Warning: the database is not connected, so these changes are temporary and will be lost when the server restarts."}
                 </p>
               </div>
             </div>

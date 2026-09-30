@@ -14,7 +14,14 @@ vi.mock("@supabase/supabase-js", () => ({
           for (const r of ([] as any[]).concat(rows)) tables[t].set(keyOf(t, r), { ...(tables[t].get(keyOf(t, r)) ?? {}), ...r });
           return { error: null };
         },
-        select: () => ({ limit: async () => ({ data: [...tables[t].values()], error: null }) }),
+        select: () => ({
+          order: () => ({
+            range: async (from: number, to: number) => ({
+              data: [...tables[t].values()].slice(from, to + 1),
+              error: null,
+            }),
+          }),
+        }),
       };
       return api;
     },

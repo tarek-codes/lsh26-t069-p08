@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
 import { syncStore } from "@/lib/store-sync";
-import { saveStudents } from "@/lib/persistence";
+import { saveStudents, persistenceEnabled } from "@/lib/persistence";
 import { processMarksSheet } from "@/engine/marks-importer";
 import { applyExistingRecordRules } from "@/lib/import-rules";
 
@@ -82,6 +82,7 @@ export async function POST(request: NextRequest) {
           committed: true,
           insertedCount: inserted.length,
           updatedCount: updated.length,
+          persisted: persistenceEnabled(),
           validation: validationResult,
         },
       });

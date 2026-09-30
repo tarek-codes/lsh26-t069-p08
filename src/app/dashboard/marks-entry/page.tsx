@@ -72,8 +72,13 @@ export default function MarksEntryPage() {
         });
         const json = await res.json();
         if (json.success) {
-          setSavedStatus("Auto-saved");
-          setTimeout(() => setSavedStatus("Synced"), 1200);
+          if (json.data?.persisted === false) {
+            // Server is running without a database connection: edits would be lost on restart.
+            setSavedStatus("Not saved to database");
+          } else {
+            setSavedStatus("Auto-saved");
+            setTimeout(() => setSavedStatus("Synced"), 1200);
+          }
         } else {
           console.error("Marks were not saved", json.error);
           setSavedStatus("Save Error");

@@ -140,14 +140,29 @@ export async function loadSnapshot(): Promise<Snapshot | null> {
   const db = getClient();
   if (!db) return null;
 
-  const [studentsRes, marksRes, flagsRes] = await Promise.all([
-    db.from("students").select("*").limit(10000),
-    db.from("marks").select("*").limit(100000),
-    db.from("checking_flags").select("*").limit(100000),
+  // Supabase returns at most 1000 rows per request, so read each table in pages.
+  const readAll = async (table: string, order: string) => {
+    const rows: any[] = [];
+    for (let from = 0; ; from += 1000) {
+      const { data, error } = await db
+        .from(table)
+        .select("*")
+        .order(order)
+        .range(from, from + 999);
+      fail("read", error);
+      rows.push(...(data ?? []));
+      if (!data || data.length < 1000) break;
+    }
+    return rows;
+  };
+  const [studentRows, markRows, flagRows] = await Promise.all([
+    readAll("students", "id"),
+    readAll("marks", "id"),
+    readAll("checking_flags", "id"),
   ]);
-  fail("read", studentsRes.error);
-  fail("read", marksRes.error);
-  fail("read", flagsRes.error);
+  const studentsRes = { data: studentRows };
+  const marksRes = { data: markRows };
+  const flagsRes = { data: flagRows };
 
   const marksByStudent = new Map<string, Record<string, RawMark>>();
   for (const m of marksRes.data ?? []) {
