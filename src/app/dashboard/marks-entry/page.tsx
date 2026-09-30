@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { notifyDataChanged } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -21,6 +22,22 @@ export default function MarksEntryPage() {
   const [currentMarks, setCurrentMarks] = useState<Record<string, RawMark>>({});
   const [savedStatus, setSavedStatus] = useState<string>("Synced");
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Edit waiting for the 500ms debounce; flushed if the page is left before it fires
+  const pendingSave = useRef<{ studentId: string; marks: Record<string, RawMark> } | null>(null);
+
+  useEffect(() => {
+    return () => {
+      const p = pendingSave.current;
+      if (!p) return;
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      fetch(`/api/v1/students/${p.studentId}/marks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ marks: p.marks }),
+        keepalive: true,
+      }).then(() => notifyDataChanged()).catch(() => {});
+    };
+  }, []);
 
   // Load students for active class
   useEffect(() => {
@@ -72,6 +89,7 @@ export default function MarksEntryPage() {
         });
         const json = await res.json();
         if (json.success) {
+          notifyDataChanged();
           if (json.data?.persisted === false) {
             // Server is running without a database connection: edits would be lost on restart.
             setSavedStatus("Not saved to database");
@@ -93,10 +111,12 @@ export default function MarksEntryPage() {
 
   const updateMarksAndSync = useCallback((newMarks: Record<string, RawMark>) => {
     setCurrentMarks(newMarks);
+    pendingSave.current = { studentId: selectedStudentId, marks: newMarks };
     // Debounce server persist by 500ms — avoids saving partial keystrokes
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     debounceTimer.current = setTimeout(() => {
       if (selectedStudentId) {
+        pendingSave.current = null;
         persistToServer(selectedStudentId, newMarks);
       }
     }, 500);

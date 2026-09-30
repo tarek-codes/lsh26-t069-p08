@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useLiveRefresh, notifyDataChanged } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -62,13 +63,14 @@ export default function ClassResultsMatrixPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState<number>(10);
 
-  const loadData = async () => {
+  const loadData = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const res = await fetch(
         `/api/v1/results?classId=${activeClassId}&grade=${encodeURIComponent(
           selectedGrade
-        )}&search=${encodeURIComponent(debouncedQuery)}`
+        )}&search=${encodeURIComponent(debouncedQuery)}`,
+        { cache: "no-store" }
       );
       const json = await res.json();
       if (json.success) {
@@ -86,6 +88,8 @@ export default function ClassResultsMatrixPage() {
     loadData();
   }, [activeClassId, selectedGrade, debouncedQuery]);
 
+  useLiveRefresh(() => loadData(true));
+
   const handleCalculate = async () => {
     try {
       setCalculating(true);
@@ -95,6 +99,7 @@ export default function ClassResultsMatrixPage() {
         body: JSON.stringify({ classId: activeClassId }),
       });
       await loadData();
+      notifyDataChanged();
     } catch (err) {
       console.error("Calculation failed", err);
     } finally {

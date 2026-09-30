@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useLiveRefresh } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -29,24 +30,29 @@ export default function ReportsPage() {
   // State to trigger whole-class print rendering of all students
   const [isPrintingAll, setIsPrintingAll] = useState(false);
 
-  useEffect(() => {
-    async function loadReports() {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/v1/export/report-cards?classId=${activeClassId}`);
-        const json = await res.json();
-        if (json.success) {
-          setData(json.data);
-          if (json.data.transcripts && json.data.transcripts.length > 0) {
-            setSelectedStudentId(json.data.transcripts[0].student.id);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load reports", err);
-      } finally {
-        setLoading(false);
+  const loadReports = async (silent = false) => {
+    try {
+      if (!silent) setLoading(true);
+      const res = await fetch(`/api/v1/export/report-cards?classId=${activeClassId}`, { cache: "no-store" });
+      const json = await res.json();
+      if (json.success) {
+        setData(json.data);
+        const list = json.data.transcripts || [];
+        // Keep the student being viewed; fall back to the first one (e.g. after switching class)
+        setSelectedStudentId((prev) =>
+          prev && list.some((t: any) => t.student.id === prev) ? prev : list[0]?.student.id ?? ""
+        );
       }
+    } catch (err) {
+      console.error("Failed to load reports", err);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useLiveRefresh(() => loadReports(true));
+
+  useEffect(() => {
     setCurrentPage(1);
     loadReports();
   }, [activeClassId]);

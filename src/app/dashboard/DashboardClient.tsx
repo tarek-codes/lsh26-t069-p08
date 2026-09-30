@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import { useLiveRefresh } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { CLASS_OPTIONS } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -55,10 +56,10 @@ export function DashboardClient({ initialData }: { initialData: any }) {
   const [loading, setLoading] = useState(false);
   const isFirstMount = useRef(true);
 
-  const loadData = async (classId: string) => {
+  const loadData = async (classId: string, silent = false) => {
     try {
-      setLoading(true);
-      const res = await fetch(`/api/v1/results?classId=${classId}`);
+      if (!silent) setLoading(true);
+      const res = await fetch(`/api/v1/results?classId=${classId}`, { cache: "no-store" });
       const json = await res.json();
       if (json.success) {
         setData(json.data);
@@ -77,6 +78,10 @@ export function DashboardClient({ initialData }: { initialData: any }) {
     }
     loadData(activeClassId);
   }, [activeClassId]);
+
+  // Refresh silently when marks, imports or sign-offs change anywhere; also on first load,
+  // because the server-rendered numbers can be older than the latest edit.
+  useLiveRefresh(() => loadData(activeClassId, true), { onMount: true });
 
   const summary = data?.summary;
   const gradeDist = summary?.gradeDistribution || {

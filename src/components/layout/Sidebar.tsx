@@ -14,6 +14,7 @@ import {
   GraduationCap,
   LogOut,
 } from "lucide-react";
+import { useLiveRefresh } from "@/lib/live-data";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 export function Sidebar() {
@@ -30,10 +31,12 @@ export function Sidebar() {
     total: 0,
   });
 
+  const loadStatsRef = React.useRef<() => void>(() => {});
+
   useEffect(() => {
     async function loadStats() {
       try {
-        const res = await fetch("/api/v1/checking-lists");
+        const res = await fetch("/api/v1/checking-lists", { cache: "no-store" });
         const json = await res.json();
         if (json.success && Array.isArray(json.data)) {
           const list = json.data;
@@ -51,8 +54,11 @@ export function Sidebar() {
         console.error("Failed to load badge stats", err);
       }
     }
+    loadStatsRef.current = loadStats;
     loadStats();
   }, [pathname]);
+
+  useLiveRefresh(() => loadStatsRef.current());
 
   const menuItems = [
     {

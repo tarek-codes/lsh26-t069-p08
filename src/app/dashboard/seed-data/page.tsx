@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { notifyDataChanged } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -151,6 +152,7 @@ export default function SeedDataPage() {
       const res = await fetch("/api/v1/seed", { method: "POST" });
       const json = await res.json();
       if (json.success) {
+        notifyDataChanged();
         setSeedDone(true);
         setTimeout(() => setSeedDone(false), 2000);
       }

@@ -1,5 +1,6 @@
 "use client";
 
+import { notifyDataChanged } from "@/lib/live-data";
 import React, { useState } from "react";
 import { X, CheckCircle, AlertTriangle, ShieldCheck, Loader2 } from "lucide-react";
 
@@ -32,6 +33,7 @@ export function SignoffModal({ flag, onClose, onSuccess }: SignoffModalProps) {
       });
       const json = await res.json();
       if (json.success) {
+        notifyDataChanged();
         onSuccess();
         onClose();
       }

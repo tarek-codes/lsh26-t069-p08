@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { notifyDataChanged } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { GradeBadge } from "@/components/common/GradeBadge";
@@ -87,6 +88,7 @@ export default function ImportMarksPage() {
       const json = await res.json();
       if (json.success) {
         setConfirmOpen(false);
+        notifyDataChanged();
         setCommitSuccess({
           insertedCount: json.data.insertedCount,
           updatedCount: json.data.updatedCount,

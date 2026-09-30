@@ -2,6 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useLiveRefresh } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { StatusBadge } from "@/components/common/StatusBadge";
@@ -38,14 +39,14 @@ function CheckingListsContent() {
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [signoffFlag, setSignoffFlag] = useState<any | null>(null);
 
-  const loadFlags = async () => {
+  const loadFlags = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       let url = `/api/v1/checking-lists?listType=${activeTab}`;
       if (activeClassId) url += `&classId=${activeClassId}`;
       if (statusFilter !== "ALL") url += `&status=${statusFilter}`;
 
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: "no-store" });
       const json = await res.json();
       if (json.success) {
         setFlags(json.data);
@@ -57,6 +58,8 @@ function CheckingListsContent() {
       setLoading(false);
     }
   };
+
+  useLiveRefresh(() => loadFlags(true));
 
   useEffect(() => {
     setCurrentPage(1);

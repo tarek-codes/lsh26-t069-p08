@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useLiveRefresh } from "@/lib/live-data";
 import { Shell } from "@/components/layout/Shell";
 import { Header } from "@/components/layout/Header";
 import { BarChart3, Flame, Loader2, CheckCircle2 } from "lucide-react";
@@ -33,14 +34,14 @@ export default function ClassAnalyticsPage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const loadAnalytics = async () => {
+  const loadAnalytics = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       let url = "/api/v1/analytics";
       if (activeClassId) {
         url += `?classId=${activeClassId}`;
       }
-      const res = await fetch(url);
+      const res = await fetch(url, { cache: "no-store" });
       const json = await res.json();
       if (json.success) {
         setData(json.data);
@@ -51,6 +52,8 @@ export default function ClassAnalyticsPage() {
       setLoading(false);
     }
   };
+
+  useLiveRefresh(() => loadAnalytics(true));
 
   useEffect(() => {
     loadAnalytics();
