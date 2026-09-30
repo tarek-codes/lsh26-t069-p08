@@ -29,14 +29,14 @@ export default function SeedDataPage() {
       name: "Kamal Hossain",
       class: "Class 9",
       title: "Compulsory Fail with High Average",
-      rule: "Rule R-13: Compulsory Failure Override",
+      rule: "Compulsory Failure Override",
       profile: "5 A+ subjects (GP 5.0) + Optional HMT (GP 5.0). Failed MAT (30/100).",
       rawGPA: "4.67 (A)",
       finalGPA: "0.00 (F)",
       passed: false,
       flagBadge: "MAT 30 < 33",
       explanation:
-        "Student achieved uncancelled Raw GPA of 4.67 (A), but scored 30 in compulsory subject MAT. Rule R-13 forces overall GPA to 0.00 and Letter Grade F.",
+        "Student achieved uncancelled Raw GPA of 4.67 (A), but scored 30 in compulsory subject MAT. The compulsory failure rule forces the overall GPA to 0.00 and Letter Grade F.",
     },
     {
       id: "S002",
@@ -44,7 +44,7 @@ export default function SeedDataPage() {
       name: "Lamia Islam",
       class: "Class 9",
       title: "Practical Fail with High Theory Mark",
-      rule: "Rule R-11: Component Pass Rule",
+      rule: "Component Pass Rule",
       profile: "PHY Theory 65/75 (Pass), Practical 6/25 (Fail < 8). Optional AGR.",
       rawGPA: "1.83",
       finalGPA: "0.00 (F)",
@@ -59,7 +59,7 @@ export default function SeedDataPage() {
       name: "Urmi Akter",
       class: "Class 9",
       title: "Theory Fail with High Practical Mark",
-      rule: "Rule R-11: Component Pass Rule",
+      rule: "Component Pass Rule",
       profile: "CHE Theory 24/75 (Fail < 25), Practical 20/25 (Pass). Optional BIO.",
       rawGPA: "4.67",
       finalGPA: "0.00 (F)",
@@ -74,7 +74,7 @@ export default function SeedDataPage() {
       name: "Imran Sultan",
       class: "Class 9",
       title: "Optional GP <= 2.0 (Zero Bonus)",
-      rule: "Rule R-20: Optional Subject Threshold",
+      rule: "Optional Subject Threshold",
       profile: "Optional AGR score 40 (GP 2.00). All 6 compulsory subjects A+ (GP 5.0).",
       rawGPA: "5.00",
       finalGPA: "5.00 (A+)",
@@ -89,7 +89,7 @@ export default function SeedDataPage() {
       name: "Rafi Rahman",
       class: "Class 9",
       title: "Optional GP > 2.0 (Active Bonus Addition)",
-      rule: "Rule R-20: Optional Bonus Addition",
+      rule: "Optional Bonus Addition",
       profile: "Optional HMT score 85 (GP 5.00) adds (5.0 - 2.0) = +3.00 bonus points.",
       rawGPA: "4.50",
       finalGPA: "4.50 (A)",
@@ -104,14 +104,14 @@ export default function SeedDataPage() {
       name: "Tasnim Jahan",
       class: "Class 9",
       title: "GPA Capped at 5.00 Maximum",
-      rule: "Rule R-13: GPA Capping",
+      rule: "GPA Capping",
       profile: "6 Compulsory A+ (30.0 pts) + Optional AGR A+ (+3.0 pts) -> Raw GPA 5.50.",
       rawGPA: "5.50 (Raw)",
       finalGPA: "5.00 (A+)",
       passed: true,
       flagBadge: "Capped at 5.00",
       explanation:
-        "Total grade points (30.0 + 3.0 = 33.0 / 6) produce Raw GPA 5.50. Per Rule R-13, the result is capped at the maximum Final GPA of 5.00 (A+).",
+        "Total grade points (30.0 + 3.0 = 33.0 / 6) produce Raw GPA 5.50. By the GPA cap, the result is capped at the maximum Final GPA of 5.00 (A+).",
     },
     {
       id: "S007",
@@ -119,7 +119,7 @@ export default function SeedDataPage() {
       name: "Lamia Begum",
       class: "Class 9",
       title: "Absent in Compulsory Subject",
-      rule: "Rule R-12: Absence Handling",
+      rule: "Absence Handling",
       profile: "Marked Absent ('AB') in compulsory Bangla (BAN). Optional HMT.",
       rawGPA: "4.17",
       finalGPA: "0.00 (F)",
@@ -134,7 +134,7 @@ export default function SeedDataPage() {
       name: "Nusrat Khatun",
       class: "Class 9",
       title: "Absent in Optional 4th Subject",
-      rule: "Rule R-12: Optional Absence Handling",
+      rule: "Optional Absence Handling",
       profile: "Marked Absent ('AB') in Optional HMT. Passed all 6 compulsory subjects.",
       rawGPA: "5.00",
       finalGPA: "5.00 (A+)",
@@ -165,7 +165,7 @@ export default function SeedDataPage() {
     <Shell>
       <Header
         title="Seed Dataset & 8 Hard-Edge Case Benchmark Navigator"
-        subtitle="Explore and inspect the 60-student verified dataset with 1-click audit trace inspection"
+        subtitle="Explore and inspect the 60-student verified dataset with 1-click calculation breakdown"
       />
 
       <main className="p-6 space-y-6 max-w-7xl mx-auto w-full">

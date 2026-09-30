@@ -222,6 +222,21 @@ class SchoolDataStore {
     const runId = `run-${classId}-${Date.now()}`;
     const runCode = customRunCode ?? `RUN-${cls.code}-${Date.now()}`;
 
+    // Drop flags that no longer apply (e.g. marks were corrected) so the checking
+    // list always matches the latest calculation.
+    const activeFlagIds = new Set<string>();
+    for (const res of summary.results) {
+      for (const flag of res.checkingFlags) {
+        activeFlagIds.add(`flag-${res.studentId}-${flag.type}-${flag.subjectCode}`);
+      }
+    }
+    const classStudentIds = new Set(students.map((st) => st.id));
+    for (const [flagId, f] of this.checkingFlags) {
+      if (classStudentIds.has(f.studentId) && !activeFlagIds.has(flagId)) {
+        this.checkingFlags.delete(flagId);
+      }
+    }
+
     // Cache individual student results
     for (const res of summary.results) {
       this.studentResults.set(res.studentId, res);

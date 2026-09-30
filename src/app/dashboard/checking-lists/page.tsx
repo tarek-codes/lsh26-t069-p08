@@ -33,7 +33,7 @@ function CheckingListsContent() {
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 5;
 
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [signoffFlag, setSignoffFlag] = useState<any | null>(null);
@@ -79,9 +79,9 @@ function CheckingListsContent() {
 
   const stats = [
     {
-      label: "Total flagged cases",
+      label: "Total Flagged Students",
       value: summary?.totalFlagged ?? 0,
-      hint: "Under 1 or more criteria",
+      hint: "Under one or more criteria",
       icon: Flag,
       chip: "bg-slate-100 text-slate-600",
     },
@@ -95,7 +95,7 @@ function CheckingListsContent() {
     {
       label: "Verified & signed",
       value: summary?.verified ?? 0,
-      hint: "Audit confirmed",
+      hint: "Review confirmed",
       icon: CheckCircle2,
       chip: "bg-emerald-50 text-emerald-700",
     },
@@ -112,7 +112,7 @@ function CheckingListsContent() {
     <>
       <Header
         title="Checking list"
-        subtitle="Rule R-29 audit: optional list (GP ≤ 2.0 or AB), practical fail list (practical < 8) and absent list (AB in any subject)"
+        subtitle="Students flagged before publication: optional subject GP ≤ 2.0 or absent, practical marks below 8, and absent in any subject"
         activeClassId={activeClassId}
         onClassChange={setActiveClassId}
         showAllOption

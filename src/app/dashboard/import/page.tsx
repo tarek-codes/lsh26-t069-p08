@@ -19,28 +19,16 @@ import {
   Database,
 } from "lucide-react";
 import Link from "next/link";
-
-const SAMPLE_VALID_CSV = `id,name,roll,class,optional,BAN,ENG,MAT,REL,PHY,CHE,BIO,HMT,AGR
-S061,Ayesha Siddika,31,Class 9,HMT,82,78,85,90,62+22,58+20,65+21,68+24,60+20
-S062,Mustafizur Rahman,32,Class 9,BIO,75,80,72,85,55+19,60+22,64+23,55+18,58+20
-S063,Fatima Tuz Zohra,33,Class 9,AGR,88,86,92,95,68+24,66+23,70+25,65+22,72+25`;
-
-const SAMPLE_MALFORMED_CSV = `id,name,roll,class,optional,BAN,ENG,MAT,REL,PHY,CHE,BIO,HMT,AGR
-S071,Abdur Rahim,41,Class 9,CHEM,85,80,75,90,60+20,60+20,60+20,60+20,60+20
-S072,Nayeem Hasan,42,Class 9,BIO,85,80,75,90,82+20,60+20,60+20,60+20,60+20
-S073,Sharmin Akter,43,Class 9,HMT,85,80,75,90,60+30,60+20,60+20,60+20,60+20
-S074,,44,Class 9,AGR,85,80,75,90,60+20,60+20,60+20,60+20,60+20
-S072,Duplicate Student,45,Class 9,BIO,85,80,75,90,60+20,60+20,60+20,60+20,60+20
-S075,Mahmudul Hasan,46,Class 9,BIO,85,115,75,90,60+20,60+20,60+20,60+20,60+20
-S076,Rina Khatun,47,Class 9,HMT,85,80,75,90,60+20,invalid_format,60+20,60+20,60+20`;
+import { SAMPLE_FILES, MIXED_NOTES, DEFAULT_SAMPLE, type SampleFile } from "./samples";
 
 export default function ImportMarksPage() {
   const [activeClassId, setActiveClassId] = useState<string | undefined>("c1010000-0000-0000-0000-000000000001");
-  const [inputText, setInputText] = useState<string>(SAMPLE_MALFORMED_CSV);
+  const [inputText, setInputText] = useState<string>(DEFAULT_SAMPLE);
   const [loading, setLoading] = useState(false);
   const [importing, setImporting] = useState(false);
   const [validationResult, setValidationResult] = useState<any>(null);
-  const [commitSuccess, setCommitSuccess] = useState<{ importedCount: number; className: string } | null>(null);
+  const [commitSuccess, setCommitSuccess] = useState<{ insertedCount: number; updatedCount: number } | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"rejected" | "accepted">("rejected");
 
   const handleValidate = async () => {
@@ -53,7 +41,6 @@ export default function ImportMarksPage() {
         body: JSON.stringify({
           rawInput: inputText,
           action: "validate",
-          classId: activeClassId,
         }),
       });
 
@@ -81,6 +68,10 @@ export default function ImportMarksPage() {
       alert("No valid rows available to import.");
       return;
     }
+    if (validationResult.rejectedRows.length > 0) {
+      alert("Fix all rejected rows before importing. Only fully valid files can be committed.");
+      return;
+    }
 
     try {
       setImporting(true);
@@ -90,15 +81,15 @@ export default function ImportMarksPage() {
         body: JSON.stringify({
           rawInput: inputText,
           action: "commit",
-          classId: activeClassId,
         }),
       });
 
       const json = await res.json();
       if (json.success) {
+        setConfirmOpen(false);
         setCommitSuccess({
-          importedCount: json.data.importedCount,
-          className: json.data.targetClass.name,
+          insertedCount: json.data.insertedCount,
+          updatedCount: json.data.updatedCount,
         });
       } else {
         alert(json.error?.message || "Failed to commit students");
@@ -125,13 +116,26 @@ export default function ImportMarksPage() {
     reader.readAsText(file);
   };
 
+  const downloadSample = (f: SampleFile) => {
+    const url = URL.createObjectURL(new Blob([f.content], { type: f.mime }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = f.filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const loadSample = (f: SampleFile) => {
+    setInputText(f.content);
+    setValidationResult(null);
+    setCommitSuccess(null);
+  };
+
   return (
     <Shell>
       <Header
         title="Import Marks Sheet"
         subtitle="Paste or upload marks sheets with row-by-row validation diagnostics and detailed rejection reporting"
-        activeClassId={activeClassId}
-        onClassChange={setActiveClassId}
       />
 
       <main className="p-6 space-y-6 max-w-7xl mx-auto w-full">
@@ -145,8 +149,8 @@ export default function ImportMarksPage() {
               <div>
                 <h4 className="font-bold text-sm">Import &amp; Recalculation Complete!</h4>
                 <p className="text-xs text-emerald-800 mt-0.5">
-                  Successfully imported <strong>{commitSuccess.importedCount} students</strong> into{" "}
-                  <strong>{commitSuccess.className}</strong> and updated live GPAs.
+                  <strong>{commitSuccess.insertedCount} new {commitSuccess.insertedCount === 1 ? "student" : "students"}</strong> added and{" "}
+                  <strong>{commitSuccess.updatedCount} {commitSuccess.updatedCount === 1 ? "student's" : "students'"} marks</strong> updated. Results, checking lists and reports are refreshed.
                 </p>
               </div>
             </div>
@@ -160,6 +164,67 @@ export default function ImportMarksPage() {
           </div>
         )}
 
+        {/* Example files */}
+        <div className="card p-6 space-y-4">
+          <div>
+            <h3 className="font-bold text-sm flex items-center gap-2" style={{ color: "var(--fg)" }}>
+              <Download className="w-4 h-4" style={{ color: "var(--accent)" }} />
+              <span>Example Files</span>
+            </h3>
+            <p className="text-xs mt-0.5" style={{ color: "var(--fg-muted)" }}>
+              Download a sample to see the expected layout, or load it into the box above and try Validate.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {SAMPLE_FILES.map((f) => (
+              <div
+                key={f.id}
+                className="rounded-xl border p-4 flex flex-col gap-3"
+                style={{
+                  backgroundColor: "var(--surface-alt)",
+                  borderColor: f.tone === "valid" ? "rgba(5,150,105,0.45)" : "rgba(217,119,6,0.5)",
+                }}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
+                      style={{ backgroundColor: f.tone === "valid" ? "#047857" : "#b45309" }}
+                    >
+                      {f.tone === "valid" ? "ALL VALID" : "VALID + INVALID"}
+                    </span>
+                    <span className="font-semibold text-sm" style={{ color: "var(--fg)" }}>{f.title}</span>
+                  </div>
+                  <span
+                    className="font-mono text-[11px] font-bold px-2 py-0.5 rounded-md border"
+                    style={{ color: "var(--fg-muted)", borderColor: "var(--border-strong)", backgroundColor: "var(--surface)" }}
+                  >
+                    {f.format}
+                  </span>
+                </div>
+                <p className="text-xs leading-relaxed" style={{ color: "var(--fg-muted)" }}>{f.description}</p>
+                {f.tone === "mixed" && f.format === "CSV" && (
+                  <ul className="text-[11px] space-y-0.5 list-disc pl-4" style={{ color: "var(--fg-muted)" }}>
+                    {MIXED_NOTES.map((n) => (
+                      <li key={n}>{n}</li>
+                    ))}
+                  </ul>
+                )}
+                <div className="flex items-center gap-2 mt-auto">
+                  <button type="button" onClick={() => downloadSample(f)} className="btn btn-primary btn-sm">
+                    <Download />
+                    <span>Download {f.filename.split(".").pop()}</span>
+                  </button>
+                  <button type="button" onClick={() => loadSample(f)} className="btn btn-secondary btn-sm">
+                    Load into box
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Input & Upload Controls Card */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-slate-100">
@@ -169,7 +234,7 @@ export default function ImportMarksPage() {
                 <span>Upload or Paste Marks Sheet</span>
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Supports CSV, TSV, or JSON format. Practical subjects can be formatted as <code>Theory+Practical</code> (e.g. <code>60+20</code>) or <code>AB</code>.
+                Supports CSV or JSON format. Practical subjects can be formatted as <code>Theory+Practical</code> (e.g. <code>60+20</code>) or <code>AB</code>.
               </p>
             </div>
 
@@ -180,33 +245,12 @@ export default function ImportMarksPage() {
                 <span>Upload File</span>
                 <input
                   type="file"
-                  accept=".csv,.tsv,.json,.txt"
+                  accept=".csv,.json,.txt"
                   onChange={handleFileUpload}
                   className="hidden"
                 />
               </label>
 
-              <button
-                onClick={() => {
-                  setInputText(SAMPLE_VALID_CSV);
-                  setValidationResult(null);
-                  setCommitSuccess(null);
-                }}
-                className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold rounded-lg transition-colors border border-blue-200"
-              >
-                Load Valid Sample
-              </button>
-
-              <button
-                onClick={() => {
-                  setInputText(SAMPLE_MALFORMED_CSV);
-                  setValidationResult(null);
-                  setCommitSuccess(null);
-                }}
-                className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold rounded-lg transition-colors border border-amber-200"
-              >
-                Load Test Errors Sample
-              </button>
             </div>
           </div>
 
@@ -291,11 +335,15 @@ export default function ImportMarksPage() {
               <div className="bg-white p-4 rounded-xl border border-purple-200 shadow-xs space-y-1 flex flex-col justify-between">
                 <div>
                   <span className="text-xs text-purple-800 font-semibold">Commit Action</span>
-                  <p className="text-[11px] text-purple-600">Import valid rows into database</p>
+                  <p className="text-[11px] text-purple-600">
+                    {validationResult.summary.rejected > 0
+                      ? "Fix all rejected rows to enable import"
+                      : "Import all rows into database"}
+                  </p>
                 </div>
                 <button
-                  onClick={handleCommit}
-                  disabled={importing || validationResult.summary.accepted === 0}
+                  onClick={() => setConfirmOpen(true)}
+                  disabled={importing || validationResult.summary.accepted === 0 || validationResult.summary.rejected > 0}
                   className="w-full mt-2 py-2 bg-purple-700 hover:bg-purple-800 disabled:opacity-50 text-white text-xs font-bold rounded-lg shadow-xs transition-colors flex items-center justify-center gap-1.5"
                 >
                   {importing ? (
@@ -303,7 +351,7 @@ export default function ImportMarksPage() {
                   ) : (
                     <Database className="w-3.5 h-3.5" />
                   )}
-                  <span>Commit {validationResult.summary.accepted} Valid Rows</span>
+                  <span>{validationResult.summary.rejected > 0 ? "Cannot Commit" : `Commit ${validationResult.summary.accepted} Rows`}</span>
                 </button>
               </div>
             </div>
@@ -401,9 +449,6 @@ export default function ImportMarksPage() {
 
                                   <td className="py-3 px-4 text-slate-800">
                                     <p className="font-medium text-slate-900">{err.reason}</p>
-                                    <span className="inline-block mt-0.5 text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-sm bg-slate-100 text-slate-600 border border-slate-200">
-                                      {err.ruleCode}
-                                    </span>
                                   </td>
 
                                   <td className="py-3 px-3 text-slate-600 italic text-[11px]">
@@ -455,7 +500,15 @@ export default function ImportMarksPage() {
                                   #{row.rowNumber}
                                 </td>
                                 <td className="py-3 px-3 font-sans">
-                                  <div className="font-bold text-slate-900">{row.student.name}</div>
+                                  <div className="font-bold text-slate-900 flex items-center gap-2">
+                                    {row.student.name}
+                                    <span
+                                      className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white font-mono"
+                                      style={{ backgroundColor: row.action === "INSERT" ? "#047857" : "#1d4ed8" }}
+                                    >
+                                      {row.action === "INSERT" ? "NEW" : "MARKS UPDATE"}
+                                    </span>
+                                  </div>
                                   <div className="font-mono text-[10px] text-slate-500">
                                     {row.student.id} • Roll {row.student.roll ?? "—"}
                                   </div>
@@ -501,6 +554,88 @@ export default function ImportMarksPage() {
           </div>
         )}
       </main>
+
+      {confirmOpen && validationResult && (() => {
+        const inserts = validationResult.acceptedRows.filter((r: any) => r.action === "INSERT");
+        const updates = validationResult.acceptedRows.filter((r: any) => r.action === "UPDATE");
+        return (
+          <div
+            className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirm-title"
+          >
+            <div
+              className="w-full max-w-3xl max-h-[88vh] flex flex-col rounded-2xl border shadow-2xl overflow-hidden"
+              style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)", color: "var(--fg)" }}
+            >
+              <div className="px-6 py-4 border-b" style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)" }}>
+                <h3 id="confirm-title" className="font-bold text-base">Confirm Import</h3>
+                <p className="text-xs mt-0.5" style={{ color: "var(--fg-muted)" }}>
+                  {inserts.length} new {inserts.length === 1 ? "student" : "students"} will be added
+                  {updates.length > 0 && ` and ${updates.length} existing ${updates.length === 1 ? "student's" : "students'"} marks updated`}.
+                  This changes the live results.
+                </p>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-6 space-y-5">
+                {inserts.length > 0 && (
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "var(--fg-muted)" }}>
+                      New students to be added ({inserts.length})
+                    </h4>
+                    <div className="rounded-lg border overflow-hidden" style={{ borderColor: "var(--border-strong)" }}>
+                      <table className="w-full text-xs text-left">
+                        <thead style={{ backgroundColor: "var(--bg-subtle)", color: "var(--fg-muted)" }}>
+                          <tr className="uppercase text-[10px] tracking-wider">
+                            <th className="px-3 py-2">ID</th>
+                            <th className="px-3 py-2">Name</th>
+                            <th className="px-3 py-2">Roll</th>
+                            <th className="px-3 py-2">Class</th>
+                            <th className="px-3 py-2">4th Optional</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {inserts.map((r: any) => (
+                            <tr key={r.student.id} className="border-t" style={{ borderColor: "var(--border)" }}>
+                              <td className="px-3 py-2 font-mono font-semibold">{r.student.id}</td>
+                              <td className="px-3 py-2 font-semibold">{r.student.name}</td>
+                              <td className="px-3 py-2 font-mono">{r.student.roll}</td>
+                              <td className="px-3 py-2">{r.student.class}</td>
+                              <td className="px-3 py-2 font-mono font-bold">{r.student.optional}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                )}
+
+                {updates.length > 0 && (
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "var(--fg-muted)" }}>
+                      Existing students: marks will be updated ({updates.length})
+                    </h4>
+                    <p className="text-xs" style={{ color: "var(--fg-muted)" }}>
+                      {updates.map((r: any) => `${r.student.name} (${r.student.id})`).join(", ")}
+                    </p>
+                  </section>
+                )}
+              </div>
+
+              <div className="px-6 py-4 border-t flex items-center justify-end gap-3" style={{ borderColor: "var(--border)" }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setConfirmOpen(false)} disabled={importing}>
+                  Cancel
+                </button>
+                <button type="button" className="btn btn-primary" onClick={handleCommit} disabled={importing}>
+                  {importing ? <RefreshCw className="animate-spin" /> : <Database />}
+                  <span>Confirm &amp; Import</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </Shell>
   );
 }

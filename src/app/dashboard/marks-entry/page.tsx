@@ -184,10 +184,22 @@ export default function MarksEntryPage() {
     { code: "AGR", name: "Agriculture", isPractical: true },
   ];
 
-  const subjectsConfig = allSubjectDefinitions.map((sub) => ({
-    ...sub,
-    compulsory: sub.code !== selectedStudent?.optional,
-  }));
+  // Compulsory subjects first; the 4th optional subject always goes in the last row.
+  const subjectsConfig = allSubjectDefinitions
+    .map((sub) => ({
+      ...sub,
+      compulsory: sub.code !== selectedStudent?.optional,
+    }))
+    .sort((a, b) => Number(!a.compulsory) - Number(!b.compulsory));
+
+  const selectOnFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
+
+  const markInputStyle = (fail: boolean): React.CSSProperties =>
+    fail
+      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
+      : { borderColor: "var(--border-strong)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" };
+
+  const studentIdx = students.findIndex((s) => s.id === selectedStudentId);
 
   return (
     <Shell>
@@ -198,295 +210,272 @@ export default function MarksEntryPage() {
         onClassChange={setActiveClassId}
       />
 
-      <main className="p-6 space-y-6 max-w-5xl mx-auto w-full">
+      <main className="p-4 sm:p-6 max-w-6xl mx-auto w-full">
         {selectedStudent ? (
-          <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-6">
-            {/* Student Info Bar & Real-Time Sync Indicator with Integrated Student Dropdown */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
-              <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
-                {/* Integrated Student Dropdown */}
-                <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                    Select Student ({students.length})
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <select
-                      value={selectedStudentId || ""}
-                      onChange={(e) => setSelectedStudentId(e.target.value)}
-                      className="px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500 min-w-[260px]"
-                    >
-                      {students.map((s) => (
-                        <option key={s.id} value={s.id}>
-                          Roll {s.roll} • {s.name} ({s.id}) — 4th: {s.optional}
-                        </option>
-                      ))}
-                    </select>
-
-                    {/* Stepper Buttons for quick navigation */}
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => {
-                          const idx = students.findIndex((s) => s.id === selectedStudentId);
-                          if (idx > 0) setSelectedStudentId(students[idx - 1].id);
-                        }}
-                        disabled={students.findIndex((s) => s.id === selectedStudentId) === 0}
-                        className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-sm text-xs font-bold text-slate-700 transition-colors"
-                        title="Previous Student"
-                      >
-                        ← Prev
-                      </button>
-                      <button
-                        onClick={() => {
-                          const idx = students.findIndex((s) => s.id === selectedStudentId);
-                          if (idx >= 0 && idx < students.length - 1) setSelectedStudentId(students[idx + 1].id);
-                        }}
-                        disabled={students.findIndex((s) => s.id === selectedStudentId) === students.length - 1}
-                        className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-sm text-xs font-bold text-slate-700 transition-colors"
-                        title="Next Student"
-                      >
-                        Next →
-                      </button>
-                    </div>
-                  </div>
+          <div className="card p-5 space-y-4">
+            {/* Student picker, details and sync status */}
+            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 pb-4 border-b" style={{ borderColor: "var(--border)" }}>
+              <div className="space-y-1">
+                <label htmlFor="student-select" className="text-[10px] font-bold uppercase tracking-wider block" style={{ color: "var(--fg-muted)" }}>
+                  Select Student ({students.length})
+                </label>
+                <div className="flex items-center gap-2">
+                  <select
+                    id="student-select"
+                    value={selectedStudentId || ""}
+                    onChange={(e) => setSelectedStudentId(e.target.value)}
+                    className="px-3 h-9 rounded-lg border text-xs font-semibold min-w-[260px] focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  >
+                    {students.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        Roll {s.roll} • {s.name} ({s.id}) — 4th: {s.optional}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => studentIdx > 0 && setSelectedStudentId(students[studentIdx - 1].id)}
+                    disabled={studentIdx <= 0}
+                    className="btn btn-secondary btn-sm"
+                    title="Previous student"
+                    aria-label="Previous student"
+                  >
+                    ← Prev
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => studentIdx >= 0 && studentIdx < students.length - 1 && setSelectedStudentId(students[studentIdx + 1].id)}
+                    disabled={studentIdx === students.length - 1}
+                    className="btn btn-secondary btn-sm"
+                    title="Next student"
+                    aria-label="Next student"
+                  >
+                    Next →
+                  </button>
                 </div>
               </div>
 
-              {/* Student Details Summary & Real-time Status Badge */}
-              <div className="flex items-center gap-4">
-                <div className="text-right">
-                  <div className="flex items-center gap-2 justify-end">
-                    <span className="font-bold text-sm text-slate-900">{selectedStudent.name}</span>
-                    <span className="font-mono text-xs px-2 py-0.5 rounded-sm bg-slate-100 text-slate-700 font-semibold border border-slate-200">
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="sm:text-right">
+                  <div className="flex items-center gap-2 sm:justify-end">
+                    <span className="font-bold text-sm" style={{ color: "var(--fg)" }}>{selectedStudent.name}</span>
+                    <span
+                      className="font-mono text-xs px-2 py-0.5 rounded-sm font-semibold border"
+                      style={{ backgroundColor: "var(--bg-subtle)", color: "var(--fg-muted)", borderColor: "var(--border)" }}
+                    >
                       {selectedStudent.id}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] mt-0.5" style={{ color: "var(--fg-muted)" }}>
                     {selectedStudent.class} • Roll {selectedStudent.roll} • 4th Optional:{" "}
-                    <span className="font-bold text-purple-700 bg-purple-100 px-1.5 py-0.2 rounded-sm border border-purple-200">
+                    <span
+                      className="font-bold px-1.5 rounded-sm border"
+                      style={{ color: "var(--opt-ink)", backgroundColor: "var(--opt-bg)", borderColor: "var(--opt-border)" }}
+                    >
                       {selectedStudent.optional}
                     </span>
                   </p>
                 </div>
 
-                {/* Real-time Status Badge */}
-                <div className="flex items-center gap-1.5 text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="flex items-center gap-1.5 text-xs font-mono font-semibold px-2.5 py-1 rounded-md border"
+                  style={{ backgroundColor: "var(--bg-subtle)", color: "var(--fg-muted)", borderColor: "var(--border)" }}
+                >
+                  <span className={`w-2 h-2 rounded-full ${savedStatus === "Save Error" ? "bg-red-500" : savedStatus === "Saving..." ? "bg-amber-500" : "bg-emerald-500"}`} />
                   <span>{savedStatus}</span>
                 </div>
               </div>
             </div>
 
-            {/* Mark Input Table with Real-Time Grade for Each Subject */}
-            <div className="space-y-3">
+            {/* Subject marks — two per row */}
+            <section aria-label="Subject marks entry" className="space-y-2">
               <div className="flex items-center justify-between">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <h4 className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--fg-muted)" }}>
                   Subject Marks Entry
                 </h4>
-                <span className="text-[11px] text-slate-400 font-mono">
-                  Grades recalculate instantly
-                </span>
               </div>
 
-                  <div className="space-y-2.5">
-                    {subjectsConfig.map((sub) => {
-                      const markVal = currentMarks[sub.code];
-                      const isAbsent = markVal === "AB";
-                      const isOptional = !sub.compulsory;
-                      const theoryVal =
-                        typeof markVal === "object" && markVal !== null
-                          ? markVal.theory
-                          : 0;
-                      const practicalVal =
-                        typeof markVal === "object" && markVal !== null
-                          ? markVal.practical
-                          : 0;
-                      const nonPracVal = typeof markVal === "number" ? markVal : 0;
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {subjectsConfig.map((sub) => {
+                  const markVal = currentMarks[sub.code];
+                  const isAbsent = markVal === "AB";
+                  const isOptional = !sub.compulsory;
+                  const theoryVal = typeof markVal === "object" && markVal !== null ? markVal.theory : 0;
+                  const practicalVal = typeof markVal === "object" && markVal !== null ? markVal.practical : 0;
+                  const nonPracVal = typeof markVal === "number" ? markVal : 0;
 
-                      // Live individual subject evaluation
-                      const subEval = evaluateSubjectMark(sub.code as any, markVal ?? 0, sub.compulsory);
+                  const subEval = evaluateSubjectMark(sub.code as any, markVal ?? 0, sub.compulsory);
 
-                      const isTheoryFail = sub.isPractical && !isAbsent && theoryVal < 25;
-                      const isPracticalFail = sub.isPractical && !isAbsent && practicalVal < 8;
-                      const isNonPracFail = !sub.isPractical && !isAbsent && nonPracVal < 33;
+                  const isTheoryFail = sub.isPractical && !isAbsent && theoryVal < 25;
+                  const isPracticalFail = sub.isPractical && !isAbsent && practicalVal < 8;
+                  const isNonPracFail = !sub.isPractical && !isAbsent && nonPracVal < 33;
 
-                      return (
-                        <div
-                          key={sub.code}
-                          className="p-3.5 rounded-xl border-2 transition-all flex flex-wrap items-center justify-between gap-3 text-xs"
+                  return (
+                    <div
+                      key={sub.code}
+                      className={`${isOptional ? "lg:col-span-2 " : ""}grid grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-[minmax(0,1fr)_auto_104px] items-center gap-x-4 gap-y-2 px-3.5 py-2.5 rounded-xl border-2 text-sm min-h-[80px] transition-colors`}
+                      style={{
+                        backgroundColor: isAbsent ? "var(--bg-subtle)" : !subEval.isPassed ? "color-mix(in srgb, #dc2626 8%, var(--surface))" : isOptional ? "color-mix(in srgb, var(--opt-solid) 8%, var(--surface))" : "var(--surface)",
+                        borderColor: isAbsent ? "#64748b" : !subEval.isPassed ? "#dc2626" : isOptional ? "var(--opt-solid)" : "var(--accent)",
+                        boxShadow: "0 1px 2px rgba(16,24,40,0.06)",
+                      }}
+                    >
+                      {/* Subject code & name */}
+                      <div className="min-w-0">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="font-mono font-bold text-base" style={{ color: "var(--fg)" }}>{sub.code}</span>
+                          {isOptional && (
+                            <span
+                              className="text-[9px] font-bold px-1.5 py-px rounded-full font-mono"
+                              style={{ backgroundColor: "var(--opt-solid)", color: "#fff" }}
+                            >
+                              ★ 4TH
+                            </span>
+                          )}
+                        </div>
+                        <div className="font-semibold leading-snug" style={{ color: "var(--fg)" }}>{sub.name}</div>
+                        <button
+                          type="button"
+                          onClick={() => toggleAbsent(sub.code)}
+                          aria-pressed={isAbsent}
+                          aria-label={`Mark ${sub.name} as absent`}
+                          title="Toggle absent status"
+                          className="h-7 px-2.5 mt-1.5 rounded-md text-[11px] font-sans whitespace-nowrap font-semibold border transition-colors"
                           style={
                             isAbsent
-                              ? { backgroundColor: "rgba(100,116,139,0.12)", borderColor: "rgba(100,116,139,0.35)" }
-                              : !subEval.isPassed
-                              ? { backgroundColor: "rgba(220,38,38,0.09)", borderColor: "rgba(220,38,38,0.45)" }
-                              : isOptional
-                              ? { backgroundColor: "rgba(124,58,237,0.08)", borderColor: "rgba(124,58,237,0.45)" }
-                              : { backgroundColor: "var(--bg)", borderColor: "var(--border)" }
+                              ? { backgroundColor: "var(--fg)", color: "var(--bg)", borderColor: "var(--fg)" }
+                              : { backgroundColor: "var(--surface)", color: "var(--fg-muted)", borderColor: "var(--border-strong)" }
                           }
                         >
-                          {/* Subject Code & Name */}
-                          <div className="w-44 space-y-1">
-                            <div className="flex items-center gap-2">
-                              <span className="font-mono font-bold text-slate-900 text-sm">{sub.code}</span>
-                              <span className="text-slate-800 font-semibold truncate">{sub.name}</span>
+                          {isAbsent ? "✓ Marked as absent" : "Mark as absent"}
+                        </button>
+                      </div>
+
+                      {/* Mark inputs */}
+                      <div className="col-span-2 sm:col-span-1 row-start-2 sm:row-start-auto flex items-end gap-2 font-mono min-w-0">
+                        {isAbsent ? (
+                          <span
+                            className="font-bold px-4 py-2 rounded-md border text-xs uppercase tracking-wide"
+                            style={{ backgroundColor: "rgba(220,38,38,0.10)", color: "var(--grade-f)", borderColor: "rgba(220,38,38,0.45)" }}
+                          >
+                            Absent
+                          </span>
+                        ) : sub.isPractical ? (
+                          <>
+                            <div>
+                              <label htmlFor={`${sub.code}-t`} className="text-[11px] block mb-0.5" style={{ color: "var(--fg-muted)" }}>Theory /75</label>
+                              <input
+                                id={`${sub.code}-t`}
+                                type="number"
+                                inputMode="numeric"
+                                min={0}
+                                max={75}
+                                value={theoryVal}
+                                onFocus={selectOnFocus}
+                                onChange={(e) => handleTheoryChange(sub.code, e.target.value)}
+                                aria-invalid={isTheoryFail}
+                                className="w-[64px] h-8 px-1 border rounded-md text-center text-sm font-bold focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                                style={markInputStyle(isTheoryFail)}
+                              />
                             </div>
-                            <div className="flex items-center gap-1.5">
-                              {isOptional ? (
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-600 text-white font-mono shadow-xs animate-pulse">
-                                  ★ 4th OPTIONAL
-                                </span>
-                              ) : (
-                                <span className="text-[10px] text-slate-500 font-mono font-medium">
-                                  Compulsory
-                                </span>
-                              )}
+                            <span className="pb-1.5" style={{ color: "var(--fg-subtle)" }} aria-hidden>+</span>
+                            <div>
+                              <label htmlFor={`${sub.code}-p`} className="text-[11px] block mb-0.5" style={{ color: "var(--fg-muted)" }}>Prac. /25</label>
+                              <input
+                                id={`${sub.code}-p`}
+                                type="number"
+                                inputMode="numeric"
+                                min={0}
+                                max={25}
+                                value={practicalVal}
+                                onFocus={selectOnFocus}
+                                onChange={(e) => handlePracticalChange(sub.code, e.target.value)}
+                                aria-invalid={isPracticalFail}
+                                className="w-[64px] h-8 px-1 border rounded-md text-center text-sm font-bold focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                                style={markInputStyle(isPracticalFail)}
+                              />
                             </div>
+                            <span className="pb-1.5 font-bold" style={{ color: "var(--fg)" }} aria-label={`Total ${theoryVal + practicalVal}`}>
+                              ={theoryVal + practicalVal}
+                            </span>
+                          </>
+                        ) : (
+                          <div>
+                            <label htmlFor={`${sub.code}-m`} className="text-[11px] block mb-0.5" style={{ color: "var(--fg-muted)" }}>Marks /100</label>
+                            <input
+                              id={`${sub.code}-m`}
+                              type="number"
+                              inputMode="numeric"
+                              min={0}
+                              max={100}
+                              value={nonPracVal}
+                              onFocus={selectOnFocus}
+                              onChange={(e) => handleNonPracticalChange(sub.code, e.target.value)}
+                              aria-invalid={isNonPracFail}
+                              className="w-[64px] h-8 px-1 border rounded-md text-center text-sm font-bold focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                              style={markInputStyle(isNonPracFail)}
+                            />
                           </div>
+                        )}
 
-                          {/* Marks Input Fields */}
-                          <div className="flex items-center gap-3">
-                            {isAbsent ? (
-                              <span className="font-mono font-bold text-slate-700 px-4 py-1.5 bg-slate-200 rounded-sm border border-slate-300">
-                                Marked Absent (AB)
-                              </span>
-                            ) : sub.isPractical ? (
-                              <div className="flex items-center gap-2 font-mono">
-                                <div className="space-y-0.5">
-                                  <label className="text-[10px] text-slate-500 block">Theory (/75)</label>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    max={75}
-                                    value={theoryVal}
-                                    onChange={(e) => handleTheoryChange(sub.code, e.target.value)}
-                                    className="w-16 px-2 py-1 border rounded-sm text-center text-xs font-bold focus:ring-2 focus:ring-blue-500"
-                                    style={isTheoryFail
-                                      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
-                                      : { borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" }
-                                    }
-                                  />
-                                </div>
-                                <span className="text-slate-400 mt-3">+</span>
-                                <div className="space-y-0.5">
-                                  <label className="text-[10px] text-slate-500 block">Practical (/25)</label>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    max={25}
-                                    value={practicalVal}
-                                    onChange={(e) => handlePracticalChange(sub.code, e.target.value)}
-                                    className="w-16 px-2 py-1 border rounded-sm text-center text-xs font-bold focus:ring-2 focus:ring-blue-500"
-                                    style={isPracticalFail
-                                      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
-                                      : { borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" }
-                                    }
-                                  />
-                                </div>
-                                <div className="space-y-0.5 pl-2">
-                                  <label className="text-[10px] text-slate-500 block">Total</label>
-                                  <span className="font-bold text-slate-900 block py-1">
-                                    ={theoryVal + practicalVal}
-                                  </span>
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="flex items-center gap-2 font-mono">
-                                <div className="space-y-0.5">
-                                  <label className="text-[10px] text-slate-500 block">Marks (/100)</label>
-                                  <input
-                                    type="number"
-                                    min={0}
-                                    max={100}
-                                    value={nonPracVal}
-                                    onChange={(e) => handleNonPracticalChange(sub.code, e.target.value)}
-                                    className="w-20 px-2 py-1 border rounded-sm text-center text-xs font-bold focus:ring-2 focus:ring-blue-500"
-                                    style={isNonPracFail
-                                      ? { borderColor: "rgba(220,38,38,0.7)", backgroundColor: "rgba(220,38,38,0.08)", color: "var(--fg)" }
-                                      : { borderColor: "var(--border)", backgroundColor: "var(--bg-subtle)", color: "var(--fg)" }
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            )}
+                      </div>
 
-                            {/* Absent Toggle Button */}
-                            <button
-                              type="button"
-                              onClick={() => toggleAbsent(sub.code)}
-                              className={`px-2 py-1 rounded-sm text-[11px] font-mono font-semibold border transition-all ${
-                                isAbsent
-                                  ? "bg-slate-800 text-white border-slate-900"
-                                  : "bg-white text-slate-600 border-slate-300 hover:bg-slate-100"
-                              }`}
-                            >
-                              AB
-                            </button>
-                          </div>
-
-                          {/* Individual Subject Live Grade & GP Badge */}
-                          <div className="flex items-center gap-2 min-w-[130px] justify-end font-mono">
-                            <div className="text-right">
-                              <div className="text-xs font-bold text-slate-900">
-                                GP {subEval.gradePoint.toFixed(2)}
-                              </div>
-                              <div className="text-[10px] text-slate-500">
-                                {isAbsent ? "Absent" : `Total: ${subEval.totalMark}`}
-                              </div>
-                            </div>
-                            <GradeBadge grade={subEval.letterGrade} size="sm" />
+                      {/* Live GP & grade */}
+                      <div className="row-start-1 col-start-2 sm:row-start-auto sm:col-start-auto flex items-center justify-between gap-2 font-mono border-l pl-3" style={{ borderColor: "var(--border)" }}>
+                        <div className="text-right leading-tight">
+                          <div className="text-xs font-bold" style={{ color: "var(--fg)" }}>GP {subEval.gradePoint.toFixed(2)}</div>
+                          <div className="text-[10px]" style={{ color: "var(--fg-muted)" }}>
+                            {isAbsent ? "Absent" : `Total ${subEval.totalMark}`}
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Instant Real-Time Engine Verdict Card */}
-                {liveResult && (
-                  <div className="p-4 bg-slate-900 text-white rounded-xl space-y-2 font-mono text-xs shadow-xs">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                      <span className="text-slate-400 uppercase text-[10px] tracking-wider font-bold">
-                        Live Calculated Verdict
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-slate-400 font-sans">Final Grade:</span>
-                        <GradeBadge grade={liveResult.finalLetterGrade} size="md" />
+                        <GradeBadge grade={subEval.letterGrade} size="sm" />
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Compulsory Sum:</span>
-                        <span className="font-bold text-white">
-                          {liveResult.compulsoryGPsSum.toFixed(2)} / 30.00
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Optional 4th Bonus:</span>
-                        <span className="font-bold text-purple-400">
-                          +{liveResult.optionalBonusGP.toFixed(2)} GP
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Raw Uncapped GPA:</span>
-                        <span className="font-bold text-slate-300">
-                          {liveResult.rawGPA.toFixed(2)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Final Deterministic GPA:</span>
-                        <span className="font-bold text-emerald-400 text-sm">
-                          {liveResult.finalGPA.toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  );
+                })}
               </div>
-            ) : (
-              <div className="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-400">
-                No students found for this class.
+            </section>
+
+            {/* Final result — sits below the subject entries */}
+            {liveResult && (
+              <div
+                className="rounded-xl px-4 py-2.5 font-mono text-xs flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border"
+                style={{ background: "var(--verdict-bg)", color: "var(--verdict-ink)", borderColor: "transparent", boxShadow: "0 1px 2px rgba(16,24,40,0.10)" }}
+              >
+                <span className="uppercase text-[10px] tracking-wider font-bold" style={{ color: "var(--verdict-muted)" }}>
+                  Final Result
+                </span>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                  <div>
+                    <span className="block text-[10px]" style={{ color: "var(--verdict-muted)" }}>Compulsory Sum</span>
+                    <span className="font-bold">{liveResult.compulsoryGPsSum.toFixed(2)} / 30.00</span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px]" style={{ color: "var(--verdict-muted)" }}>Optional 4th Bonus</span>
+                    <span className="font-bold" style={{ color: "#ddd6fe" }}>+{liveResult.optionalBonusGP.toFixed(2)} GP</span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px]" style={{ color: "var(--verdict-muted)" }}>Raw GPA</span>
+                    <span className="font-bold">{liveResult.rawGPA.toFixed(2)}</span>
+                  </div>
+                  <div className="rounded-lg px-3 py-1.5 shadow-sm" style={{ backgroundColor: "#059669", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.25)" }}>
+                    <span className="block text-[10px] text-emerald-100">Final GPA</span>
+                    <span className="font-extrabold text-lg text-white leading-tight">{liveResult.finalGPA.toFixed(2)}</span>
+                  </div>
+                  <span className="rounded-lg px-1.5 py-1" style={{ backgroundColor: "var(--surface)" }}>
+                    <GradeBadge grade={liveResult.finalLetterGrade} size="md" />
+                  </span>
+                </div>
               </div>
             )}
+          </div>
+        ) : (
+          <div className="card p-12 text-center" style={{ color: "var(--fg-subtle)" }}>
+            No students found for this class.
+          </div>
+        )}
       </main>
     </Shell>
   );

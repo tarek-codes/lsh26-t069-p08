@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "School Result Processing and GPA Engine",
-  description: "Deterministic GPA calculation engine and administrative audit dashboard",
+  description: "Deterministic GPA calculation engine and administrative results dashboard",
 };
 
 export default function RootLayout({

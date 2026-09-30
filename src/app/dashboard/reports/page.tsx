@@ -19,7 +19,7 @@ export default function ReportsPage() {
   const [loading, setLoading] = useState(true);
 
   // View Mode: "ALL" (Whole Class) | "SINGLE" (Individual Student)
-  const [viewMode, setViewMode] = useState<"ALL" | "SINGLE">("ALL");
+  const [viewMode, setViewMode] = useState<"ALL" | "SINGLE">("SINGLE");
   const [selectedStudentId, setSelectedStudentId] = useState<string>("");
 
   // Pagination for "ALL" mode on screen
@@ -108,20 +108,6 @@ export default function ReportsPage() {
             <button
               onClick={() => {
                 setIsPrintingAll(false);
-                setViewMode("ALL");
-              }}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-all flex items-center gap-1.5 ${
-                viewMode === "ALL"
-                  ? "bg-white text-blue-700 shadow-xs font-bold"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <Users className="w-3.5 h-3.5" />
-              <span>Whole Class ({totalCount})</span>
-            </button>
-            <button
-              onClick={() => {
-                setIsPrintingAll(false);
                 setViewMode("SINGLE");
               }}
               className={`px-3 py-1.5 rounded-md font-semibold transition-all flex items-center gap-1.5 ${
@@ -132,6 +118,20 @@ export default function ReportsPage() {
             >
               <User className="w-3.5 h-3.5" />
               <span>Single Student</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsPrintingAll(false);
+                setViewMode("ALL");
+              }}
+              className={`px-3 py-1.5 rounded-md font-semibold transition-all flex items-center gap-1.5 ${
+                viewMode === "ALL"
+                  ? "bg-white text-blue-700 shadow-xs font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <Users className="w-3.5 h-3.5" />
+              <span>Whole Class ({totalCount})</span>
             </button>
           </div>
 
@@ -300,16 +300,16 @@ function TranscriptCard({
   const res = item.result;
 
   return (
-    <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-xs print:shadow-none print:border-slate-400 print:rounded-none page-break space-y-6">
+    <div className="transcript p-8 rounded-xl border shadow-xs print:shadow-none print:border-slate-400 print:rounded-none page-break space-y-6">
       {/* Action header inside card for easy 1-click print */}
       {!isSingleMode && (
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 no-print">
-          <span className="text-xs font-mono font-bold text-slate-500">
+        <div className="flex items-center justify-between pb-3 border-b tx-rule no-print">
+          <span className="text-xs font-mono font-bold tx-muted">
             Roll {student.roll} • {student.id}
           </span>
           <button
             onClick={onPrintSingle}
-            className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 text-xs font-bold rounded-md border border-slate-200 transition-colors"
+            className="btn btn-primary btn-sm"
           >
             <Printer className="w-3.5 h-3.5" />
             <span>Print Only This Student</span>
@@ -318,80 +318,81 @@ function TranscriptCard({
       )}
 
       {/* Official Transcript Header */}
-      <div className="text-center space-y-1 pb-4 border-b-2 border-slate-900">
-        <div className="flex items-center justify-center gap-2 text-blue-900 font-bold text-lg">
-          <GraduationCap className="w-6 h-6 text-blue-600" />
+      <div className="text-center space-y-1 pb-4 border-b-2" style={{ borderColor: "var(--tx-ink)" }}>
+        <div className="flex items-center justify-center gap-2 tx-brand font-bold text-lg">
+          <GraduationCap className="w-6 h-6 tx-brand-icon" />
           <span>SCHOOL RESULT PROCESSING &amp; GPA ENGINE</span>
         </div>
-        <p className="text-xs font-semibold text-slate-600 tracking-wider uppercase">
+        <p className="text-xs font-semibold tx-muted tracking-wider uppercase">
           Official Academic Transcript • Academic Year 2026
         </p>
       </div>
 
       {/* Student Bio */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-lg border border-slate-200 text-xs font-mono">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 tx-panel p-3.5 rounded-lg text-xs font-mono">
         <div>
-          <span className="text-slate-500 block text-[10px]">Student Name:</span>
-          <span className="font-bold text-slate-900 font-sans">{student.name}</span>
+          <span className="tx-muted block text-[10px]">Student Name:</span>
+          <span className="font-bold tx-ink font-sans">{student.name}</span>
         </div>
         <div>
-          <span className="text-slate-500 block text-[10px]">Student ID / Roll:</span>
-          <span className="font-bold text-slate-900">{student.id} (Roll {student.roll})</span>
+          <span className="tx-muted block text-[10px]">Student ID / Roll:</span>
+          <span className="font-bold tx-ink">{student.id} (Roll {student.roll})</span>
         </div>
         <div>
-          <span className="text-slate-500 block text-[10px]">Class Cohort:</span>
-          <span className="font-bold text-slate-900">{student.class}</span>
+          <span className="tx-muted block text-[10px]">Class Cohort:</span>
+          <span className="font-bold tx-ink">{student.class}</span>
         </div>
         <div>
-          <span className="text-slate-500 block text-[10px]">Optional 4th Subject:</span>
-          <span className="font-bold text-purple-700">{student.optionalSubject}</span>
+          <span className="tx-muted block text-[10px]">Optional 4th Subject:</span>
+          <span className="font-bold tx-opt-accent">{student.optionalSubject}</span>
         </div>
       </div>
 
       {/* Grades Table */}
-      <table className="w-full text-xs text-left border border-slate-300 border-collapse">
-        <thead className="bg-slate-100 text-slate-900 font-bold uppercase text-[10px] tracking-wider border-b border-slate-300 font-mono">
+      <div className="overflow-x-auto rounded-lg">
+      <table className="tx-table w-full text-xs text-left">
+        <thead className="font-bold uppercase text-[10px] tracking-wider font-mono">
           <tr>
-            <th className="p-2 border-r border-slate-300 w-12 text-center">No</th>
-            <th className="p-2 border-r border-slate-300">Subject Name</th>
-            <th className="p-2 border-r border-slate-300 w-24 text-center">Type</th>
-            <th className="p-2 border-r border-slate-300 w-28 text-center">Marks (T+P)</th>
-            <th className="p-2 border-r border-slate-300 w-20 text-center">Total</th>
-            <th className="p-2 border-r border-slate-300 w-20 text-center">GP</th>
+            <th className="p-2 border-r w-12 text-center">No</th>
+            <th className="p-2 border-r">Subject Name</th>
+            <th className="p-2 border-r w-24 text-center">Type</th>
+            <th className="p-2 border-r w-28 text-center">Marks (T+P)</th>
+            <th className="p-2 border-r w-20 text-center">Total</th>
+            <th className="p-2 border-r w-20 text-center">GP</th>
             <th className="p-2 w-16 text-center">Grade</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-200 font-mono">
+        <tbody className="font-mono">
           {res?.subjectEvaluations?.map((sub: any, sIdx: number) => {
             const isOptional = !sub.isCompulsory;
             return (
               <tr
                 key={sub.code}
-                className={`${!sub.isPassed ? "bg-red-50/40" : isOptional ? "bg-purple-50/80 font-medium" : ""}`}
+                className={!sub.isPassed ? "tx-row-fail" : isOptional ? "tx-row-opt font-medium" : ""}
               >
-                <td className="p-2 border-r border-slate-200 text-center text-slate-500">{sIdx + 1}</td>
-                <td className="p-2 border-r border-slate-200 font-sans font-medium text-slate-900">
+                <td className="p-2 border-r text-center tx-muted">{sIdx + 1}</td>
+                <td className="p-2 border-r font-sans font-medium tx-ink">
                   <div className="flex items-center gap-1.5">
-                    <span className={isOptional ? "font-bold text-purple-950" : ""}>{sub.name} ({sub.code})</span>
+                    <span className={isOptional ? "font-bold tx-opt-ink" : ""}>{sub.name} ({sub.code})</span>
                     {isOptional && (
-                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-sm bg-purple-200 text-purple-900 border border-purple-300 font-mono no-print">
+                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm tx-opt-tag font-mono no-print">
                         Optional 4th
                       </span>
                     )}
                   </div>
                 </td>
-                <td className="p-2 border-r border-slate-200 text-center text-[11px]">
-                  <span className={isOptional ? "font-bold text-purple-900" : "text-slate-600"}>
+                <td className="p-2 border-r text-center text-[11px]">
+                  <span className={isOptional ? "font-bold tx-opt-ink" : "tx-muted"}>
                     {sub.isCompulsory ? "Compulsory" : "4th Optional"}
                   </span>
                 </td>
-                <td className={`p-2 border-r border-slate-200 text-center ${isOptional ? "font-bold text-purple-950 bg-purple-100/50" : "text-slate-700"}`}>
+                <td className={`p-2 border-r text-center ${isOptional ? "font-bold tx-opt-ink tx-cell-opt" : "tx-ink"}`}>
                   {sub.displayMark}
                 </td>
-                <td className="p-2 border-r border-slate-200 text-center font-bold">
+                <td className="p-2 border-r text-center font-bold tx-ink">
                   {sub.totalMark}
                 </td>
-                <td className="p-2 border-r border-slate-200 text-center font-bold">
+                <td className="p-2 border-r text-center font-bold tx-ink">
                   {sub.gradePoint.toFixed(2)}
                 </td>
                 <td className="p-2 text-center">
@@ -402,37 +403,34 @@ function TranscriptCard({
           })}
         </tbody>
       </table>
+      </div>
 
       {/* Calculation Summary Footer */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-900 text-white p-4 rounded-xl font-mono text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 tx-summary p-4 rounded-xl font-mono text-xs">
         <div className="space-y-1">
-          <p className="text-slate-400">Sum of 6 Compulsory GPs: <span className="text-white font-bold">{res?.compulsoryGPsSum.toFixed(2)} / 30.00</span></p>
-          <p className="text-slate-400">Optional 4th Subject Bonus: <span className="text-purple-400 font-bold">+{res?.optionalBonusGP.toFixed(2)} GP</span></p>
-          <p className="text-slate-400">Raw Calculated GPA: <span className="text-slate-200">{res?.rawGPA.toFixed(2)}</span></p>
+          <p className="tx-summary-muted">Sum of 6 Compulsory GPs: <span className="font-bold" style={{ color: "var(--tx-summary-ink)" }}>{res?.compulsoryGPsSum.toFixed(2)} / 30.00</span></p>
+          <p className="tx-summary-muted">Optional 4th Subject Bonus: <span className="tx-summary-accent font-bold">+{res?.optionalBonusGP.toFixed(2)} GP</span></p>
+          <p className="tx-summary-muted">Raw Calculated GPA: <span style={{ color: "var(--tx-summary-ink)" }}>{res?.rawGPA.toFixed(2)}</span></p>
         </div>
 
         <div className="sm:text-right space-y-1 flex sm:flex-col justify-between sm:justify-center">
-          <div className="text-sm text-slate-300">Final Assessment Result:</div>
+          <div className="text-sm tx-summary-muted">Final Assessment Result:</div>
           <div className="flex items-center sm:justify-end gap-3">
-            <span className="text-2xl font-extrabold text-white">
+            <span className="text-2xl font-extrabold" style={{ color: "var(--tx-summary-ink)" }}>
               GPA {res?.finalGPA.toFixed(2)}
             </span>
-            <GradeBadge grade={res?.finalLetterGrade} size="lg" />
+            <span className="rounded-lg px-1.5 py-1" style={{ backgroundColor: "var(--tx-surface)" }}>
+              <GradeBadge grade={res?.finalLetterGrade} size="lg" />
+            </span>
           </div>
         </div>
       </div>
 
       {/* Signatures */}
-      <div className="pt-8 grid grid-cols-3 gap-4 text-center text-xs text-slate-600">
-        <div className="border-t border-slate-400 pt-1 font-medium">
-          Class Teacher
-        </div>
-        <div className="border-t border-slate-400 pt-1 font-medium">
-          Examination Controller
-        </div>
-        <div className="border-t border-slate-400 pt-1 font-medium">
-          Headmaster / Seal
-        </div>
+      <div className="pt-8 grid grid-cols-3 gap-4 text-center text-xs tx-muted">
+        <div className="tx-sign pt-1 font-medium">Class Teacher</div>
+        <div className="tx-sign pt-1 font-medium">Examination Controller</div>
+        <div className="tx-sign pt-1 font-medium">Headmaster / Seal</div>
       </div>
     </div>
   );

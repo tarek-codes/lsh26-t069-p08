@@ -51,7 +51,7 @@ export function Header({
                   onClick={() => (onClassChange as (id: string | undefined) => void)(cls.id)}
                 >
                   {cls.label}
-                  <span className="ml-1.5 tabular-nums text-[var(--fg-subtle)]">{cls.count}</span>
+                  <span className="seg-count">{cls.count}</span>
                 </button>
               ))}
             </div>

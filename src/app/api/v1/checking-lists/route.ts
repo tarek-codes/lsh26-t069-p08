@@ -40,13 +40,18 @@ export async function GET(request: NextRequest) {
       flags = flags.filter((f) => multiFlagStudentIds.has(f.studentId));
     }
 
+    // Summary counts unique students (same basis as the dashboard "Needs Review"),
+    // across all lists for the selected class, regardless of the active tab or status filter.
+    const allFlags = store.getCheckingFlags({ flagType: "ALL", classId });
+    const uniqueStudents = (list: typeof allFlags) =>
+      new Set(list.map((f) => f.studentId)).size;
     const summary = {
-      totalFlagged: flags.length,
-      pending: flags.filter((f) => f.verificationStatus === "PENDING").length,
-      verified: flags.filter((f) => f.verificationStatus === "VERIFIED").length,
-      correctionRequired: flags.filter(
-        (f) => f.verificationStatus === "CORRECTION_REQUIRED"
-      ).length,
+      totalFlagged: uniqueStudents(allFlags),
+      pending: uniqueStudents(allFlags.filter((f) => f.verificationStatus === "PENDING")),
+      verified: uniqueStudents(allFlags.filter((f) => f.verificationStatus === "VERIFIED")),
+      correctionRequired: uniqueStudents(
+        allFlags.filter((f) => f.verificationStatus === "CORRECTION_REQUIRED")
+      ),
     };
 
     return NextResponse.json({

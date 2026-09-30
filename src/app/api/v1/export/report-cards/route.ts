@@ -33,7 +33,9 @@ export async function GET(request: NextRequest) {
           roll: s.roll,
           optionalSubject: s.optional,
         },
-        result,
+        result: result
+          ? (({ traceSteps, traceNarrative, ...rest }) => rest)(result)
+          : result,
       };
     });
 

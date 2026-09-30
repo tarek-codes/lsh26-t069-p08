@@ -21,6 +21,8 @@ export interface AcceptedRowRecord {
   rowNumber: number;
   student: StudentInput;
   previewResult: ReturnType<typeof calculateStudentGPA>;
+  /** INSERT = new student, UPDATE = existing student (marks only). Set by the import rules. */
+  action?: "INSERT" | "UPDATE";
 }
 
 export interface ImportValidationResult {
@@ -32,6 +34,8 @@ export interface ImportValidationResult {
     accepted: number;
     rejected: number;
     errorTypes: Record<string, number>;
+    inserts?: number;
+    updates?: number;
   };
 }
 
@@ -130,7 +134,7 @@ export function parseAndValidateMark(
           field: `${code} Theory`,
           invalidValue: theory,
           ruleCode: "RULE_THEORY_OUT_OF_BOUNDS",
-          reason: `Theory mark ${theory} in ${def.name} is invalid. Maximum allowed is 75 (Rule R-11).`,
+          reason: `Theory mark ${theory} in ${def.name} is invalid. Maximum allowed is 75.`,
           suggestedFix: `Theory mark must be in range 0 to 75.`,
         },
       };
@@ -142,7 +146,7 @@ export function parseAndValidateMark(
           field: `${code} Practical`,
           invalidValue: practical,
           ruleCode: "RULE_PRACTICAL_OUT_OF_BOUNDS",
-          reason: `Practical mark ${practical} in ${def.name} is invalid. Maximum allowed is 25 (Rule R-11).`,
+          reason: `Practical mark ${practical} in ${def.name} is invalid. Maximum allowed is 25.`,
           suggestedFix: `Practical mark must be in range 0 to 25.`,
         },
       };
@@ -193,7 +197,7 @@ export function validateStudentRecord(
   const id = rawRecord.id ? String(rawRecord.id).trim() : "";
   const name = rawRecord.name ? String(rawRecord.name).trim() : "";
   const roll = rawRecord.roll !== undefined && rawRecord.roll !== "" ? Number(rawRecord.roll) : undefined;
-  const className = rawRecord.class ? String(rawRecord.class).trim() : "Class 9";
+  const className = rawRecord.class ? String(rawRecord.class).trim() : "";
   const rawOpt = rawRecord.optional ? String(rawRecord.optional).trim().toUpperCase() : "";
 
   // 1. Validate ID
@@ -203,7 +207,16 @@ export function validateStudentRecord(
       invalidValue: rawRecord.id,
       ruleCode: "RULE_MISSING_STUDENT_ID",
       reason: `Student ID is required and cannot be empty.`,
-      suggestedFix: `Provide a unique Student ID like 'S001'.`,
+      suggestedFix: `Provide a unique Student ID: S followed by at least 3 digits, like 'S001'.`,
+    });
+  } else if (!/^S\d{3,}$/.test(id)) {
+    seenIds.add(id);
+    errors.push({
+      field: "id",
+      invalidValue: id,
+      ruleCode: "RULE_INVALID_STUDENT_ID_FORMAT",
+      reason: `Student ID '${id}' is not valid. It must be the letter S followed by at least 3 digits.`,
+      suggestedFix: `Use an ID like 'S001' or 'S1024'.`,
     });
   } else if (seenIds.has(id)) {
     errors.push({
@@ -225,6 +238,26 @@ export function validateStudentRecord(
       ruleCode: "RULE_MISSING_STUDENT_NAME",
       reason: `Student name is required and cannot be empty.`,
       suggestedFix: `Enter the full name of the student.`,
+    });
+  }
+
+  // Roll and class are required so existing students can be matched and protected
+  if (roll === undefined || !Number.isInteger(roll) || roll < 1) {
+    errors.push({
+      field: "roll",
+      invalidValue: rawRecord.roll,
+      ruleCode: "RULE_INVALID_ROLL",
+      reason: `Roll number is required and must be a whole number of 1 or more.`,
+      suggestedFix: `Enter the student's roll number, e.g. 12.`,
+    });
+  }
+  if (!className) {
+    errors.push({
+      field: "class",
+      invalidValue: rawRecord.class,
+      ruleCode: "RULE_MISSING_CLASS",
+      reason: `Class is required.`,
+      suggestedFix: `Enter 'Class 9' or 'Class 10'.`,
     });
   }
 
@@ -310,7 +343,7 @@ export function validateStudentRecord(
 }
 
 /**
- * Parses plain CSV/TSV text into key-value records
+ * Parses plain CSV text into key-value records
  */
 export function parseDelimitedText(text: string): Record<string, string>[] {
   const lines = text
@@ -320,9 +353,9 @@ export function parseDelimitedText(text: string): Record<string, string>[] {
 
   if (lines.length < 2) return [];
 
-  // Determine delimiter (tab or comma or semicolon)
+  // Determine delimiter (comma or semicolon)
   const firstLine = lines[0];
-  const delimiter = firstLine.includes("\t") ? "\t" : firstLine.includes(";") ? ";" : ",";
+  const delimiter = firstLine.includes(";") ? ";" : ",";
 
   const headers = lines[0].split(delimiter).map((h) => h.trim().replace(/^["']|["']$/g, ""));
   const rows: Record<string, string>[] = [];

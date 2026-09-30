@@ -27,7 +27,7 @@ const coreCapabilities = [
   },
   {
     icon: ClipboardList,
-    tag: "Audit control",
+    tag: "Quality control",
     title: "Pre-Publication Checking Rosters",
     desc: "Three-tier verification for low elective performance, practical examination thresholds, and candidate absenteeism.",
   },
@@ -35,7 +35,7 @@ const coreCapabilities = [
     icon: UploadCloud,
     tag: "Data ingestion",
     title: "Schema & Rejection Diagnostics",
-    desc: "Automated ingestion for CSV, TSV, and JSON formats with specific error codes and instantaneous row-level diagnostics.",
+    desc: "Automated ingestion for CSV and JSON formats with specific error codes and instantaneous row-level diagnostics.",
   },
   {
     icon: BarChart3,
@@ -53,7 +53,7 @@ const coreCapabilities = [
     icon: Printer,
     tag: "Compliance",
     title: "Official Academic Transcripts",
-    desc: "Formal, single-page print-optimized academic grade sheets complete with step-by-step arithmetic audit traces.",
+    desc: "Formal, single-page print-optimized academic grade sheets complete with step-by-step arithmetic breakdowns.",
   },
 ];
 
@@ -83,7 +83,7 @@ const logicPillars = [
 const heroStats = [
   { label: "Zero calculation errors", value: "100% Accuracy", hint: "Automated precision tabulation" },
   { label: "Institutional standard", value: "Fully Compliant", hint: "Built-in curriculum guidelines" },
-  { label: "Publication safety", value: "Audit Ready", hint: "Pre-publication risk filters" },
+  { label: "Publication safety", value: "Ready to Publish", hint: "Pre-publication risk filters" },
   { label: "Processing speed", value: "Instant Results", hint: "Real-time batch verification" },
 ];
 

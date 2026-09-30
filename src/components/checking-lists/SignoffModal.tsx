@@ -85,7 +85,7 @@ export function SignoffModal({ flag, onClose, onSuccess }: SignoffModalProps) {
               <h3 id="signoff-title" className="card-title">
                 Verification sign-off
               </h3>
-              <p className="card-subtitle">Record the audit decision for this flag</p>
+              <p className="card-subtitle">Record your decision for this flag</p>
             </div>
           </div>
           <button type="button" onClick={onClose} aria-label="Close" className="btn btn-ghost btn-sm w-8 px-0!">
@@ -164,7 +164,7 @@ export function SignoffModal({ flag, onClose, onSuccess }: SignoffModalProps) {
 
             <div>
               <label htmlFor="signoff-notes" className="block text-xs font-medium text-[var(--fg-muted)] mb-1.5">
-                Audit notes &amp; physical script verification
+                Review notes &amp; physical script verification
               </label>
               <textarea
                 id="signoff-notes"

@@ -44,7 +44,7 @@ export function Sidebar() {
             optionalLow: opt,
             practicalFail: prac,
             absent: abs,
-            total: list.length,
+            total: json.summary?.totalFlagged ?? new Set(list.map((f: any) => f.studentId)).size,
           });
         }
       } catch (err) {
@@ -101,8 +101,8 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-56 flex flex-col shrink-0 h-screen sticky top-0 no-print select-none bg-[var(--surface)] border-r border-[var(--border)]">
-      <Link href="/dashboard" className="h-16 px-4 flex items-center gap-2.5 border-b border-[var(--border)]">
+    <aside className="w-60 flex flex-col shrink-0 h-screen sticky top-0 no-print select-none bg-[var(--surface)] border-r border-[var(--border)]">
+      <Link href="/dashboard" className="h-24 px-5 pt-6 pb-2 flex items-center gap-2.5 border-b border-[var(--border)]">
         <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center text-white shrink-0">
           <GraduationCap className="w-[18px] h-[18px]" />
         </div>
@@ -114,9 +114,9 @@ export function Sidebar() {
         </div>
       </Link>
 
-      <nav className="flex-1 px-2.5 py-3.5 overflow-y-auto">
+      <nav className="flex-1 px-3 pt-6 pb-4 overflow-y-auto">
         <p className="px-3 mb-2 text-[10.5px] font-semibold uppercase tracking-wider text-[var(--fg-subtle)]">Workspace</p>
-        <ul className="space-y-1">
+        <ul className="space-y-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -124,23 +124,23 @@ export function Sidebar() {
                 <Link
                   href={item.href}
                   aria-current={item.active ? "page" : undefined}
-                  className={`group flex items-center gap-3 h-9 px-3 rounded-lg text-xs font-medium transition-colors ${
+                  className={`group flex items-center gap-3.5 h-11 px-3.5 rounded-full text-sm font-medium transition-colors ${
                     item.active
-                      ? "bg-[var(--accent-subtle)] text-[var(--accent)] font-semibold"
+                      ? "bg-[var(--accent)] text-white font-semibold shadow-sm"
                       : "text-[var(--fg-muted)] hover:bg-[var(--bg-subtle)] hover:text-[var(--fg)]"
                   }`}
                 >
                   <Icon
-                    className={`w-4 h-4 shrink-0 transition-colors ${
-                      item.active ? "text-[var(--accent)]" : "text-[var(--fg-subtle)] group-hover:text-[var(--fg-muted)]"
+                    className={`w-5 h-5 shrink-0 transition-colors ${
+                      item.active ? "text-white" : "text-[var(--fg-subtle)] group-hover:text-[var(--fg-muted)]"
                     }`}
                   />
                   <span className="flex-1 truncate tracking-tight">{item.name}</span>
                   {item.badge !== undefined && (
                     <span
-                      className={`min-w-4.5 h-4.5 px-1.5 inline-flex items-center justify-center rounded-full text-[10px] font-semibold tabular-nums shrink-0 ${
+                      className={`min-w-5 h-5 px-1.5 inline-flex items-center justify-center rounded-full text-[11px] font-semibold tabular-nums shrink-0 ${
                         item.active
-                          ? "bg-[var(--accent)] text-white"
+                          ? "bg-white text-[var(--accent)]"
                           : "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
                       }`}
                     >

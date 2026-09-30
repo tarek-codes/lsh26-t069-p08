@@ -37,11 +37,22 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
 
   if (!studentId) return null;
 
+  // Print only this breakdown: a body class lets the print CSS hide everything else.
+  const printBreakdown = () => {
+    document.body.classList.add("printing-trace");
+    const cleanup = () => {
+      document.body.classList.remove("printing-trace");
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+    window.print();
+  };
+
   const student = data?.student;
   const evalData = data?.evaluation;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 no-print">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 trace-modal">
       <div
         style={{
           backgroundColor: "var(--surface)",
@@ -61,7 +72,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-base" style={{ color: "var(--fg)" }}>
-                Calculation Audit Trace
+                Calculation Breakdown
               </h3>
               <span
                 style={{
@@ -79,12 +90,12 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 no-print">
             <button
-              onClick={() => window.print()}
+              onClick={printBreakdown}
               style={{ color: "var(--fg-muted)" }}
               className="p-1.5 rounded-lg hover:bg-[var(--surface-alt)] hover:text-[var(--fg)] transition-colors"
-              title="Print Audit Report"
+              title="Print Calculation Report"
             >
               <Printer className="w-4 h-4" />
             </button>
@@ -162,7 +173,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                   }}
                   className="mt-3 text-xs leading-relaxed p-3 rounded-lg border"
                 >
-                  <p className="font-semibold mb-0.5" style={{ color: "var(--fg)" }}>Audit Narrative:</p>
+                  <p className="font-semibold mb-0.5" style={{ color: "var(--fg)" }}>Summary:</p>
                   <p>{evalData.traceNarrative}</p>
                 </div>
               </div>
@@ -234,7 +245,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                   className="flex items-center justify-between border-b pb-1.5"
                 >
                   <h4 className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--fg)" }}>
-                    Step 2: Optional 4th Subject Bonus (Rule R-20)
+                    Step 2: Optional 4th Subject Bonus
                   </h4>
                   <span className="text-xs font-mono font-bold text-purple-500">
                     +{evalData.optionalBonusGP.toFixed(2)} Bonus GP
@@ -298,7 +309,7 @@ export function TraceDrawer({ studentId, onClose }: TraceModalProps) {
                   style={{ borderColor: "var(--border)", color: "var(--fg)" }}
                   className="text-xs font-bold uppercase tracking-wider border-b pb-1.5"
                 >
-                  Step 3: GPA Equation & Capping (Rule R-13)
+                  Step 3: GPA Equation & Capping
                 </h4>
 
                 <div

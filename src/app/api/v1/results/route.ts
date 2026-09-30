@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
             gradeDistribution: gradeDist,
             flaggedCount,
           },
-          results,
+          results: results.map(({ traceSteps, traceNarrative, ...rest }) => rest),
         },
         meta: {
           total: results.length,
@@ -131,7 +131,8 @@ export async function GET(request: NextRequest) {
               flaggedCount: latestRun.summary.flaggedCount,
             }
           : null,
-        results,
+        // Trace text is loaded on demand by the breakdown modal; keep list payloads small.
+        results: results.map(({ traceSteps, traceNarrative, ...rest }) => rest),
       },
       meta: {
         total: results.length,

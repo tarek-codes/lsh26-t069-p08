@@ -30,13 +30,13 @@ export function buildTraceSteps(context: TraceContext): string[] {
   const compulsoryEvals = subjectEvaluations.filter((s) => s.isCompulsory);
   for (const s of compulsoryEvals) {
     if (s.isAbsent) {
-      steps.push(`  [FAIL/ABSENT] ${s.code} (${s.name}): Mark = AB -> GP = 0.00 (F) [${s.ruleCode}]`);
+      steps.push(`  [FAIL/ABSENT] ${s.code} (${s.name}): Mark = AB -> GP = 0.00 (F)`);
     } else if (s.isPractical) {
       const status = s.isPassed ? "PASS" : "FAIL";
-      steps.push(`  [${status}] ${s.code} (${s.name}): Theory = ${s.theoryMark}/75, Practical = ${s.practicalMark}/25 (Total: ${s.totalMark}/100) -> GP = ${s.gradePoint.toFixed(2)} (${s.letterGrade}) [${s.ruleCode}]`);
+      steps.push(`  [${status}] ${s.code} (${s.name}): Theory = ${s.theoryMark}/75, Practical = ${s.practicalMark}/25 (Total: ${s.totalMark}/100) -> GP = ${s.gradePoint.toFixed(2)} (${s.letterGrade})`);
     } else {
       const status = s.isPassed ? "PASS" : "FAIL";
-      steps.push(`  [${status}] ${s.code} (${s.name}): Total Mark = ${s.totalMark}/100 -> GP = ${s.gradePoint.toFixed(2)} (${s.letterGrade}) [${s.ruleCode}]`);
+      steps.push(`  [${status}] ${s.code} (${s.name}): Total Mark = ${s.totalMark}/100 -> GP = ${s.gradePoint.toFixed(2)} (${s.letterGrade})`);
     }
   }
   steps.push(`  -> Sum of Compulsory Grade Points: ${compulsoryGPsSum.toFixed(2)} / 30.00`);
@@ -57,7 +57,7 @@ export function buildTraceSteps(context: TraceContext): string[] {
   // Step 4: Capping Evaluation
   steps.push(`=== Step 4: GPA Capping (Max 5.00) ===`);
   if (rawGPA > 5.0) {
-    steps.push(`  Raw GPA ${rawGPA.toFixed(4)} exceeds 5.00 -> Capped at 5.00 [RULE_GPA_CAPPED_MAX5]`);
+    steps.push(`  Raw GPA ${rawGPA.toFixed(4)} exceeds 5.00 -> Capped at 5.00`);
   } else {
     steps.push(`  Raw GPA ${rawGPA.toFixed(4)} within 5.00 limit -> Formatted to ${cappedGPA.toFixed(2)}`);
   }
@@ -66,7 +66,7 @@ export function buildTraceSteps(context: TraceContext): string[] {
   steps.push(`=== Step 5: Final Verdict & Failure Override ===`);
   if (hasCompulsoryFail) {
     steps.push(`  OVERRIDE TRIGGERED: Student failed compulsory subject(s): ${failingCompulsorySubjects.join(", ")}`);
-    steps.push(`  Rule R-13 applies: Uncancelled raw GPA (${rawGPA.toFixed(2)}, Grade ${mapGPAToLetterGrade(cappedGPA)}) is overridden to Final GPA 0.00 and Letter Grade F.`);
+    steps.push(`  Compulsory failure rule applies: Uncancelled raw GPA (${rawGPA.toFixed(2)}, Grade ${mapGPAToLetterGrade(cappedGPA)}) is overridden to Final GPA 0.00 and Letter Grade F.`);
   } else {
     steps.push(`  All 6 compulsory subjects passed successfully.`);
     steps.push(`  Final GPA = ${finalGPA.toFixed(2)}, Final Letter Grade = ${finalLetterGrade}`);
@@ -79,11 +79,11 @@ export function buildTraceNarrative(context: TraceContext): string {
   const { student, compulsoryGPsSum, optionalBonusGP, rawGPA, hasCompulsoryFail, failingCompulsorySubjects, finalGPA, finalLetterGrade, checkingFlags = [] } = context;
 
   if (hasCompulsoryFail) {
-    return `Student ${student.name} (${student.id}) earned a raw uncancelled GPA of ${rawGPA.toFixed(2)} with compulsory points total ${compulsoryGPsSum.toFixed(2)} and optional bonus +${optionalBonusGP.toFixed(2)}, but failed in compulsory subject(s): ${failingCompulsorySubjects.join(", ")}. Per Rule R-13, a fail in any compulsory subject overrides the final result to GPA 0.00 and Letter Grade F.`;
+    return `Student ${student.name} (${student.id}) earned a raw uncancelled GPA of ${rawGPA.toFixed(2)} with compulsory points total ${compulsoryGPsSum.toFixed(2)} and optional bonus +${optionalBonusGP.toFixed(2)}, but failed in compulsory subject(s): ${failingCompulsorySubjects.join(", ")}. A fail in any compulsory subject overrides the final result to GPA 0.00 and Letter Grade F.`;
   }
 
   if (rawGPA > 5.0) {
-    return `Student ${student.name} (${student.id}) achieved an exceptional performance with compulsory points ${compulsoryGPsSum.toFixed(2)} and optional bonus +${optionalBonusGP.toFixed(2)}, producing a raw score of ${rawGPA.toFixed(2)}. Per Rule R-13, the result is capped at the maximum Final GPA 5.00 (Letter Grade A+).`;
+    return `Student ${student.name} (${student.id}) achieved an exceptional performance with compulsory points ${compulsoryGPsSum.toFixed(2)} and optional bonus +${optionalBonusGP.toFixed(2)}, producing a raw score of ${rawGPA.toFixed(2)}. The result is capped at the maximum Final GPA 5.00 (Letter Grade A+).`;
   }
 
   const flagsText = checkingFlags.length > 0

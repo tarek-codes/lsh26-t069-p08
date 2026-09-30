@@ -295,8 +295,8 @@ export function classifyCheckingFlags(
         type: "OPTIONAL_LOW",
         subjectCode: optionalEval.code,
         reason: optionalEval.isAbsent
-          ? `Optional subject ${optionalEval.name} is marked Absent (AB) -> Contributes 0.00 bonus points (R-20)`
-          : `Optional subject ${optionalEval.name} grade point is ${optionalEval.gradePoint.toFixed(2)} (<= 2.00 threshold) -> Contributes 0.00 bonus points (R-20)`,
+          ? `Optional subject ${optionalEval.name} is marked Absent (AB) -> Contributes 0.00 bonus points`
+          : `Optional subject ${optionalEval.name} grade point is ${optionalEval.gradePoint.toFixed(2)} (<= 2.00 threshold) -> Contributes 0.00 bonus points`,
         severity: "MEDIUM",
       });
     }

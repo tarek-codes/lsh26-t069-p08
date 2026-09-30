@@ -46,6 +46,13 @@ export default function ClassResultsMatrixPage() {
   const [activeClassId, setActiveClassId] = useState("c1010000-0000-0000-0000-000000000001");
   const [selectedGrade, setSelectedGrade] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+
+  // Wait for a pause in typing before refetching, so each keystroke doesn't reload the table
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(searchQuery), 250);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
@@ -61,7 +68,7 @@ export default function ClassResultsMatrixPage() {
       const res = await fetch(
         `/api/v1/results?classId=${activeClassId}&grade=${encodeURIComponent(
           selectedGrade
-        )}&search=${encodeURIComponent(searchQuery)}`
+        )}&search=${encodeURIComponent(debouncedQuery)}`
       );
       const json = await res.json();
       if (json.success) {
@@ -77,7 +84,7 @@ export default function ClassResultsMatrixPage() {
   useEffect(() => {
     setCurrentPage(1);
     loadData();
-  }, [activeClassId, selectedGrade, searchQuery]);
+  }, [activeClassId, selectedGrade, debouncedQuery]);
 
   const handleCalculate = async () => {
     try {
@@ -217,7 +224,7 @@ export default function ClassResultsMatrixPage() {
                     className="sticky right-0 z-[3] text-right!"
                     style={{ width: W_AUDIT, minWidth: W_AUDIT }}
                   >
-                    Audit
+                    Details
                   </th>
                 </tr>
               </thead>
