@@ -13,10 +13,35 @@ let client: SupabaseClient | null | undefined;
 
 let configError: string | null = null;
 
+/** Cleans up common copy-paste mistakes: quotes, spaces, missing https://, trailing paths. */
+function normalizeUrl(raw: string | undefined): string | undefined {
+  if (!raw) return undefined;
+  let v = raw.trim().replace(/^["'`]+|["'`]+$/g, "").trim();
+  if (!v || /^(eyJ|sb_)/.test(v)) return undefined; // empty, or a key pasted into the URL box
+  if (!/^https?:\/\//i.test(v)) v = `https://${v}`;
+  try {
+    return new URL(v).origin;
+  } catch {
+    return undefined;
+  }
+}
+
+function cleanKey(raw: string | undefined): string | undefined {
+  const v = raw?.trim().replace(/^["'`]+|["'`]+$/g, "").trim();
+  return v || undefined;
+}
+
+function resolveSettings() {
+  const url =
+    normalizeUrl(process.env.SUPABASE_URL) ?? normalizeUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const key =
+    cleanKey(process.env.SUPABASE_SERVICE_ROLE_KEY) ?? cleanKey(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  return { url, key };
+}
+
 function getClient(): SupabaseClient | null {
   if (client !== undefined) return client;
-  const url = (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL)?.trim();
-  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)?.trim();
+  const { url, key } = resolveSettings();
   if (!url || !key) {
     client = null;
     return client;
@@ -33,10 +58,19 @@ function getClient(): SupabaseClient | null {
 }
 
 export function databaseStatus() {
-  const hasUrl = Boolean(process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL);
-  const hasKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const rawUrl = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const { url, key } = resolveSettings();
   getClient();
-  return { hasUrl, hasKey, configError };
+  return {
+    urlSet: Boolean(rawUrl),
+    urlUsable: Boolean(url),
+    // Shape only, never the value itself: helps spot a pasted key or a stray character
+    urlHint: rawUrl
+      ? { length: rawUrl.length, startsWithHttp: /^\s*["']?https?:\/\//i.test(rawUrl), looksLikeKey: rawUrl.trim().startsWith("eyJ") }
+      : null,
+    keySet: Boolean(key),
+    configError,
+  };
 }
 
 export function persistenceEnabled(): boolean {

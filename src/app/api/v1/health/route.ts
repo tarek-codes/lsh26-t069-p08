@@ -14,8 +14,10 @@ export async function GET() {
     ping = { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
   return NextResponse.json({
-    urlSet: cfg.hasUrl,
-    keySet: cfg.hasKey,
+    urlSet: cfg.urlSet,
+    urlUsable: cfg.urlUsable,
+    urlHint: cfg.urlHint,
+    keySet: cfg.keySet,
     settingsError: cfg.configError,
     database: ping,
   });
