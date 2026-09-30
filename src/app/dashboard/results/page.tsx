@@ -108,6 +108,8 @@ export default function ClassResultsMatrixPage() {
   };
 
   const results = data?.results || [];
+  // Counts come from the class summary, so they stay visible while a filter is active
+  const gradeCounts: Record<string, number> = data?.summary?.gradeDistribution ?? {};
   const totalCount = results.length;
   const effectivePageSize = pageSize === -1 ? totalCount || 1 : pageSize;
   const totalPages = Math.ceil(totalCount / effectivePageSize) || 1;
@@ -152,8 +154,21 @@ export default function ClassResultsMatrixPage() {
                   aria-selected={selectedGrade === grade}
                   onClick={() => setSelectedGrade(grade)}
                   className="px-2.5! min-w-8 tabular-nums"
+                  title={
+                    grade === "ALL"
+                      ? "Show every grade"
+                      : `${gradeCounts[grade] ?? 0} ${gradeCounts[grade] === 1 ? "student" : "students"} with grade ${grade}`
+                  }
                 >
                   {grade === "ALL" ? "All" : grade}
+                  {grade !== "ALL" && (
+                    <span
+                      className="ml-1 text-[10px] font-semibold"
+                      style={{ opacity: (gradeCounts[grade] ?? 0) === 0 ? 0.45 : 0.75 }}
+                    >
+                      {gradeCounts[grade] ?? 0}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -249,8 +264,15 @@ export default function ClassResultsMatrixPage() {
                       <div className="flex flex-col items-center gap-2 text-[var(--fg-subtle)]">
                         <Inbox className="w-6 h-6" />
                         <span className="text-sm text-[var(--fg-muted)]">
-                          No student results match your filters.
+                          {selectedGrade !== "ALL" && !debouncedQuery
+                            ? `No students in ${data?.class?.name ?? "this class"} have grade ${selectedGrade}.`
+                            : "No student results match your filters."}
                         </span>
+                        {selectedGrade !== "ALL" && (
+                          <button type="button" className="btn btn-secondary btn-sm mt-1" onClick={() => setSelectedGrade("ALL")}>
+                            Show all grades
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
