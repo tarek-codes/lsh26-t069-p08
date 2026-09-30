@@ -105,7 +105,7 @@ Official-style transcripts, opening on **Single Student** with a quick student p
 4. **Six compulsory subjects** (Bangla, English, Mathematics, Religion, Physics, Chemistry) are added up and divided by 6.
 5. **The optional 4th subject is a bonus.** Each student picks Biology, Higher Mathematics or Agriculture. Only points **above 2.00** count as bonus, and the divisor stays at 6:
    `bonus = max(0, optional grade point − 2.00)`
-6. **One compulsory fail fails the result.** If any compulsory subject is failed, the final GPA becomes 0.00 (F). The raw GPA is still shown so teachers can see what it would have been.
+6. **One compulsory fail fails the result.** If any compulsory subject is failed, the final GPA becomes 0.00 (F). The two electives a student did not choose are also checked for failure, but their points are not added to the GPA. The raw GPA is still shown so teachers can see what it would have been.
 7. **GPA is capped at 5.00.** A raw GPA above 5.00 is shown as 5.00 (A+).
 
 ### Final GPA to letter grade
