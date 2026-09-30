@@ -161,19 +161,34 @@ class SchoolDataStore {
 
   /** Replaces students and saved sign-offs with data read from the database, then recalculates. */
   public hydrate(students: StudentEntity[], flags: CheckingListFlagRecord[]) {
-    this.students.clear();
-    this.calculationRuns.clear();
-    this.studentResults.clear();
-    this.checkingFlags.clear();
+    const previous = {
+      students: this.students,
+      runs: this.calculationRuns,
+      results: this.studentResults,
+      flags: this.checkingFlags,
+    };
+    this.students = new Map();
+    this.calculationRuns = new Map();
+    this.studentResults = new Map();
+    this.checkingFlags = new Map();
 
-    for (const s of students) {
-      if (this.classes.has(s.classId)) this.students.set(s.id, s);
-    }
-    for (const f of flags) this.checkingFlags.set(f.id, f);
+    try {
+      for (const s of students) {
+        if (this.classes.has(s.classId)) this.students.set(s.id, s);
+      }
+      for (const f of flags) this.checkingFlags.set(f.id, f);
 
-    for (const cls of this.classes.values()) {
-      cls.studentCount = this.getStudents({ classId: cls.id }).length;
-      this.runCalculation(cls.id);
+      for (const cls of this.classes.values()) {
+        cls.studentCount = this.getStudents({ classId: cls.id }).length;
+        this.runCalculation(cls.id);
+      }
+    } catch (err) {
+      // Keep serving the last good data if the loaded records cannot be calculated.
+      this.students = previous.students;
+      this.calculationRuns = previous.runs;
+      this.studentResults = previous.results;
+      this.checkingFlags = previous.flags;
+      throw err;
     }
   }
 

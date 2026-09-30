@@ -11,15 +11,32 @@ const PRACTICAL = new Set(["PHY", "CHE", "BIO", "HMT", "AGR"]);
 
 let client: SupabaseClient | null | undefined;
 
+let configError: string | null = null;
+
 function getClient(): SupabaseClient | null {
   if (client !== undefined) return client;
-  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  client =
-    url && key
-      ? createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } })
-      : null;
+  const url = (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL)?.trim();
+  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)?.trim();
+  if (!url || !key) {
+    client = null;
+    return client;
+  }
+  try {
+    client = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+  } catch (err) {
+    // A mistyped URL or key must not crash pages; report it and fall back to in-memory data.
+    configError = err instanceof Error ? err.message : String(err);
+    console.error("Supabase settings are invalid:", configError);
+    client = null;
+  }
   return client;
+}
+
+export function databaseStatus() {
+  const hasUrl = Boolean(process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const hasKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  getClient();
+  return { hasUrl, hasKey, configError };
 }
 
 export function persistenceEnabled(): boolean {
@@ -110,6 +127,15 @@ export interface Snapshot {
 }
 
 /** Reads every student, their marks and the saved sign-offs. */
+/** Lightweight connectivity check used by the health endpoint. */
+export async function pingDatabase(): Promise<{ ok: boolean; students?: number; error?: string }> {
+  const db = getClient();
+  if (!db) return { ok: false, error: "Database is not configured" };
+  const { count, error } = await db.from("students").select("id", { count: "exact", head: true });
+  if (error) return { ok: false, error: error.message };
+  return { ok: true, students: count ?? 0 };
+}
+
 export async function loadSnapshot(): Promise<Snapshot | null> {
   const db = getClient();
   if (!db) return null;
