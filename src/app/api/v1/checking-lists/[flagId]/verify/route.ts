@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
+import { saveFlag } from "@/lib/persistence";
 
 const VerifyBodySchema = z.object({
   verificationStatus: z.enum(["PENDING", "VERIFIED", "CORRECTION_REQUIRED"]),
@@ -13,6 +15,7 @@ export async function PATCH(
   context: { params: Promise<{ flagId: string }> }
 ) {
   try {
+    await syncStore();
     const { flagId } = await context.params;
     const body = await request.json();
 
@@ -52,6 +55,8 @@ export async function PATCH(
         { status: 404 }
       );
     }
+
+    await saveFlag(updatedFlag);
 
     return NextResponse.json({
       success: true,

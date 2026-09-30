@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
+import { replaceAllStudents } from "@/lib/persistence";
 
 export async function POST() {
   try {
+    await syncStore();
     store.init(true); // Force reset to seed state
+
+    await replaceAllStudents(store.getStudents());
 
     const classes = store.getClasses();
     const students = store.getStudents();

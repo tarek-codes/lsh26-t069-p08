@@ -159,6 +159,24 @@ class SchoolDataStore {
     return this.students.get(studentId);
   }
 
+  /** Replaces students and saved sign-offs with data read from the database, then recalculates. */
+  public hydrate(students: StudentEntity[], flags: CheckingListFlagRecord[]) {
+    this.students.clear();
+    this.calculationRuns.clear();
+    this.studentResults.clear();
+    this.checkingFlags.clear();
+
+    for (const s of students) {
+      if (this.classes.has(s.classId)) this.students.set(s.id, s);
+    }
+    for (const f of flags) this.checkingFlags.set(f.id, f);
+
+    for (const cls of this.classes.values()) {
+      cls.studentCount = this.getStudents({ classId: cls.id }).length;
+      this.runCalculation(cls.id);
+    }
+  }
+
   public updateStudentMarks(
     studentId: string,
     marks: Record<string, RawMark>

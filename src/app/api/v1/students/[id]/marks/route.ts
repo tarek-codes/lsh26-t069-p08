@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
+import { saveStudents } from "@/lib/persistence";
 import { SUBJECT_DEFINITIONS, SubjectCode } from "@/engine/types";
 
 const MarkSchema = z.union([
@@ -21,6 +23,7 @@ export async function POST(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    await syncStore();
     const { id } = await context.params;
     const body = await request.json();
 
@@ -71,6 +74,7 @@ export async function POST(
 
     const updatedStudent = store.updateStudentMarks(id, parseResult.data.marks);
     const updatedResult = store.getStudentResult(id);
+    if (updatedStudent) await saveStudents([updatedStudent]);
 
     return NextResponse.json({
       success: true,

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
 
 export async function GET(request: NextRequest) {
   try {
+    await syncStore();
     const { searchParams } = new URL(request.url);
     const classId = searchParams.get("classId");
 

@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
 
 export async function GET(
   _request: NextRequest,
   context: { params: Promise<{ studentId: string }> }
 ) {
   try {
+    await syncStore();
     const { studentId } = await context.params;
     const student = store.getStudentById(studentId);
 

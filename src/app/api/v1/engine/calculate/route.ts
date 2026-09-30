@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
 
 const CalculateRequestSchema = z.object({
   classId: z.string().optional(),
@@ -9,6 +10,7 @@ const CalculateRequestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    await syncStore();
     let body = {};
     try {
       body = await request.json();

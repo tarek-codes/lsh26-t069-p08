@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
+import { saveStudents } from "@/lib/persistence";
 import { processMarksSheet } from "@/engine/marks-importer";
 import { applyExistingRecordRules } from "@/lib/import-rules";
 
 export async function POST(request: NextRequest) {
   try {
+    await syncStore();
     const body = await request.json();
     const { rawInput, action = "validate" } = body;
 
@@ -62,6 +65,16 @@ export async function POST(request: NextRequest) {
         store.bulkImportStudents(rows.map((r) => r.student), targetClassId);
         inserted.push(...rows.map((r) => r.student.id));
       }
+
+      // Save every added or changed student to the database before confirming
+      const changedIds = [
+        ...updated,
+        ...inserted,
+      ];
+      const changed = changedIds
+        .map((sid) => store.getStudentById(sid))
+        .filter((st): st is NonNullable<typeof st> => Boolean(st));
+      await saveStudents(changed);
 
       return NextResponse.json({
         success: true,

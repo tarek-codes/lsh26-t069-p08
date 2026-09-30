@@ -3,8 +3,13 @@ import seedStudents from "../src/data/seed-students.json";
 import { calculateStudentGPA, calculateClassGPA } from "../src/engine/calculator";
 import { StudentInput } from "../src/engine/types";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://pksiboirrkdkqbahflnr.supabase.co";
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrc2lib2lycmtka3FiYWhmbG5yIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4ODA3NTM4MiwiZXhwIjoyMTAzNjUxMzgyfQ.w-D8NfeAqSDxLqEh-Q724kJ60mNYQXzdRPF8Nj5dA5Y";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error("Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before running the migration.");
+  process.exit(1);
+}
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey, {
   auth: { persistSession: false, autoRefreshToken: false },

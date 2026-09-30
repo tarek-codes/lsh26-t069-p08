@@ -74,6 +74,9 @@ export default function MarksEntryPage() {
         if (json.success) {
           setSavedStatus("Auto-saved");
           setTimeout(() => setSavedStatus("Synced"), 1200);
+        } else {
+          console.error("Marks were not saved", json.error);
+          setSavedStatus("Save Error");
         }
       } catch (err) {
         console.error("Auto-sync error", err);

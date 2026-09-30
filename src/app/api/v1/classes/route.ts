@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { store } from "@/lib/store";
+import { syncStore } from "@/lib/store-sync";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    await syncStore();
     const classes = store.getClasses();
     return NextResponse.json({
       success: true,
